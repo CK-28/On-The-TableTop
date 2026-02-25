@@ -1,7 +1,5 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
-
 // TODO: Make common component with user-list
 // TODO: Move this to a shared file of types/interfaces/constants/etc.
 type User = {
@@ -9,13 +7,13 @@ type User = {
     user_name: string;
 };
 
-export default function PartyList({ party }: { party: User[] }) {
+export default function PartyList({ party, onRemove }: { party: User[], onRemove: (u: User) => void }) {
   return (
     <div>
       <ul>
-        {party.map((partyMember) => ( 
+        {party.map((partyMember) => (
           <li key={partyMember.id}>
-            <button>{partyMember.user_name}</button>
+            <button onClick={() => onRemove(partyMember)}>{partyMember.user_name}</button>
           </li>
         ))}
       </ul>

@@ -2,14 +2,8 @@
 
 import { createClient } from "@/lib/supabase/client";
 
-// TODO: Move this to a shared file of types/interfaces/constants/etc.
-type Game = {
-    id: number;
-    name: string;
-    year_published: number;
-    is_expansion: boolean;
-};
-
+// TODO: Turn this into a modular component that takes a function (or not) and uses it (or not)
+// can be used with the games page and the party games component
 async function handleClick(gameID: number) {
     const supabase = await createClient();
 
