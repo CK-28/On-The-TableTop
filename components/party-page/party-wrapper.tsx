@@ -38,7 +38,6 @@ export default function PartyWrapper({ users }: { users: User[] }) {
     setGames(gamesFromCollection || []);
   }
 
-  //   TODO: make right and left panel two seperate components
   return (
     <div className="flex flex-row gap-20">
       {/* Left Panel */}
