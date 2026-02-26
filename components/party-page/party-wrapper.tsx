@@ -29,11 +29,14 @@ export default function PartyWrapper({ users }: { users: User[] }) {
     const supabase = await createClient();
     const playerCollections = (await supabase.from("UserCollectionByUserName").select('user_collection').in("user_name", playerUserNames)).data;
 
-    const collections =(playerCollections?.map((pc) => pc.user_collection) ?? []).flat();
-
+    const collections = (playerCollections?.map((pc) => pc.user_collection) ?? []).flat();
     console.log("Combined collections grabbed from all users:", collections);
 
-    // query BoardGames table for the games with those ids.
+    const gamesFromCollection = (await supabase.from("BoardGames").select().in("id", collections)).data;
+    console.log("Games from collection:", gamesFromCollection);
+
+    setGames(gamesFromCollection || []);
+
     // make that an array and shove it into games (to be displayed)
 
     // const { data } = await supabase.from("BoardGames").select().eq();

@@ -21,3 +21,5 @@ Update policies to check for user_id
 The board game id column in the userCollection table can likely be mapped to their equivalent entry in the BoardGames table. Might make life easier down the road
 
 Create a linter
+
+Look into the 4 issues need attention on the home page of our Supabase database
