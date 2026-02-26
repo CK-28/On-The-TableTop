@@ -36,12 +36,6 @@ export default function PartyWrapper({ users }: { users: User[] }) {
     console.log("Games from collection:", gamesFromCollection);
 
     setGames(gamesFromCollection || []);
-
-    // make that an array and shove it into games (to be displayed)
-
-    // const { data } = await supabase.from("BoardGames").select().eq();
-    
-    // setGames((games) => BoardGames);
   }
 
   //   TODO: make right and left panel two seperate components
