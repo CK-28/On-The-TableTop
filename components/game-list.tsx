@@ -46,8 +46,9 @@ export default function GameList({ games }: { games: Game[] }) {
     <div>
       <ul>
         {games.map((game) => (
-          <li key={game.id}>
-            <button onClick={() => handleClick(game.id)}>{game.name}</button>
+          <li key={game.id} className="flex flex-row justify-between">
+            <button className="p-2" onClick={() => handleClick(game.id)}>{game.name}</button>
+            <p>{game.year_published}</p>
           </li>
         ))}
       </ul>

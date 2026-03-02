@@ -20,13 +20,13 @@ export default function SearchGames() {
     }
 
     return (
-        <div>
-            <div className="flex flex-row">
+        <div className="flex flex-col justify-center items-center p-2">
+            <div className="flex flex-row gap-2">
                 <Input
                     id="search-games"
                     type="search"
                     placeholder="Search"
-                    required
+                    className="w-80"
                     value={searchGame}
                     onChange={(e) => setSearchGame(e.target.value)}
                 />
