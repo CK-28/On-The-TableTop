@@ -65,17 +65,6 @@ export default function AddRemoveButton({ game, isGameInCollection }: { game: Ga
     console.log('Verified games in DB:', verifyData?.user_collection);
   }
 
-
-  async function getUser() {
-    const supabase = await createClient();
-    const userName = (await supabase.auth.getUser()).data.user?.user_metadata?.user_name;
-
-    const userGames = (await supabase.from('UserCollectionByUserName').select('*').eq('user_name', userName)).data?.[0]?.user_collection || [];
-    console.log('User Games:', userGames);
-
-    return true
-  }
-
   return !isGameInCollection ? (
     <div className="flex items-center gap-4">
       <Button onClick={() => handleClick(game.id, true)}>Add</Button>

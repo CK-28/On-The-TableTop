@@ -1,7 +1,6 @@
 "use client";
 
 import AddRemoveButton from "./add-remove-button";
-import { Suspense } from "react";
 
 export default function GameList({ games, userCollection }: { games: Game[], userCollection : number[] }) {
   function findGameInCollection(gameID: any): boolean {
@@ -9,6 +8,7 @@ export default function GameList({ games, userCollection }: { games: Game[], use
     return index > -1;
   }
 
+  // TODO: AddRemoveButton needs to update status when clicked
   return (
     <div>
       <ul>
