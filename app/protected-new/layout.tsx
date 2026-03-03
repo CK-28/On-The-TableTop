@@ -4,6 +4,7 @@ import { ThemeSwitcher } from "@/components/theme-switcher";
 import { hasEnvVars } from "@/lib/utils";
 import { Suspense } from "react";
 import PageHeader from "@/components/page-header";
+import MainMenu from "@/components/main-menu";
 
 export default function ProtectedLayout({
   children,
@@ -13,6 +14,7 @@ export default function ProtectedLayout({
   return (
     <main className="min-h-screen flex flex-col items-center">
       <div className="flex-1 w-full flex flex-col gap-20 items-center">
+        {/* TODO: I assume Alanna added this? Do we need it? I added the header to all auth pages but didnt make all the potentially auth pages auth cuz we might not want to */}
         <PageHeader />
 
         <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5">
