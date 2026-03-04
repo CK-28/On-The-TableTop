@@ -1,13 +1,18 @@
 "use client"
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "./ui/button";
+import { useState } from "react";
 
-function addGame(userGames: number[], gameID: number) {
+export default function AddRemoveButton({ game, isGameInCollection }: { game: Game, isGameInCollection : boolean }) {
+  const [gameInCollection, setGameInCollection] = useState(isGameInCollection);
+  
+  function addGame(userGames: number[], gameID: number) {
   const index = userGames.indexOf(gameID);
   if (index > -1) {
     console.log("Game alrady exists in collection");
     return userGames;
   } else {
+    setGameInCollection(true);
     return userGames.concat(gameID);
   }
 }
@@ -17,13 +22,12 @@ function removeGame(userGames: number[], gameID: number) {
   if (index > -1) {
     console.log("Game found, removing from collection");
     userGames.splice(index, 1)
+    setGameInCollection(false);
     return userGames;
   } else {
     console.log("Failed to update, game not found in collection");
   }
 }
-
-export default function AddRemoveButton({ game, isGameInCollection }: { game: Game, isGameInCollection : boolean }) {
   async function handleClick(gameID: number, isAdd: boolean) {
     const supabase = await createClient();
 
@@ -65,7 +69,7 @@ export default function AddRemoveButton({ game, isGameInCollection }: { game: Ga
     console.log('Verified games in DB:', verifyData?.user_collection);
   }
 
-  return !isGameInCollection ? (
+  return !gameInCollection ? (
     <div className="flex items-center gap-4">
       <Button onClick={() => handleClick(game.id, true)}>Add</Button>
     </div>
