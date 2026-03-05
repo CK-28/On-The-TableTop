@@ -1,53 +1,21 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
+import AddRemoveButton from "./add-remove-button";
 
-export default function GameList({ games }: { games: Game[] }) {
-  // TODO: Turn this into a modular component that takes a function (or not) and uses it (or not)
-  // can be used with the games page and the party games component
-  async function handleClick(gameID: number) {
-    const supabase = await createClient();
-
-    const userName = (await supabase.auth.getUser()).data.user?.user_metadata?.user_name;
-    console.log(userName)
-
-    if (!userName) {
-      console.error('User not found');
-      return;
-    }
-
-    const userGames = (await supabase.from('UserCollectionByUserName').select('*').eq('user_name', userName)).data?.[0]?.user_collection || [];
-    console.log('User Games:', userGames);
-
-    if (!userGames || userGames.length === 0) {
-      console.log('No games found for user, CREATING new collection');
-      const { error: insertError } = await supabase.from('UserCollectionByUserName').insert({ user_name: userName, user_collection: [gameID] });
-      if (insertError) {
-        // TODO: Handle error
-      }
-
-      return;
-    }
-
-    console.log('Existing games found for user, UPDATING collection');
-    const updatedGames = userGames.concat(gameID);
-    // TODO: Do not allow duplicates of gameIDs in the collection
-    const { error: updateError } = await supabase.from('UserCollectionByUserName').update({ user_collection: updatedGames }).eq('user_name', userName);
-    if (updateError) {
-      console.error('Update error:', updateError);
-    } else {
-      console.log('Games updated successfully');
-    }
-
-    const { data: verifyData } = await supabase.from('UserCollectionByUserName').select('user_collection').eq('user_name', userName).single();
-    console.log('Verified games in DB:', verifyData?.user_collection);
+export default function GameList({ games, userCollection }: { games: Game[], userCollection : number[] }) {
+  function findGameInCollection(gameID: any): boolean {
+    const index = userCollection.indexOf(gameID);
+    return index > -1;
   }
+
+  // TODO: AddRemoveButton needs to update status when clicked
   return (
     <div>
       <ul>
         {games.map((game) => (
-          <li key={game.id}>
-            <button onClick={() => handleClick(game.id)}>{game.name}</button>
+          <li key={game.id} className="flex flex-row justify-between p-2">
+            <button>{game.name}</button>
+            <AddRemoveButton game={game} alreadyOwned={findGameInCollection( game.id )} />
           </li>
         ))}
       </ul>
