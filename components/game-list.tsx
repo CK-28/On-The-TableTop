@@ -15,7 +15,7 @@ export default function GameList({ games, userCollection }: { games: Game[], use
         {games.map((game) => (
           <li key={game.id} className="flex flex-row justify-between p-2">
             <button>{game.name}</button>
-            <AddRemoveButton game={game} isGameInCollection={findGameInCollection( game.id )} />
+            <AddRemoveButton game={game} alreadyOwned={findGameInCollection( game.id )} />
           </li>
         ))}
       </ul>

@@ -24,6 +24,7 @@ export default function SearchGames() {
     }
 
 
+    // TODO: Why grabbing user collection here and not in GameList?
     async function getUserCollection() {
         const supabase = await createClient();
         const userName = (await supabase.auth.getUser()).data.user?.user_metadata?.user_name;

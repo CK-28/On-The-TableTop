@@ -23,3 +23,9 @@ The board game id column in the userCollection table can likely be mapped to the
 Create a linter
 
 Look into the 4 issues need attention on the home page of our Supabase database
+
+Create a store.
+	We need to be storing basic info in there for use through the app and when the user goes back and fourth.
+		For example, userName, userCollection (of games), and user's list of friends. Amongst Im sure many other things down the road.
+
+	Look into how to actually do this in the best way for react.

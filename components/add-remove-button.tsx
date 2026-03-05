@@ -1,36 +1,43 @@
 "use client"
+
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "./ui/button";
+import { useState } from "react";
 
-function addGame(userGames: number[], gameID: number) {
-  const index = userGames.indexOf(gameID);
-  if (index > -1) {
-    console.log("Game alrady exists in collection");
-    return userGames;
-  } else {
-    return userGames.concat(gameID);
+export default function AddRemoveButton({ game, alreadyOwned }: { game: Game, alreadyOwned : boolean }) {
+  const [gameInCollection, setGameInCollection] = useState(alreadyOwned);
+  
+  function addGame(userGames: number[], gameID: number) {
+    const index = userGames.indexOf(gameID);
+    if (index > -1) {
+      console.log("Game alrady exists in collection");
+      return userGames;
+    } else {
+      setGameInCollection(true);
+      return userGames.concat(gameID);
+    }
   }
-}
 
-function removeGame(userGames: number[], gameID: number) {
-  const index = userGames.indexOf(gameID);
-  if (index > -1) {
-    console.log("Game found, removing from collection");
-    userGames.splice(index, 1)
-    return userGames;
-  } else {
-    console.log("Failed to update, game not found in collection");
+  function removeGame(userGames: number[], gameID: number) {
+    const index = userGames.indexOf(gameID);
+    if (index > -1) {
+      console.log("Game found, removing from collection");
+      userGames.splice(index, 1)
+      setGameInCollection(false);
+      return userGames;
+    } else {
+      console.log("Failed to update, game not found in collection");
+    }
   }
-}
-
-export default function AddRemoveButton({ game, isGameInCollection }: { game: Game, isGameInCollection : boolean }) {
+  
   async function handleClick(gameID: number, isAdd: boolean) {
     const supabase = await createClient();
+<<<<<<< HEAD
 
     // TODO: Is this already done in a parent component? If so, can we pass it down instead of querying again? really shouldnt be done this far down.
+=======
+>>>>>>> 70d14c9f51bbab1e339838a9062e4ecf7646ece2
     const userName = (await supabase.auth.getUser()).data.user?.user_metadata?.user_name;
-    console.log(userName)
-
     if (!userName) {
       console.error('User not found');
       return;
@@ -61,12 +68,9 @@ export default function AddRemoveButton({ game, isGameInCollection }: { game: Ga
     } else {
       console.log('Games updated successfully');
     }
-
-    const { data: verifyData } = await supabase.from('UserCollectionByUserName').select('user_collection').eq('user_name', userName).single();
-    console.log('Verified games in DB:', verifyData?.user_collection);
   }
 
-  return !isGameInCollection ? (
+  return !gameInCollection ? (
     <div className="flex items-center gap-4">
       <Button onClick={() => handleClick(game.id, true)}>Add</Button>
     </div>
