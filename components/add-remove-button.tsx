@@ -1,39 +1,38 @@
 "use client"
+
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "./ui/button";
 import { useState } from "react";
 
-export default function AddRemoveButton({ game, isGameInCollection }: { game: Game, isGameInCollection : boolean }) {
-  const [gameInCollection, setGameInCollection] = useState(isGameInCollection);
+export default function AddRemoveButton({ game, alreadyOwned }: { game: Game, alreadyOwned : boolean }) {
+  const [gameInCollection, setGameInCollection] = useState(alreadyOwned);
   
   function addGame(userGames: number[], gameID: number) {
-  const index = userGames.indexOf(gameID);
-  if (index > -1) {
-    console.log("Game alrady exists in collection");
-    return userGames;
-  } else {
-    setGameInCollection(true);
-    return userGames.concat(gameID);
+    const index = userGames.indexOf(gameID);
+    if (index > -1) {
+      console.log("Game alrady exists in collection");
+      return userGames;
+    } else {
+      setGameInCollection(true);
+      return userGames.concat(gameID);
+    }
   }
-}
 
-function removeGame(userGames: number[], gameID: number) {
-  const index = userGames.indexOf(gameID);
-  if (index > -1) {
-    console.log("Game found, removing from collection");
-    userGames.splice(index, 1)
-    setGameInCollection(false);
-    return userGames;
-  } else {
-    console.log("Failed to update, game not found in collection");
+  function removeGame(userGames: number[], gameID: number) {
+    const index = userGames.indexOf(gameID);
+    if (index > -1) {
+      console.log("Game found, removing from collection");
+      userGames.splice(index, 1)
+      setGameInCollection(false);
+      return userGames;
+    } else {
+      console.log("Failed to update, game not found in collection");
+    }
   }
-}
+  
   async function handleClick(gameID: number, isAdd: boolean) {
     const supabase = await createClient();
-
     const userName = (await supabase.auth.getUser()).data.user?.user_metadata?.user_name;
-    console.log(userName)
-
     if (!userName) {
       console.error('User not found');
       return;
@@ -64,9 +63,6 @@ function removeGame(userGames: number[], gameID: number) {
     } else {
       console.log('Games updated successfully');
     }
-
-    const { data: verifyData } = await supabase.from('UserCollectionByUserName').select('user_collection').eq('user_name', userName).single();
-    console.log('Verified games in DB:', verifyData?.user_collection);
   }
 
   return !gameInCollection ? (
