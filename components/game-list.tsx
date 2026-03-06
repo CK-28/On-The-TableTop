@@ -1,8 +1,14 @@
 "use client";
 
-import AddRemoveButton from "./add-remove-button";
+import { useAtomValue } from 'jotai';
+import { userCollectionAtom } from "@/app/store";
+import AddRemoveGame from "./add-remove-game";
 
-export default function GameList({ games, userCollection }: { games: Game[], userCollection : number[] }) {
+export default function GameList({ games }: { games: Game[]}) {
+  const userCollection = useAtomValue(userCollectionAtom);
+  
+  console.log(userCollection);
+  
   function findGameInCollection(gameID: number): boolean {
     const index = userCollection.indexOf(gameID);
     return index > -1;
@@ -14,7 +20,7 @@ export default function GameList({ games, userCollection }: { games: Game[], use
         {games.map((game) => (
           <li key={game.id} className="flex flex-row justify-between p-2">
             <button>{game.name}</button>
-            <AddRemoveButton  collection={userCollection} item={game.id} alreadyInList={findGameInCollection( game.id )} />
+            <AddRemoveGame item={game.id} alreadyInList={findGameInCollection( game.id )} />
           </li>
         ))}
       </ul>

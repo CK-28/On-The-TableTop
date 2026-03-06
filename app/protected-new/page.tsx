@@ -1,24 +1,33 @@
-import { redirect } from "next/navigation";
+"use client";
 
-import { createClient } from "@/lib/supabase/server";
+import { useAtomValue, useSetAtom } from "jotai";
+import { userNameAtom, userCollectionAtom } from "@/app/store";
 import { PageMenu } from "@/components/PageMenu";
-
-async function UserDetails() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getClaims();
-
-  if (error || !data?.claims) {
-    redirect("/auth/login");
-  }
-
-  return JSON.stringify(data.claims, null, 2);
-}
+import { createClient } from "@/lib/supabase/client";
 
 export default function ProtectedPage() {
+  const userName = useAtomValue(userNameAtom);
+  const setUserCollection = useSetAtom(userCollectionAtom);
+
+  asyncFuntion();
+  async function asyncFuntion() {
+    const supabase = await createClient();
+    // TODO: update userGames to come from store
+    const userGames =
+      (
+        await supabase
+          .from("UserCollectionByUserName")
+          .select("*")
+          .eq("user_name", userName)
+      ).data?.[0]?.user_collection || [];
+    setUserCollection(userGames);
+  }
+
   return (
     <div className="w-full flex flex-col">
       <div>
-        <PageMenu/>
+        <p>{userName}</p>
+        <PageMenu />
       </div>
     </div>
   );
