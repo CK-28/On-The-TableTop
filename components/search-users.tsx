@@ -11,7 +11,7 @@ export default function SearchUsers() {
     const [friendList, setFriendList] = useState<User[]>([]);
 
     async function handleClick() {
-        console.log(searchUser)
+        console.log('User searched for "', searchUser, '"');
         const supabase = await createClient();
 
         //TODO: make search on partial text
@@ -22,7 +22,10 @@ export default function SearchUsers() {
 
     function addToFriends(user: User) {
         setFriendList((friendList) => {
-            if (friendList.find((p) => p.id === user.id)) return friendList;
+            if (friendList.find((p) => p.id === user.id)) {
+                return friendList;
+            }
+            
             return [...friendList, user];
         })
         console.log(friendList);

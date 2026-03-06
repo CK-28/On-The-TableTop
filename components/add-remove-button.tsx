@@ -1,77 +1,87 @@
-"use client"
+"use client";
 
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "./ui/button";
 import { useState } from "react";
 
-export default function AddRemoveButton({ game, alreadyOwned }: { game: Game, alreadyOwned : boolean }) {
-  const [gameInCollection, setGameInCollection] = useState(alreadyOwned);
-  
-  function addGame(userGames: number[], gameID: number) {
-    const index = userGames.indexOf(gameID);
-    if (index > -1) {
-      console.log("Game alrady exists in collection");
-      return userGames;
-    } else {
-      setGameInCollection(true);
-      return userGames.concat(gameID);
+export default function AddRemoveButton({ collection, item, alreadyInList }: { collection: (number | string)[], item: (number | string), alreadyInList : boolean }) {
+  const [itemInList, setItemInList] = useState(alreadyInList);
+
+  // TODO: Consider not checking for items assuming we create tests to check logic behind alreadyInList setting - this is a client component...does efficiency really matter
+  function addItem(arr: (number | string)[], item: (number | string)): (number | string)[] {
+    if (arr.find((i) => i === item)) {
+      return arr;
     }
+    
+    setItemInList(true);
+    return [...arr, item];
   }
 
-  function removeGame(userGames: number[], gameID: number) {
-    const index = userGames.indexOf(gameID);
-    if (index > -1) {
-      console.log("Game found, removing from collection");
-      userGames.splice(index, 1)
-      setGameInCollection(false);
-      return userGames;
-    } else {
-      console.log("Failed to update, game not found in collection");
+  function removeItem(arr: (number | string)[], item: (number | string)): (number | string)[] {
+    if (arr.find((i) => i === item)) {
+      arr = arr.filter((i) => i !== item);
+      setItemInList(false);
+      return arr;
     }
+
+    console.log("Failed to update, item not found in collection");
+    return arr;
   }
-  
-  async function handleClick(gameID: number, isAdd: boolean) {
+
+  async function handleClick(item: (number|string), isAdd: boolean) {
     const supabase = await createClient();
-    const userName = (await supabase.auth.getUser()).data.user?.user_metadata?.user_name;
+    const userName = (await supabase.auth.getUser()).data.user?.user_metadata
+      ?.user_name;
     if (!userName) {
-      console.error('User not found');
+      console.error("User not found");
       return;
     }
 
-    const userGames = (await supabase.from('UserCollectionByUserName').select('*').eq('user_name', userName)).data?.[0]?.user_collection || [];
-    console.log('User Games:', userGames);
+    const userGames =
+      (
+        await supabase
+          .from("UserCollectionByUserName")
+          .select("*")
+          .eq("user_name", userName)
+      ).data?.[0]?.user_collection || [];
+    console.log("User Games:", userGames);
 
-    var updatedGames: any = []
+    let updatedGames: number[] = [];
     if (isAdd) {
       if (!userGames || userGames.length === 0) {
-        console.log('No games found for user, CREATING new collection');
-        const { error: insertError } = await supabase.from('UserCollectionByUserName').insert({ user_name: userName, user_collection: [gameID] });
+        console.log("No games found for user, CREATING new collection");
+        const { error: insertError } = await supabase
+          .from("UserCollectionByUserName")
+          .insert({ user_name: userName, user_collection: [gameID] });
         if (insertError) {
           // TODO: Handle error
         }
       }
 
-      console.log('Existing games found for user, UPDATING collection');
-      updatedGames = addGame(userGames, game.id);
+      console.log("Existing games found for user, UPDATING collection");
+      updatedGames = addItem(userGames, item);
     } else {
-      updatedGames = removeGame(userGames, game.id);
+      updatedGames = removeItem(userGames, item);
     }
 
-    const { error: updateError } = await supabase.from('UserCollectionByUserName').update({ user_collection: updatedGames }).eq('user_name', userName);
+    const { error: updateError } = await supabase
+      .from("UserCollectionByUserName")
+      .update({ user_collection: updatedGames })
+      .eq("user_name", userName);
     if (updateError) {
-      console.error('Update error:', updateError);
+      console.error("Update error:", updateError);
     } else {
-      console.log('Games updated successfully');
+      console.log("Games updated successfully");
     }
   }
 
-  return !gameInCollection ? (
+  return !itemInList ? (
     <div className="flex items-center gap-4">
-      <Button onClick={() => handleClick(game.id, true)}>Add</Button>
+      <Button onClick={() => handleClick(item, true)}>Add</Button>
     </div>
   ) : (
     <div className="flex items-center gap-4">
-      <Button onClick={() => handleClick(game.id, false)}>Remove</Button>
+      <Button onClick={() => handleClick(item, false)}>Remove</Button>
     </div>
   );
 }

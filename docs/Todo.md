@@ -29,3 +29,8 @@ Create a store.
 		For example, userName, userCollection (of games), and user's list of friends. Amongst Im sure many other things down the road.
 
 	Look into how to actually do this in the best way for react.
+
+
+Make params look NORMAL
+
+check client vs server components
