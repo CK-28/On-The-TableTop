@@ -1,12 +1,6 @@
 "use client";
 
-// TODO: Move this to a shared file of types/interfaces/constants/etc.
-type User = {
-    id: number;
-    user_name: string;
-};
-
-export default function UserList({ users, onAdd }: { users: User[], onAdd: (u: User) => void }) {
+export default function UserList({ users, onAdd }: { users: any[], onAdd: (u: User) => void }) {
   return (
     <div>
       <ul>

@@ -15,6 +15,7 @@ export default function SearchGames() {
         const supabase = await createClient();
 
         // TODO: improve search to sort by most popular or something
+        // TODO: make search on partial text
         const BoardGames = (await supabase.from("BoardGames").select().textSearch('name', searchGame)).data;
         console.log(BoardGames)
         setSearchResults(BoardGames || [])
