@@ -32,6 +32,8 @@ export default function AddRemoveButton({ game, alreadyOwned }: { game: Game, al
   
   async function handleClick(gameID: number, isAdd: boolean) {
     const supabase = await createClient();
+
+    // TODO: Is this already done in a parent component? If so, can we pass it down instead of querying again? really shouldnt be done this far down.
     const userName = (await supabase.auth.getUser()).data.user?.user_metadata?.user_name;
     if (!userName) {
       console.error('User not found');
@@ -41,7 +43,7 @@ export default function AddRemoveButton({ game, alreadyOwned }: { game: Game, al
     const userGames = (await supabase.from('UserCollectionByUserName').select('*').eq('user_name', userName)).data?.[0]?.user_collection || [];
     console.log('User Games:', userGames);
 
-    var updatedGames: any = []
+    let updatedGames: any = []
     if (isAdd) {
       if (!userGames || userGames.length === 0) {
         console.log('No games found for user, CREATING new collection');
