@@ -35,7 +35,7 @@ export default function AddRemoveGame({item, alreadyInList}: {item: number, alre
     
     if (!userCollection) {
       console.log("No games found for user, CREATING new collection");
-      const { error: insertError } = await supabase.from('UserCollectionByUserName').insert({ user_name: userName, user_collection: userCollection });      
+      const { error: insertError } = await supabase.from('UserCollectionByUserName').insert({ user_name: userName, user_collection: userCollection });
       if (insertError) {
         // TODO: Handle error
       }
