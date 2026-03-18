@@ -1,21 +1,26 @@
 "use client";
 
-import AddRemoveButton from "./add-remove-button";
+import { useAtomValue } from 'jotai';
+import { userCollectionAtom } from "@/app/store";
+import AddRemoveGame from "./add-remove-game";
 
-export default function GameList({ games, userCollection }: { games: Game[], userCollection : number[] }) {
-  function findGameInCollection(gameID: any): boolean {
+export default function GameList({ games }: { games: Game[]}) {
+  const userCollection = useAtomValue(userCollectionAtom);
+  
+  console.log("In game-list: " + userCollection);
+  
+  function findGameInCollection(gameID: number): boolean {
     const index = userCollection.indexOf(gameID);
     return index > -1;
   }
 
-  // TODO: AddRemoveButton needs to update status when clicked
   return (
     <div>
       <ul>
         {games.map((game) => (
           <li key={game.id} className="flex flex-row justify-between p-2">
             <button>{game.name}</button>
-            <AddRemoveButton game={game} alreadyOwned={findGameInCollection( game.id )} />
+            <AddRemoveGame item={game.id} alreadyInList={findGameInCollection( game.id )} />
           </li>
         ))}
       </ul>
