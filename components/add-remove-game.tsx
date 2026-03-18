@@ -6,7 +6,7 @@ import { userCollectionAtom, userNameAtom } from "@/app/store";
 import { Button } from "./ui/button";
 import { useState } from "react";
 
-export default function AddRemoveGame({item, alreadyInList}: {item: number, alreadyInList: boolean}) {
+export default function AddRemoveGame({ item, alreadyInList }: { item: number, alreadyInList: boolean }) {
   const [itemInList, setItemInList] = useState(alreadyInList);
   const [userCollection, setUserCollection] = useAtom(userCollectionAtom);
   const userName = useAtomValue(userNameAtom);
@@ -14,25 +14,44 @@ export default function AddRemoveGame({item, alreadyInList}: {item: number, alre
   // TODO: Consider not checking for items assuming we create tests to check logic behind alreadyInList setting - this is a client component...does efficiency really matter
   function addItem(item: number): void {
     // TODO: do we still care to check for duplicates?
+    console.log("Before add: " + userCollection);
+    console.log("Adding item: " + item);
+
+    userCollection.push(item);
+    setUserCollection(userCollection);
+    console.log("After add: " + userCollection);
+
     setItemInList(true);
-    setUserCollection([...userCollection, item]);
-    updateCollection()
+    updateCollection().then((wasUpdateSuccessful) => {
+      setItemInList(wasUpdateSuccessful);
+    })
   }
 
   function removeItem(item: number): void {
-    if (userCollection.find((i) => i === item)) {
-      setItemInList(false);
-      setUserCollection(userCollection.filter((i) => i !== item));
-      updateCollection() //TODO: something boke. start here next time
+    const index = userCollection.indexOf(item);
+    if (index > -1) {
+      console.log("Before remove: " + userCollection);
+      console.log("Removing item: " + item);
+      userCollection.splice(index, 1)
+
+      console.log("After removing: " + userCollection);
+      setUserCollection(userCollection);
     } else {
       console.log("Failed to update, item not found in collection");
     }
+
+    setItemInList(false);
+    updateCollection().then((wasUpdateSuccessful) => {
+      setItemInList(!wasUpdateSuccessful);
+    })
   }
 
-  async function updateCollection() {
+  async function updateCollection(): Promise<boolean> {
     const supabase = createClient();
-    console.log(userName);
-    
+    console.log("username: " + userName);
+    console.log("collection: " + userCollection);
+    console.log("collectionAtom: " + userCollectionAtom);
+
     if (!userCollection) {
       console.log("No games found for user, CREATING new collection");
       const { error: insertError } = await supabase.from('UserCollectionByUserName').insert({ user_name: userName, user_collection: userCollection });
@@ -50,6 +69,7 @@ export default function AddRemoveGame({item, alreadyInList}: {item: number, alre
 
     const { data: verifyData } = await supabase.from('UserCollectionByUserName').select('user_collection').eq('user_name', userName).single();
     console.log('Verified games in DB:', verifyData?.user_collection);
+    return true;
   }
 
   return !itemInList ? (

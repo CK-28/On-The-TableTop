@@ -20,7 +20,9 @@ export default function ProtectedPage() {
           .select("*")
           .eq("user_name", userName)
       ).data?.[0]?.user_collection || [];
+    console.log("In protected new - userGames: " + userGames);
     setUserCollection(userGames);
+    // console.log("In protected new" + userCollectionAtom);
   }
 
   return (

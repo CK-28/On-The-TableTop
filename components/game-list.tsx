@@ -7,7 +7,7 @@ import AddRemoveGame from "./add-remove-game";
 export default function GameList({ games }: { games: Game[]}) {
   const userCollection = useAtomValue(userCollectionAtom);
   
-  console.log(userCollection);
+  console.log("In game-list: " + userCollection);
   
   function findGameInCollection(gameID: number): boolean {
     const index = userCollection.indexOf(gameID);
