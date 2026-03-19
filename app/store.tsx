@@ -16,4 +16,5 @@ export const animeAtom = atom([
 
 export const userNameAtom = atom<string>('')
 // TODO: Seperate below into games and users collection
-export const userCollectionAtom = atom<number[]>([])
+export const userGamesAtom = atom<number[]>([])
+export const userFriendsAtom = atom<string[]>([])

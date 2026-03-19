@@ -2,13 +2,13 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { useAtom, useAtomValue } from "jotai";
-import { userCollectionAtom, userNameAtom } from "@/app/store";
+import { userGamesAtom, userNameAtom } from "@/app/store";
 import { Button } from "./ui/button";
 import { useState } from "react";
 
 export default function AddRemoveGame({ item, alreadyInList }: { item: number, alreadyInList: boolean }) {
   const [itemInList, setItemInList] = useState(alreadyInList);
-  const [userCollection, setUserCollection] = useAtom(userCollectionAtom);
+  const [userCollection, setUserCollection] = useAtom(userGamesAtom);
   const userName = useAtomValue(userNameAtom);
 
   // TODO: Consider not checking for items assuming we create tests to check logic behind alreadyInList setting - this is a client component...does efficiency really matter
@@ -50,21 +50,14 @@ export default function AddRemoveGame({ item, alreadyInList }: { item: number, a
     const supabase = createClient();
     console.log("username: " + userName);
     console.log("collection: " + userCollection);
-    console.log("collectionAtom: " + userCollectionAtom);
+    console.log("collectionAtom: " + userGamesAtom);
 
-    if (!userCollection) {
-      console.log("No games found for user, CREATING new collection");
-      const { error: insertError } = await supabase.from('UserCollectionByUserName').insert({ user_name: userName, user_collection: userCollection });
-      if (insertError) {
-        // TODO: Handle error
-      }
+    const { error } = await supabase.from("UserCollectionByUserName").upsert({user_name: userName, user_collection: userCollection});
+
+    if (error) {
+      console.error("Sync error:", error);
     } else {
-      const { error: updateError } = await supabase.from('UserCollectionByUserName').update({ user_collection: userCollection }).eq('user_name', userName);
-      if (updateError) {
-        console.error("Update error:", updateError);
-      } else {
-        console.log("Games updated successfully");
-      }
+      console.log("Collection synced");
     }
 
     const { data: verifyData } = await supabase.from('UserCollectionByUserName').select('user_collection').eq('user_name', userName).single();
