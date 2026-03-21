@@ -1,45 +1,30 @@
-Attempt to turn MVP into PWA to test process works before we get too far ahead
-___
-make list of games searchable
-
-button to view user's own collection
-
-add number of players and time to play to database
-
-authenticated users to be able to update the master list (number of players, time to play, add new games)
-
-search for other user's collections
-
 **MAIN GOAL**
 enter list of users, display all games owned
 	Filter list by number of players, time to play, etc
+___
+**Long Term**
+- Authenticated users to be able to update the master list (number of players, time to play, add new games)
+- Check client vs server components
+- Look into the 4 issues need attention on the home page of our Supabase database
+
+**Medium Term**
+- Search for other user's collections
+- Update policies to check for user_id
+	- This means adding user_id column and then updating the calls in the code
+- The board game id column in the userCollection table can likely be mapped to their equivalent entry in the BoardGames table. Might make life easier down the road
+- Create a linter
+- Make params look NORMAL
+
+**Short Term**
+- Button to view user's own collection
+- Is there a way to organize the search results for games by relevance? Maybe by ranking? order them in the table and they will be ordered in the search?
 
 ___
-Update policies to check for user_id
-	This means adding user_id column and then updating the calls in the code
+**Next Up**
+1. party page to filter and show more information
+2. look into hosting
 
-The board game id column in the userCollection table can likely be mapped to their equivalent entry in the BoardGames table. Might make life easier down the road
-
-Create a linter
-
-Look into the 4 issues need attention on the home page of our Supabase database
-
-Create a store.
-	We need to be storing basic info in there for use through the app and when the user goes back and fourth.
-		For example, userName, userCollection (of games), and user's list of friends. Amongst Im sure many other things down the road.
-
-	Look into how to actually do this in the best way for react.
-
-
-Make params look NORMAL
-
-check client vs server components
-
-1. ability to add friends
-2. party page to filter and show more information
-3. look into hosting
-
-4. Clean up code
-5. invite others
-6. fixing search feature
-7. etc.
+3. Clean up code
+4. invite others
+5. fixing search feature
+6. etc.
