@@ -34,3 +34,12 @@ Create a store.
 Make params look NORMAL
 
 check client vs server components
+
+1. ability to add friends
+2. party page to filter and show more information
+3. look into hosting
+
+4. Clean up code
+5. invite others
+6. fixing search feature
+7. etc.

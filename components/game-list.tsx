@@ -1,14 +1,13 @@
 "use client";
 
 import { useAtomValue } from 'jotai';
-import { userCollectionAtom } from "@/app/store";
+import { userGamesAtom } from "@/app/store";
 import AddRemoveGame from "./add-remove-game";
 
 export default function GameList({ games }: { games: Game[]}) {
-  const userCollection = useAtomValue(userCollectionAtom);
+  const userCollection = useAtomValue(userGamesAtom);
   
   console.log("In game-list: " + userCollection);
-  
   function findGameInCollection(gameID: number): boolean {
     const index = userCollection.indexOf(gameID);
     return index > -1;

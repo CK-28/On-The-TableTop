@@ -1,13 +1,13 @@
 "use client";
 
 import { useAtomValue, useSetAtom } from "jotai";
-import { userNameAtom, userCollectionAtom } from "@/app/store";
+import { userNameAtom, userGamesAtom } from "@/app/store";
 import { PageMenu } from "@/components/PageMenu";
 import { createClient } from "@/lib/supabase/client";
 
 export default function ProtectedPage() {
   const userName = useAtomValue(userNameAtom);
-  const setUserCollection = useSetAtom(userCollectionAtom);
+  const setUserCollection = useSetAtom(userGamesAtom);
 
   asyncFuntion();
   async function asyncFuntion() {
