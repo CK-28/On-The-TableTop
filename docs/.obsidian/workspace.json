@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Broken Game Entries in BGG CSV.md",
+                "file": "Todo.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Broken Game Entries in BGG CSV"
+              "title": "Todo"
             }
           }
         ]
@@ -185,8 +185,8 @@
   },
   "active": "f328e788a28b7a15",
   "lastOpenFiles": [
-    "Missed Game Entries in BGG CSV.md",
     "Broken Game Entries in BGG CSV.md",
+    "Missed Game Entries in BGG CSV.md",
     "Todo.md",
     "PWA.md",
     "Licenses.md",
