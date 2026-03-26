@@ -8,7 +8,6 @@ import UserList from "./user-list";
 export default function SearchUsers() {
     const [searchUser, setSearchUser] = useState("");
     const [searchResults, setSearchResults] = useState<User[]>([]);
-    const [friendList, setFriendList] = useState<User[]>([]);
 
     async function handleClick() {
         console.log('User searched for "', searchUser, '"');
@@ -20,16 +19,6 @@ export default function SearchUsers() {
         setSearchResults(profiles || [])
     }
 
-    function addToFriends(user: User) {
-        setFriendList((friendList) => {
-            if (friendList.find((p) => p.id === user.id)) {
-                return friendList;
-            }
-            
-            return [...friendList, user];
-        })
-        console.log(friendList);
-    }
 
     return (
         <div className="flex flex-col justify-center items-center p-2">
@@ -47,7 +36,7 @@ export default function SearchUsers() {
                 </Button>
             </div>
             <Suspense fallback={<div>Loading Users...</div>}>
-                <UserList users={searchResults} onAdd={addToFriends} />
+                <UserList users={searchResults} />
             </Suspense>
         </div>
     );

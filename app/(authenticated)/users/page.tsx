@@ -1,10 +1,8 @@
 import SearchUsers from "@/components/search-users";
-import PageHeader from "@/components/page-header";
 
-export default function Games() {
+export default function Users() {
   return (
     <div>
-      <PageHeader />
       <SearchUsers />
     </div>
   );
