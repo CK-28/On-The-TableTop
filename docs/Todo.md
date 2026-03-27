@@ -24,7 +24,8 @@ ___
 1. party page to filter and show more information
 2. look into hosting
 
-3. Clean up code
-4. invite others
-5. fixing search feature
-6. etc.
+3. Should not be able to add self as friend
+4. Clean up code
+5. invite others
+6. fixing search feature
+7. etc.

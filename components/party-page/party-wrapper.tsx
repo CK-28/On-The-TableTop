@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import UserList from "../user-list";
 import PartyList from "./party-list";
 import { Button } from "../ui/button";
 import PartyGames from "./partyGames";
 import { createClient } from "@/lib/supabase/client";
 
-export default function PartyWrapper({ users }: { users: User[] }) {
+export default function PartyWrapper() {
   const [party, setParty] = useState<User[]>([]);
   const [games, setGames] = useState<Game[]>([]);
 
@@ -49,7 +48,7 @@ export default function PartyWrapper({ users }: { users: User[] }) {
         <div>
           {/* TODO: move the users between lists. Currently they always stay in users */}
           <h1 className="text-2xl">All Players</h1>
-          <UserList users={users} onAdd={addToParty} />
+          <PartyUsers onAdd={addToParty} />
         </div>
         <Button onClick={() => handleClick()}>Start Party</Button>
       </div>
