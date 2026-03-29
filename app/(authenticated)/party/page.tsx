@@ -1,11 +1,16 @@
 import { createClient } from "@/lib/supabase/server";
 import PartyWrapper from "@/components/party-page/party-wrapper";
+import { Suspense } from "react";
 
-// TODO: Do we even need a wrapper right now?
-export default async function Party() {
+export default async function Users() {
+  const supabase = await createClient();
+  const { data: profiles } = await supabase.from("profiles").select();
+
   return (
     <div>
-      <PartyWrapper />
+      <Suspense>
+        <PartyWrapper users={profiles || []} />
+      </Suspense>
     </div>
   );
 }

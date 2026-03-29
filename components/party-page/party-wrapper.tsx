@@ -6,11 +6,14 @@ import { Button } from "../ui/button";
 import PartyGames from "./partyGames";
 import { createClient } from "@/lib/supabase/client";
 
-export default function PartyWrapper() {
+export default function PartyWrapper({ users }: { users: User[] }) {
+  const [friends, setFriends] = useState<User[]>(users)
   const [party, setParty] = useState<User[]>([]);
   const [games, setGames] = useState<Game[]>([]);
 
   function addToParty(user: User) {
+    setFriends((party) => party.filter((u) => u !== user));
+
     setParty((party) => {
       if (party.find((p) => p.id === user.id)) return party;
       return [...party, user];
@@ -19,6 +22,11 @@ export default function PartyWrapper() {
 
   function removeFromParty(user: User) {
     setParty((party) => party.filter((u) => u !== user));
+
+    setFriends((party) => {
+      if (party.find((p) => p.id === user.id)) return party;
+      return [...party, user];
+    });
   }
 
   // TODO: These functions are inside each other...not in other files tho. When is what appropriate?
@@ -43,12 +51,12 @@ export default function PartyWrapper() {
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-2xl">Players In Party</h1>
-          <PartyList party={party} onRemove={removeFromParty} />
+          <PartyList party={party} onClick={removeFromParty} />
         </div>
         <div>
           {/* TODO: move the users between lists. Currently they always stay in users */}
           <h1 className="text-2xl">All Players</h1>
-          <PartyUsers onAdd={addToParty} />
+          <PartyList party={friends} onClick={addToParty} />
         </div>
         <Button onClick={() => handleClick()}>Start Party</Button>
       </div>
