@@ -5,36 +5,36 @@ import PartyList from "./party-list";
 import { Button } from "../ui/button";
 import PartyGames from "./partyGames";
 import { createClient } from "@/lib/supabase/client";
+import { useAtomValue } from "jotai";
+import { userFriendsAtom } from "@/app/store";
 
-export default function PartyWrapper({ users }: { users: User[] }) {
-  const [friends, setFriends] = useState<User[]>(users)
-  const [party, setParty] = useState<User[]>([]);
+export default function PartyWrapper() {
+  const [friends, setFriends] = useState<string[]>(useAtomValue(userFriendsAtom))
+  const [party, setParty] = useState<string[]>([]);
   const [games, setGames] = useState<Game[]>([]);
 
-  function addToParty(user: User) {
+  function addToParty(user: string) {
     setFriends((party) => party.filter((u) => u !== user));
 
     setParty((party) => {
-      if (party.find((p) => p.id === user.id)) return party;
+      if (party.find((p) => p === user)) return party;
       return [...party, user];
     });
   }
 
-  function removeFromParty(user: User) {
+  function removeFromParty(user: string) {
     setParty((party) => party.filter((u) => u !== user));
 
     setFriends((party) => {
-      if (party.find((p) => p.id === user.id)) return party;
+      if (party.find((p) => p === user)) return party;
       return [...party, user];
     });
   }
 
   // TODO: These functions are inside each other...not in other files tho. When is what appropriate?
-  async function handleClick() {
-    const playerUserNames = party.map((p) => p.user_name);
-    
+  async function handleClick() {    
     const supabase = await createClient();
-    const playerCollections = (await supabase.from("UserCollectionByUserName").select('user_collection').in("user_name", playerUserNames)).data;
+    const playerCollections = (await supabase.from("UserCollectionByUserName").select('user_collection').in("user_name", party)).data;
 
     const collections = (playerCollections?.map((pc) => pc.user_collection) ?? []).flat();
     console.log("Combined collections grabbed from all users:", collections);

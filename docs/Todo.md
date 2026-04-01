@@ -21,7 +21,7 @@ ___
 
 ___
 **Next Up**
-1. party page to filter and show more information
+1. party page to filter based on number of players
 2. look into hosting
 
 3. Should not be able to add self as friend
