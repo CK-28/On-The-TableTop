@@ -20,12 +20,3 @@ ___
 - Is there a way to organize the search results for games by relevance? Maybe by ranking? order them in the table and they will be ordered in the search?
 
 ___
-**Next Up**
-1. party page to filter based on number of players
-2. look into hosting
-
-3. Should not be able to add self as friend
-4. Clean up code
-5. invite others
-6. fixing search feature
-7. etc.
