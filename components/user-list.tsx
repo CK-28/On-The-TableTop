@@ -4,7 +4,6 @@ import { useAtomValue } from 'jotai';
 import { userFriendsAtom } from "@/app/store";
 import AddRemoveUser from "./add-remove-user";
 
-// TODO create partyUsers to match partyGames to display list of users without add or remove button
 export default function UserList({ users }: { users: User[] }) {
   const userCollection = useAtomValue(userFriendsAtom);
 

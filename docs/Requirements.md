@@ -1,3 +1,7 @@
+## Start Up Page
+- **User sign in status should be consistent** - High
+	Currently the User Stays signed in? After restarting server? or at least the page will say "please sign in" but the sign in button is not there - only logout.
+	Could be a Nav Menu issue.
 ## Party Page
 - **Overall UI** - High
 	Center page items on screen.
@@ -34,3 +38,4 @@
 - **Look into hosting** - High
 - **Go through all the TODO's in the code and make them tickets** - High
 - **Clean up code/repo** - Medium
+- **Clean up unused Postgres function in Supabase** - Low
