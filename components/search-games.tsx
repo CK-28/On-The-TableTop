@@ -18,10 +18,10 @@ export default function SearchGames() {
         // TODO: improve search to sort by most popular or something
         // TODO: make search on partial text
         const BoardGames = (await supabase.from("BoardGames").select().textSearch('name', searchGame)).data;
-        const { data, error } = await supabase.rpc('search_boardgames_partial', { query: searchGame });
+        // const { data, error } = await supabase.rpc('search_boardgames_partial', { query: searchGame });
 
-        if (error) console.error(error);
-        else console.log(data);
+        // if (error) console.error(error);
+        // else console.log(data);
         
         
         // console.log(BoardGames)

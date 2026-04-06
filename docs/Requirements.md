@@ -1,7 +1,17 @@
+## Navigation Menu
+- **"On The Table Top" should not text wrap unless required** - High
+
 ## Start Up Page
 - **User sign in status should be consistent** - High
 	Currently the User Stays signed in? After restarting server? or at least the page will say "please sign in" but the sign in button is not there - only logout.
 	Could be a Nav Menu issue.
+- **Should not have Navigation Menu** - High
+
+## Protected New
+- **Page should be deleted** - High
+	User should load into the game search page. Or Profile.
+	A Home page of sorts can be created later.
+
 ## Party Page
 - **Overall UI** - High
 	Center page items on screen.
