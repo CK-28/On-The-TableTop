@@ -1,13 +1,14 @@
 "use client";
 
 import { useAtomValue, useSetAtom } from "jotai";
-import { userNameAtom, userGamesAtom } from "@/app/store";
+import { userNameAtom, userGamesAtom, userFriendsAtom } from "@/app/store";
 import { PageMenu } from "@/components/PageMenu";
 import { createClient } from "@/lib/supabase/client";
 
 export default function ProtectedPage() {
   const userName = useAtomValue(userNameAtom);
   const setUserCollection = useSetAtom(userGamesAtom);
+  const setUserFriends = useSetAtom(userFriendsAtom);
 
   asyncFuntion();
   async function asyncFuntion() {
@@ -22,7 +23,15 @@ export default function ProtectedPage() {
       ).data?.[0]?.user_collection || [];
     console.log("In protected new - userGames: " + userGames);
     setUserCollection(userGames);
-    // console.log("In protected new" + userCollectionAtom);
+    
+    const userFriends =
+      (
+        await supabase
+          .from("UserCollectionByUserName")
+          .select("*")
+          .eq("user_name", userName)
+      ).data?.[0]?.user_friends || [];
+    setUserFriends(userFriends);
   }
 
   return (

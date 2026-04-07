@@ -1,12 +1,12 @@
 "use client";
 
-export default function PartyList({ party, onRemove }: { party: User[], onRemove: (u: User) => void }) {
+export default function PartyList({ party, onClick }: { party: string[], onClick: (u: string) => void }) {
   return (
     <div>
       <ul>
         {party.map((partyMember) => (
-          <li key={partyMember.id}>
-            <button onClick={() => onRemove(partyMember)}>{partyMember.user_name}</button>
+          <li key={partyMember}>
+            <button onClick={() => onClick(partyMember)}>{partyMember}</button>
           </li>
         ))}
       </ul>

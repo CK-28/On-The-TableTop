@@ -1,15 +1,13 @@
-import { createClient } from "@/lib/supabase/server";
-import PartyWrapper from "@/components/party-page/party-wrapper";
 import { Suspense } from "react";
+import PartyWrapper from "@/components/party-page/party-wrapper";
 
-export default async function Users() {
-  const supabase = await createClient();
-  const { data: profiles } = await supabase.from("profiles").select();
+export default function Users() {
+  
 
   return (
     <div>
       <Suspense>
-        <PartyWrapper users={profiles || []} />
+        <PartyWrapper />
       </Suspense>
     </div>
   );
