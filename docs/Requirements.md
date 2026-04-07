@@ -3,6 +3,7 @@
 	Currently the User Stays signed in? After restarting server? or at least the page will say "please sign in" but the sign in button is not there - only logout.
 	Could be a Nav Menu issue.
 ## Party Page
+[[Party Page.png]]
 - **Overall UI** - High
 	Center page items on screen.
 	Let the two user Lists take up half of the height each
@@ -17,6 +18,7 @@
 - **Include the user in the Party Users list and consider their collection for the Party Games** - High
 
 ## Users Page
+[[Users Page.png]]
 - **User should not be able to add themselves as a friend** - High
 	Ensure that the user cannot add themselves as a friend
 	or
@@ -24,7 +26,12 @@
 - **Partial searching to be implemented** - Medium
 
 ## Search Page
+ [[Search Page.png]]
 - **Partial searching to be implemented** - Medium
+
+## Profile Page
+[[Profile Page.png]]
+- **Users should be able to see their info along with their Friends and Games list** - High
 
 ## DataBase
 - **Check Naming of tables and colums** - Medium
