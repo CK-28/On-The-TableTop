@@ -12,6 +12,12 @@
 	User should load into the game search page. Or Profile.
 	A Home page of sorts can be created later.
 
+## Home Page
+- **Replaces Protected New** - Medium
+- **Should show trending items** - Low
+	Look into the BGG API. There is a "Plays" and "Hot Items" endpoints that can give us trending data.
+		Would need us to get a BE. Check SupaBase
+
 ## Party Page
 [[Party Page.png]]
 - **Overall UI** - High
@@ -43,20 +49,24 @@
 [[Profile Page.png]]
 - **Users should be able to see their info along with their Friends and Games list** - High
 
-## DataBase
-- **Check Naming of tables and colums** - Medium
+## Database
+- **Check Naming of tables and columns** - Medium
 	Pick a system, stick to it, ensure its updated both in connected tables and code
 - **Look into what SupaBase has to offer** - low
-	Services in general. Especially Backups, security, BAAS stuff, etc
+	Services in general. Especially Backups, security, BAAS stuff, etc.
 - **Check RLS Rules** - Medium
 	Make sure tables offer only the access that is absolutely required for each table/col/row
 
 ## Header Menu
-. | Burger Menu | Title | Right Side | Theme Switcher
---|------------ | ----- | ---------- | --------------
-Start Up |   | X | Sign in/up | X
+- **Needs to be dynamic** - High
+	Currently required the page to be refreshed for the sign in/up buttons to turn into log out.
+	Also the burger menu needs to not be there on unauthenticated pages.
+	We can either have two menus or make it dynamic.
 
-
+| .               | Burger Menu | Title | Right Side | Theme Switcher |
+| --------------- | ----------- | ----- | ---------- | -------------- |
+| Authenticated   |             | X     | Sign in/up | X              |
+| UnAuthenticated | X           | X     | Log out    | X              |
 
 ## Other
 - **Look into hosting** - High
@@ -65,3 +75,4 @@ Start Up |   | X | Sign in/up | X
 - **Clean up unused Postgres function in Supabase** - Low
 - **Investigate Footer situation** - High
 	There are different ones? comapre Start up page to protected-new
+- **Come up with a timeline for routine checks and updates of code, database, API, etc.** - Low

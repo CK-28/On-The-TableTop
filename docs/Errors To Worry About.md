@@ -1,4 +1,4 @@
-***ONE***
+# ONE
 ## Error Type
 Blocking Route
 
@@ -19,5 +19,5 @@ Route "/users": Uncached data or `connection()` was accessed outside of `<Suspen
 
 Next.js version: 16.1.6 (Turbopack)
 
-***TWO***
-![[Pasted image 20260306100309.png]]
+# TWO
+[[Pasted image 20260306100309.png]]
