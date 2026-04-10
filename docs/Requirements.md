@@ -51,8 +51,17 @@
 - **Check RLS Rules** - Medium
 	Make sure tables offer only the access that is absolutely required for each table/col/row
 
+## Header Menu
+. | Burger Menu | Title | Right Side | Theme Switcher
+--|------------ | ----- | ---------- | --------------
+Start Up |   | X | Sign in/up | X
+
+
+
 ## Other
 - **Look into hosting** - High
 - **Go through all the TODO's in the code and make them tickets** - High
 - **Clean up code/repo** - Medium
 - **Clean up unused Postgres function in Supabase** - Low
+- **Investigate Footer situation** - High
+	There are different ones? comapre Start up page to protected-new
