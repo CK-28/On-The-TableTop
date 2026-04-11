@@ -18,7 +18,12 @@ export default function GameList({ games }: { games: Game[]}) {
       <ul>
         {games.map((game) => (
           <li key={game.id} className="flex flex-row justify-between p-2">
-            <button>{game.name}</button>
+            <div className='w-20 h-20'>
+              <img src={game.image} alt={game.name} style={{width : '100%', height: '100%', objectFit: 'contain'}} />
+            </div>
+            <div>
+              <span style={{ fontWeight: 'bold' }}>{game.name}</span><span>, {game.yearpublished}</span>
+            </div>
             <AddRemoveGame item={game.id} alreadyInList={findGameInCollection( game.id )} />
           </li>
         ))}

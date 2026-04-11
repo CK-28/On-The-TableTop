@@ -1,0 +1,7 @@
+![[Pasted image 20260410180817.png|932]]![[Pasted image 20260410180950.png|936]]
+![[Pasted image 20260410181157.png|932]]![[Pasted image 20260410181346.png|936]]
+![[Pasted image 20260410183121.png|933]]![[Pasted image 20260410183237.png|939]]
+![[Pasted image 20260410183717.png|933]]
+![[Pasted image 20260410182055.png|932]]![[Pasted image 20260410182255.png|933]]
+![[Pasted image 20260410222234.png|929]]![[Pasted image 20260410222346.png|934]]
+![[Pasted image 20260410222409.png|930]]![[Pasted image 20260410222436.png|933]]

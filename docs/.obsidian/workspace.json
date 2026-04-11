@@ -11,14 +11,12 @@
             "id": "9b359592c42ca5a6",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "Requirements.md",
-                "mode": "source",
-                "source": false
+                "file": "Images/Party Page.png"
               },
-              "icon": "lucide-file",
-              "title": "Requirements"
+              "icon": "lucide-image",
+              "title": "Party Page"
             }
           }
         ]
@@ -198,26 +196,27 @@
   },
   "active": "9b359592c42ca5a6",
   "lastOpenFiles": [
-    "Errors To Worry About.md",
-    "Images/Pasted image 20260306100309.png",
-    "Images/Pasted image 20260206134528.png",
-    "Brain Storming - ToDo.md",
     "Requirements.md",
-    "Images/Profile Page.png",
-    "Images/Party Page.png",
-    "Images/Users Page.png",
+    "Colours.md",
+    "Errors To Worry About.md",
+    "BGG API/Broken Game Entries in BGG CSV.md",
     "Images/Search Page.png",
-    "Images/Pasted image 20260306100251.png",
-    "Images/Pasted image 20260407141309.png",
-    "Images/Pasted image 20260407141326.png",
+    "Images/Party Page.png",
+    "Images/Pasted image 20260410222436.png",
+    "Images/Pasted image 20260410222409.png",
+    "Images/Pasted image 20260410222346.png",
+    "Images/Pasted image 20260410222234.png",
+    "Images/Pasted image 20260410183717.png",
+    "Images/Pasted image 20260410183237.png",
+    "Images/Pasted image 20260410183121.png",
+    "Images/Pasted image 20260410182255.png",
+    "Brain Storming - ToDo.md",
     "Research/PWA.md",
     "Research/Licenses.md",
     "Research",
-    "BGG API/Broken Game Entries in BGG CSV.md",
     "BGG API",
     "BGG API/Missed Game Entries in BGG CSV.md",
     "Images",
-    "Images/Pasted image 20260206115209.png",
     "Clippings/Using the XML API  BoardGameGeek.md",
     "Clippings",
     "Welcome.md"
