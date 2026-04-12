@@ -11,12 +11,14 @@
             "id": "9b359592c42ca5a6",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "Images/Party Page.png"
+                "file": "Requirements.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "Party Page"
+              "icon": "lucide-file",
+              "title": "Requirements"
             }
           }
         ]
@@ -196,12 +198,12 @@
   },
   "active": "9b359592c42ca5a6",
   "lastOpenFiles": [
+    "Images/Party Page.png",
     "Requirements.md",
     "Colours.md",
     "Errors To Worry About.md",
     "BGG API/Broken Game Entries in BGG CSV.md",
     "Images/Search Page.png",
-    "Images/Party Page.png",
     "Images/Pasted image 20260410222436.png",
     "Images/Pasted image 20260410222409.png",
     "Images/Pasted image 20260410222346.png",

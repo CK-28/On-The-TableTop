@@ -7,8 +7,8 @@ import { ThemeSwitcher } from "./theme-switcher";
 
 export default function PageHeader() {
     return (
-        <header className="relative w-full border-b border-b-foreground/10">
-            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+        <header className="relative w-full border-b border-b-foreground/10 header mb-4">
+            <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
                 <div className="flex items-center">
                     <MainMenu />
                 </div>

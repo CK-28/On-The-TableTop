@@ -1,5 +1,6 @@
 ## Navigation Menu
 - **"On The Table Top" should not text wrap unless required** - High
+- **Clicking the logo should navigate to home page** - Medium
 
 ## Start Up Page
 - **User sign in status should be consistent** - High
@@ -67,6 +68,10 @@
 | --------------- | ----------- | ----- | ---------- | -------------- |
 | Authenticated   |             | X     | Sign in/up | X              |
 | UnAuthenticated | X           | X     | Log out    | X              |
+
+## Theme
+- **Pick Main Theme** - Medium
+- **Pick Dark Theme** - Low
 
 ## Other
 - **Look into hosting** - High

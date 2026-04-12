@@ -30,7 +30,7 @@ export default function SearchGames() {
 
     return (
         <div className="flex flex-col justify-center items-center p-2">
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 mb-4">
                 <Input
                     id="search-games"
                     type="search"
