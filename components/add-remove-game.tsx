@@ -11,9 +11,7 @@ export default function AddRemoveGame({ item, alreadyInList }: { item: number, a
   const [userCollection, setUserCollection] = useAtom(userGamesAtom);
   const userName = useAtomValue(userNameAtom);
 
-  // TODO: Consider not checking for items assuming we create tests to check logic behind alreadyInList setting - this is a client component...does efficiency really matter
   function addItem(item: number): void {
-    // TODO: do we still care to check for duplicates?
     console.log("Before add: " + userCollection);
     console.log("Adding item: " + item);
 
