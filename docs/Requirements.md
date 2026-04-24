@@ -36,10 +36,6 @@
 
 ## Users Page
 [[Users Page.png]]
-- **User should not be able to add themselves as a friend** - High
-	Ensure that the user cannot add themselves as a friend
-	or
-	Add a friend multiple times
 - **Partial searching to be implemented** - Medium
 
 ## Search Page
