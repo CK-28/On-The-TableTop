@@ -18,13 +18,19 @@ export default function SearchGames() {
         // TODO: improve search to sort by most popular or something
         // TODO: make search on partial text
         const BoardGames = (await supabase.from("BoardGames").select().textSearch('name', searchGame)).data;
-        console.log(BoardGames)
+        // const { data, error } = await supabase.rpc('search_boardgames_partial', { query: searchGame });
+
+        // if (error) console.error(error);
+        // else console.log(data);
+        
+        
+        // console.log(BoardGames)
         setSearchResults(BoardGames || [])
     }
 
     return (
         <div className="flex flex-col justify-center items-center p-2">
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 mb-4">
                 <Input
                     id="search-games"
                     type="search"

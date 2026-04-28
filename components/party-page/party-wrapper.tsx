@@ -54,7 +54,6 @@ export default function PartyWrapper() {
           <PartyList party={party} onClick={removeFromParty} />
         </div>
         <div>
-          {/* TODO: move the users between lists. Currently they always stay in users */}
           <h1 className="text-2xl">All Players</h1>
           <PartyList party={friends} onClick={addToParty} />
         </div>

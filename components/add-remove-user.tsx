@@ -11,9 +11,7 @@ export default function AddRemoveUser({ item, alreadyInList }: { item: string, a
   const [userCollection, setUserCollection] = useAtom(userFriendsAtom);
   const userName = useAtomValue(userNameAtom);
 
-  // TODO: Consider not checking for items assuming we create tests to check logic behind alreadyInList setting - this is a client component...does efficiency really matter
   function addItem(item: string): void {
-    // TODO: do we still care to check for duplicates?
     userCollection.push(item);
     setUserCollection(userCollection);
 

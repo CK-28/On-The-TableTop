@@ -37,7 +37,6 @@ export default function ProtectedPage() {
   return (
     <div className="w-full flex flex-col">
       <div>
-        <p>{userName}</p>
         <PageMenu />
       </div>
     </div>

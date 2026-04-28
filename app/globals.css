@@ -66,3 +66,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+header {
+  background-color: #fc5300;
+}
