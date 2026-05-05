@@ -7,6 +7,7 @@
 	Currently the User Stays signed in? After restarting server? or at least the page will say "please sign in" but the sign in button is not there - only logout.
 	Could be a Nav Menu issue.
 - **Should not have Navigation Menu** - High
+- **Requires proper UI design** - low
 
 ## Protected New
 - **Page should be deleted** - High
@@ -77,3 +78,6 @@
 - **Investigate Footer situation** - High
 	There are different ones? comapre Start up page to protected-new
 - **Come up with a timeline for routine checks and updates of code, database, API, etc.** - Low
+- **Search component turns blue-ish grey after use. Stop it** - Medium
+- Take Styling from Sign-in white box and apply it as background to every page's main component - Medium
+	- This includes the game search page since that was taped together and mostly a POC

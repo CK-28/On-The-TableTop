@@ -54,7 +54,7 @@ export default function MainMenu() {
     return (
         <div>
             <IconButton onClick={toggleDrawer(true)}>
-                <MenuIcon />
+                <MenuIcon style={{ color: 'white' }} />
             </IconButton>
             <Drawer open={open} onClose={toggleDrawer(false)}>
                 {DrawerList}
