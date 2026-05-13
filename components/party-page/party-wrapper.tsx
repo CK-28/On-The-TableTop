@@ -3,13 +3,14 @@
 import { useState } from "react";
 import PartyList from "./party-list";
 import { Button } from "../ui/button";
+import { Card, CardContent } from "../ui/card";
 import PartyGames from "./partyGames";
 import { createClient } from "@/lib/supabase/client";
 import { useAtomValue } from "jotai";
 import { userFriendsAtom } from "@/app/store";
 
 export default function PartyWrapper() {
-  const [friends, setFriends] = useState<string[]>(useAtomValue(userFriendsAtom))
+  const [friends, setFriends] = useState<string[]>(useAtomValue(userFriendsAtom));
   const [party, setParty] = useState<string[]>([]);
   const [games, setGames] = useState<Game[]>([]);
 
@@ -46,24 +47,31 @@ export default function PartyWrapper() {
   }
 
   return (
-    <div className="flex flex-row gap-20">
-      {/* Left Panel */}
-      <div className="flex flex-col gap-6">
-        <div>
-          <h1 className="text-2xl">Players In Party</h1>
-          <PartyList party={party} onClick={removeFromParty} />
+    <Card className="max-w-[1000px] mx-auto">
+      <CardContent className="flex flex-row gap-8 p-6">
+        <div className="flex w-1/3 flex-col gap-4 min-h-[640px]">
+          <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">
+            <div className="flex flex-col gap-3">
+              <h1 className="text-2xl">Friends In Party</h1>
+              <PartyList party={party} onClick={removeFromParty} />
+            </div>
+          </div>
+          <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">
+            <div className="flex flex-col gap-3">
+              <h1 className="text-2xl">All Friends</h1>
+              <PartyList party={friends} onClick={addToParty} />
+            </div>
+          </div>
+          <Button className="w-full" onClick={() => handleClick()}>
+            Start Party
+          </Button>
         </div>
-        <div>
-          <h1 className="text-2xl">All Players</h1>
-          <PartyList party={friends} onClick={addToParty} />
+
+        <div className="flex-1 flex flex-col gap-4">
+          <h1 className="text-2xl">Board Games On The Table</h1>
+          <PartyGames games={games} />
         </div>
-        <Button onClick={() => handleClick()}>Start Party</Button>
-      </div>
-      {/* Right Panel */}
-      <div>
-        <h1 className="text-2xl">Board Games</h1>
-        <PartyGames games={games} />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

@@ -34,6 +34,13 @@ export default function ProtectedPage() {
           .eq("user_name", userName)
       ).data?.[0]?.user_friends || [];
     setUserFriends(userFriends);
+
+    // Example Edge Function call
+    // const { data, error } = await supabase.functions.invoke('hello-world', {
+    //   body: { name: 'Functions' },
+    // })
+
+    // console.log("Hello world function response: ", data, error);
   }
 
   return (

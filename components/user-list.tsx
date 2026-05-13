@@ -14,12 +14,12 @@ export default function UserList({ users }: { users: User[] }) {
   }
   
   return (
-    <div>
-      <ul>
+    <div className="flex justify-center">
+      <ul className="w-full">
         {users.filter((user) => user.user_name !== userName).map((user) => (
-          <li key={user.id} className="flex flex-row justify-between p-2">
-            <button>{user.user_name}</button>
-            <AddRemoveUser item={user.user_name} alreadyInList={findUserInCollection( user.user_name )} />
+          <li key={user.id} className="flex items-center justify-between gap-4 p-2 w-80 mx-auto">
+            <span>{user.user_name}</span>
+            <AddRemoveUser item={user.user_name} alreadyInList={findUserInCollection(user.user_name)} />
           </li>
         ))}
       </ul>

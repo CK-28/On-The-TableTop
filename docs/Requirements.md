@@ -58,6 +58,7 @@
 			- Can we use it to make calls to BGG and populate some tables/our home page (protected-new)?
 - **Check RLS Rules** - Medium
 	Make sure tables offer only the access that is absolutely required for each table/col/row
+- **Supabase supports real-time subscriptions of tables so updates are shown to users on the go. Look into this.** - Medium
 
 ## Header Menu
 - **Needs to be dynamic** - High
