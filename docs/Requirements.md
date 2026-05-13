@@ -85,4 +85,3 @@
 - **Come up with a timeline for routine checks and updates of code, database, API, etc.** - Low
 - **Search component turns blue-ish grey after use. Stop it** - Medium
 - **Take Styling from Sign-in white box and apply it as background to every page's main component** - Medium
-	- This includes the game search page since that was taped together and mostly a POC
