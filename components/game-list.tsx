@@ -14,7 +14,6 @@ export default function GameList({ games }: { games: Game[]}) {
     return index > -1;
   }
 
-  // TODO: The game name div needs to max out at a certain width. (Check Root vs Monopoly)
   return (
     <div className="flex justify-center">
       <ul className="w-full">

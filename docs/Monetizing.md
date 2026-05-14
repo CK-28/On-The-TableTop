@@ -1,0 +1,6 @@
+- Ads
+	- If it stays as a site, we can using Google ads.
+		- We should make sure that all assets are free to use (pictures, BGG database, etc)
+- Sell app (to BGG?)
+	- Although for that, I would make a better App with Angular.
+	- Or Better yet, PWA their own site since they use Angular
