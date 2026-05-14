@@ -22,9 +22,6 @@
 
 ## Party Page
 [[Party Page.png]]
-- **Overall UI** - High
-	Center page items on screen.
-	Let the two user Lists take up half of the height each
 - **Games List UI** - High
 	Display the games in a table with all the required data separated with a good amount of space (name, owner, player count, time to play, image, etc)
 	*Owner is not part of the game object. Would need more work. Make its own ticket?*
@@ -38,7 +35,6 @@
 ## Users Page
 [[Users Page.png]]
 - **Partial searching to be implemented** - Medium
-- **Username and Add/Remove button should be spaced to take full width of card** - High
 
 ## Search Page
  [[Search Page.png]]

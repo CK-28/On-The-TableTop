@@ -11,14 +11,12 @@
             "id": "9b359592c42ca5a6",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "Requirements.md",
-                "mode": "source",
-                "source": false
+                "file": "Images/Profile Page.png"
               },
-              "icon": "lucide-file",
-              "title": "Requirements"
+              "icon": "lucide-image",
+              "title": "Profile Page"
             }
           }
         ]
@@ -198,10 +196,10 @@
   },
   "active": "9b359592c42ca5a6",
   "lastOpenFiles": [
+    "Requirements.md",
     "Brain Storming - ToDo.md",
     "Colours.md",
     "Monetizing.md",
-    "Requirements.md",
     "Images/Party Page.png",
     "Errors To Worry About.md",
     "BGG API/Broken Game Entries in BGG CSV.md",
