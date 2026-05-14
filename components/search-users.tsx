@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import { Button } from "./ui/button";
 import { createClient } from "@/lib/supabase/client";
 import UserList from "./user-list";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function SearchUsers() {
     const [searchUser, setSearchUser] = useState("");
@@ -21,23 +22,25 @@ export default function SearchUsers() {
 
 
     return (
-        <div className="flex flex-col justify-center items-center p-2">
-            <div className="flex flex-row gap-2">
-                <Input
-                    id="search-users"
-                    type="search"
-                    placeholder="Search"
-                    className="w-80"
-                    value={searchUser}
-                    onChange={(e) => setSearchUser(e.target.value)}
-                />
-                <Button onClick={() => handleClick()}>
-                    Search
-                </Button>
-            </div>
-            <Suspense fallback={<div>Loading Users...</div>}>
-                <UserList users={searchResults} />
-            </Suspense>
-        </div>
+        <Card className="max-w-[1000px] mx-auto">
+            <CardContent className="flex flex-col justify-center items-center p-2">
+                <div className="flex flex-row gap-2 mb-4 mt-4">
+                    <Input
+                        id="search-users"
+                        type="search"
+                        placeholder="Search"
+                        className="w-80"
+                        value={searchUser}
+                        onChange={(e) => setSearchUser(e.target.value)}
+                    />
+                    <Button onClick={() => handleClick()}>
+                        Search
+                    </Button>
+                </div>
+                <Suspense fallback={<div>Loading Users...</div>}>
+                    <UserList users={searchResults} />
+                </Suspense>
+            </CardContent>
+        </Card>
     );
 }

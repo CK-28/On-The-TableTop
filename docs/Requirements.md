@@ -7,6 +7,7 @@
 	Currently the User Stays signed in? After restarting server? or at least the page will say "please sign in" but the sign in button is not there - only logout.
 	Could be a Nav Menu issue.
 - **Should not have Navigation Menu** - High
+- **Requires proper UI design** - low
 
 ## Protected New
 - **Page should be deleted** - High
@@ -37,6 +38,7 @@
 ## Users Page
 [[Users Page.png]]
 - **Partial searching to be implemented** - Medium
+- **Username and Add/Remove button should be spaced to take full width of card** - High
 
 ## Search Page
  [[Search Page.png]]
@@ -50,9 +52,13 @@
 - **Check Naming of tables and columns** - Medium
 	Pick a system, stick to it, ensure its updated both in connected tables and code
 - **Look into what SupaBase has to offer** - low
-	Services in general. Especially Backups, security, BAAS stuff, etc.
+	- Services in general. Especially Backups, security, BAAS stuff, etc.
+	- SupaBase can be used as a BE.
+		- Explore this.
+			- Can we use it to make calls to BGG and populate some tables/our home page (protected-new)?
 - **Check RLS Rules** - Medium
 	Make sure tables offer only the access that is absolutely required for each table/col/row
+- **Supabase supports real-time subscriptions of tables so updates are shown to users on the go. Look into this.** - Medium
 
 ## Header Menu
 - **Needs to be dynamic** - High
@@ -73,7 +79,10 @@
 - **Look into hosting** - High
 - **Go through all the TODO's in the code and make them tickets** - High
 - **Clean up code/repo** - Medium
+	- **ClassName property needs to be cleaned up, consistent, and using common global classes where possible** - low
 - **Clean up unused Postgres function in Supabase** - Low
 - **Investigate Footer situation** - High
-	There are different ones? comapre Start up page to protected-new
+	There are different ones? compare Start up page to protected-new
 - **Come up with a timeline for routine checks and updates of code, database, API, etc.** - Low
+- **Search component turns blue-ish grey after use. Stop it** - Medium
+- **Take Styling from Sign-in white box and apply it as background to every page's main component** - Medium

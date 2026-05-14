@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 30 20% 96.7%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -64,6 +64,9 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image: url('../lib/Background.svg');
+    background-size: cover;
+    background-attachment: fixed;
   }
 }
 
