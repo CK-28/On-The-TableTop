@@ -16,22 +16,9 @@ export default function PartyWrapper() {
   const [currentUser, setCurrentUser] = useState<string>(useAtomValue(userNameAtom));
 
   useEffect(() => {
-    console.log("WHEN THE USE EFFECTS");
-
-
-  }, []);
-
-  useEffect(() => {
-    console.log("currentUser", currentUser);
-    console.log("friends", friends);
-
     if (!party.includes(currentUser)) {
-      console.log("adding the current user");
       setParty([...party, currentUser]);
     } 
-
-    console.log(party);
-
   }, [party]);
 
   function addToParty(user: string) {
