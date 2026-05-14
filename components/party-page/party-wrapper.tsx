@@ -1,17 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PartyList from "./party-list";
 import { Button } from "../ui/button";
 import PartyGames from "./partyGames";
 import { createClient } from "@/lib/supabase/client";
 import { useAtomValue } from "jotai";
-import { userFriendsAtom } from "@/app/store";
+import { userFriendsAtom, userNameAtom } from "@/app/store";
 
 export default function PartyWrapper() {
   const [friends, setFriends] = useState<string[]>(useAtomValue(userFriendsAtom))
   const [party, setParty] = useState<string[]>([]);
   const [games, setGames] = useState<Game[]>([]);
+  const [currentUser, setCurrentUser] = useState<string>(useAtomValue(userNameAtom));
+
+  useEffect(() => {
+    console.log("WHEN THE USE EFFECTS");
+
+
+  }, []);
+
+  useEffect(() => {
+    console.log("currentUser", currentUser);
+    console.log("friends", friends);
+
+    if (!party.includes(currentUser)) {
+      console.log("adding the current user");
+      setParty([...party, currentUser]);
+    } 
+
+    console.log(party);
+
+  }, [party]);
 
   function addToParty(user: string) {
     setFriends((party) => party.filter((u) => u !== user));
