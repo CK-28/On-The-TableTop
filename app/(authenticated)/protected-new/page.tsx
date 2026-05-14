@@ -25,7 +25,7 @@ export default function ProtectedPage() {
       ).data?.[0]?.user_collection || [];
     console.log("In protected new - userGames: " + userGames);
     setUserCollection(userGames);
-    
+        
     const userFriends =
       (
         await supabase
