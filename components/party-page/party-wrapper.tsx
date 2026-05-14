@@ -44,12 +44,14 @@ export default function PartyWrapper() {
   }
 
   function removeFromParty(user: string) {
-    setParty((party) => party.filter((u) => u !== user));
+    if (currentUser != user) {
+      setParty((party) => party.filter((u) => u !== user));
 
-    setFriends((party) => {
-      if (party.find((p) => p === user)) return party;
-      return [...party, user];
-    });
+      setFriends((party) => {
+        if (party.find((p) => p === user)) return party;
+        return [...party, user];
+      });
+    }
   }
 
   // TODO: These functions are inside each other...not in other files tho. When is what appropriate?
