@@ -44,7 +44,7 @@ export function LoginForm({
       // Update this route to redirect to an authenticated route. The user already has an active session.
       const userNameTemp = (await supabase.auth.getUser()).data.user?.user_metadata?.user_name;
       setUserName(userNameTemp);
-      router.push("/protected-new");
+      router.push("/home");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {

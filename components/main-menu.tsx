@@ -28,6 +28,11 @@ export default function MainMenu() {
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
             <List>
                 <ListItem disablePadding>
+                    <ListItemButton onClick={() => routeTo("/home")}>
+                        <ListItemText primary="Home" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
                     <ListItemButton onClick={() => routeTo("/games")}>
                         <ListItemText primary="Board Games" />
                     </ListItemButton>

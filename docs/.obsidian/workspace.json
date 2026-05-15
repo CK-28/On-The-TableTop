@@ -11,12 +11,14 @@
             "id": "9b359592c42ca5a6",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "Images/Profile Page.png"
+                "file": "Requirements.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "Profile Page"
+              "icon": "lucide-file",
+              "title": "Requirements"
             }
           }
         ]
@@ -196,9 +198,11 @@
   },
   "active": "9b359592c42ca5a6",
   "lastOpenFiles": [
+    "Credits To Give.md",
     "Requirements.md",
-    "Brain Storming - ToDo.md",
     "Colours.md",
+    "Images/Profile Page.png",
+    "Brain Storming - ToDo.md",
     "Monetizing.md",
     "Images/Party Page.png",
     "Errors To Worry About.md",
@@ -211,7 +215,6 @@
     "Images/Pasted image 20260410183717.png",
     "Images/Pasted image 20260410183237.png",
     "Images/Pasted image 20260410183121.png",
-    "Images/Pasted image 20260410182255.png",
     "Research/PWA.md",
     "Research/Licenses.md",
     "Research",

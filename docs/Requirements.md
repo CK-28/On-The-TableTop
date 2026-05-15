@@ -1,6 +1,5 @@
 ## Navigation Menu
 - **"On The Table Top" should not text wrap unless required** - High
-- **Clicking the logo should navigate to home page** - Medium
 
 ## Start Up Page
 - **User sign in status should be consistent** - High
@@ -15,7 +14,6 @@
 	A Home page of sorts can be created later.
 
 ## Home Page
-- **Replaces Protected New** - Medium
 - **Should show trending items** - Low
 	Look into the BGG API. There is a "Plays" and "Hot Items" endpoints that can give us trending data.
 		Would need us to get a BE. Check SupaBase
@@ -31,6 +29,7 @@
 	Especially filter for based on number of players.
 	Decide on other filters and add them? can be separate stories
 - **Include the user in the Party Users list and consider their collection for the Party Games** - High
+	- Show Crown next to their name to symbolize being the user/"party owner" - Medium
 
 ## Users Page
 [[Users Page.png]]
@@ -67,6 +66,9 @@
 | Authenticated   |             | X     | Sign in/up | X              |
 | UnAuthenticated | X           | X     | Log out    | X              |
 
+## Footer
+- **Needs to have a consistent design across all pages** (except authentication pages) - Medium
+
 ## Theme
 - **Pick Main Theme** - Medium
 - **Pick Dark Theme** - Low
@@ -82,3 +84,8 @@
 - **Come up with a timeline for routine checks and updates of code, database, API, etc.** - Low
 - **Search component turns blue-ish grey after use. Stop it** - Medium
 - **Take Styling from Sign-in white box and apply it as background to every page's main component** - Medium
+- **Tab icon should reflect site information** - Medium
+- **Game list component has been copied three times. Merge them**  - Low
+	- There should be a better way to make it one component that changes the columns based on what page we are on
+- **Give needed credits** - High
+- **The Background zoom/ Main Menu zoom changes from the home page to other pages. Investigate** - Low
