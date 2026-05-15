@@ -1,17 +1,9 @@
-## Navigation Menu
-- **"On The Table Top" should not text wrap unless required** - High
-
 ## Start Up Page
 - **User sign in status should be consistent** - High
 	Currently the User Stays signed in? After restarting server? or at least the page will say "please sign in" but the sign in button is not there - only logout.
 	Could be a Nav Menu issue.
 - **Should not have Navigation Menu** - High
 - **Requires proper UI design** - low
-
-## Protected New
-- **Page should be deleted** - High
-	User should load into the game search page. Or Profile.
-	A Home page of sorts can be created later.
 
 ## Home Page
 - **Should show trending items** - Low
@@ -41,7 +33,6 @@
 
 ## Profile Page
 [[Profile Page.png]]
-- **Users should be able to see their info along with their Friends and Games list** - High
 
 ## Database
 - **Check Naming of tables and columns** - Medium
@@ -57,8 +48,7 @@
 
 ## Header Menu
 - **Needs to be dynamic** - High
-	Currently required the page to be refreshed for the sign in/up buttons to turn into log out.
-	Also the burger menu needs to not be there on unauthenticated pages.
+	Burger menu needs to not be there on unauthenticated pages.
 	We can either have two menus or make it dynamic.
 
 | .               | Burger Menu | Title | Right Side | Theme Switcher |

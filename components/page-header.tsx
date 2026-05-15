@@ -16,7 +16,7 @@ export default function PageHeader() {
                 </div>
 
                 <Link href="/home">
-                    <h1 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-semibold text-center">
+                    <h1 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-semibold text-center text-white">
                         On The TableTop
                     </h1>
                 </Link>
@@ -30,7 +30,8 @@ export default function PageHeader() {
                             <AuthButton />
                         </Suspense>
                     )}
-                    <ThemeSwitcher />
+                    {/* TODO: Update icon colour and create a dark theme */}
+                    {/* <ThemeSwitcher /> */}
                 </div>
             </div>
         </header>
