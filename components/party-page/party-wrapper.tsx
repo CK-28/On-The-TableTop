@@ -4,11 +4,10 @@ import { useState, useEffect, Suspense } from "react";
 import PartyList from "./party-list";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-import PartyGames from "./partyGames";
 import { createClient } from "@/lib/supabase/client";
 import { useAtomValue } from "jotai";
 import { userFriendsAtom, userNameAtom } from "@/app/store";
-import PartyGameList from "../party-game-list";
+import GameList from "../game-list";
 
 export default function PartyWrapper() {
   const [friends, setFriends] = useState<string[]>(useAtomValue(userFriendsAtom));
@@ -80,7 +79,7 @@ export default function PartyWrapper() {
         <div className="flex-1 flex flex-col gap-4">
           <h1 className="text-2xl">Board Games On The Table</h1>
             <Suspense fallback={<div>Loading Games...</div>}>
-                <PartyGameList games={games} />
+                <GameList games={games} hidePublisher={true} hideAddRemove={true}/>
             </Suspense>
         </div>
       </CardContent>

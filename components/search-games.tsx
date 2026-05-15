@@ -62,7 +62,7 @@ export default function SearchGames() {
                         {searchResults?.length} Result(s)
                     </Label>
                     <Suspense fallback={<div>Loading Games...</div>}>
-                        <GameList games={searchResults} />
+                        <GameList games={searchResults}/>
                     </Suspense>
                 </Stack>
             </CardContent>
