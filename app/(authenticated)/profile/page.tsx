@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/client";
 import { userFriendsAtom, userGamesAtom, userNameAtom } from "@/app/store";
 import UserList from "@/components/user-list";
-import MiniGameList from "@/components/mini-game-list";
+import GameList from "@/components/game-list";
 
 export default function Profile() {
   const name = useAtomValue(userNameAtom);
@@ -125,7 +125,7 @@ export default function Profile() {
             {loadingGames ? (
               <p>Loading games...</p>
             ) : games.length > 0 ? (
-              <MiniGameList games={games as Game[]} />
+              <GameList games={games as Game[]} hidePublisher={true} hideGameStats={true} />
             ) : (
               <p className="text-sm text-muted-foreground">No games found</p>
             )}
