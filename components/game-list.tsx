@@ -8,11 +8,13 @@ import AddRemoveGame from './add-remove-game';
 export default function GameList({
   games,
   hidePublisher = false,
-  hideAddRemove = false
+  hideAddRemove = false,
+  hideGameStats = false,
 }: {
   games: Game[];
   hidePublisher?: boolean;
   hideAddRemove?: boolean;
+  hideGameStats?: boolean;
 }) {
   const userCollection = useAtomValue(userGamesAtom);
   
@@ -47,6 +49,7 @@ export default function GameList({
               <div className='flex-[2]'>
                 <span style={{ fontWeight: 'bold' }}>{game.name}</span><span>, {game.yearpublished}</span>
               </div>
+            {!hideGameStats && (
               <Stack
                 flex={0.5}
                 alignItems="center"
@@ -57,6 +60,7 @@ export default function GameList({
                 <br />
                 <span>{defaultToMinimum(game.minplaytime, game.maxplaytime)} min</span>
               </Stack>
+            )}
             {!hidePublisher && (
               <Stack
                 flex={0.5}
