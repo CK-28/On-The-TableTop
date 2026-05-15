@@ -17,8 +17,8 @@ export default function Home() {
           </CardContent>
         </Card>
       </div>
-      <footer className="w-full flex items-center justify-center border-t text-center text-xs gap-8 py-16 px-4 sm:px-6">
-      </footer>
+      {/* <footer className="w-full flex items-center justify-center border-t text-center text-xs gap-8 py-16 px-4 sm:px-6">
+      </footer> */}
     </main>
   );
 }
