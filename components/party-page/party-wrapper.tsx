@@ -1,18 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PartyList from "./party-list";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import PartyGames from "./partyGames";
 import { createClient } from "@/lib/supabase/client";
 import { useAtomValue } from "jotai";
-import { userFriendsAtom } from "@/app/store";
+import { userFriendsAtom, userNameAtom } from "@/app/store";
 
 export default function PartyWrapper() {
   const [friends, setFriends] = useState<string[]>(useAtomValue(userFriendsAtom));
   const [party, setParty] = useState<string[]>([]);
   const [games, setGames] = useState<Game[]>([]);
+  const [currentUser, setCurrentUser] = useState<string>(useAtomValue(userNameAtom));
+
+  useEffect(() => {
+    if (!party.includes(currentUser)) {
+      setParty([...party, currentUser]);
+    } 
+  }, [party]);
 
   function addToParty(user: string) {
     setFriends((party) => party.filter((u) => u !== user));
@@ -24,12 +31,14 @@ export default function PartyWrapper() {
   }
 
   function removeFromParty(user: string) {
-    setParty((party) => party.filter((u) => u !== user));
+    if (currentUser != user) {
+      setParty((party) => party.filter((u) => u !== user));
 
-    setFriends((party) => {
-      if (party.find((p) => p === user)) return party;
-      return [...party, user];
-    });
+      setFriends((party) => {
+        if (party.find((p) => p === user)) return party;
+        return [...party, user];
+      });
+    }
   }
 
   // TODO: These functions are inside each other...not in other files tho. When is what appropriate?
