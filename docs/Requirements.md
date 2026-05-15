@@ -1,7 +1,3 @@
-## Navigation Menu
-- **"On The Table Top" should not text wrap unless required** - High
-- **Clicking the logo should navigate to home page** - Medium
-
 ## Start Up Page
 - **User sign in status should be consistent** - High
 	Currently the User Stays signed in? After restarting server? or at least the page will say "please sign in" but the sign in button is not there - only logout.
@@ -9,22 +5,13 @@
 - **Should not have Navigation Menu** - High
 - **Requires proper UI design** - low
 
-## Protected New
-- **Page should be deleted** - High
-	User should load into the game search page. Or Profile.
-	A Home page of sorts can be created later.
-
 ## Home Page
-- **Replaces Protected New** - Medium
 - **Should show trending items** - Low
 	Look into the BGG API. There is a "Plays" and "Hot Items" endpoints that can give us trending data.
 		Would need us to get a BE. Check SupaBase
 
 ## Party Page
 [[Party Page.png]]
-- **Overall UI** - High
-	Center page items on screen.
-	Let the two user Lists take up half of the height each
 - **Games List UI** - High
 	Display the games in a table with all the required data separated with a good amount of space (name, owner, player count, time to play, image, etc)
 	*Owner is not part of the game object. Would need more work. Make its own ticket?*
@@ -34,11 +21,11 @@
 	Especially filter for based on number of players.
 	Decide on other filters and add them? can be separate stories
 - **Include the user in the Party Users list and consider their collection for the Party Games** - High
+	- Show Crown next to their name to symbolize being the user/"party owner" - Medium
 
 ## Users Page
 [[Users Page.png]]
 - **Partial searching to be implemented** - Medium
-- **Username and Add/Remove button should be spaced to take full width of card** - High
 
 ## Search Page
  [[Search Page.png]]
@@ -46,7 +33,6 @@
 
 ## Profile Page
 [[Profile Page.png]]
-- **Users should be able to see their info along with their Friends and Games list** - High
 
 ## Database
 - **Check Naming of tables and columns** - Medium
@@ -62,14 +48,16 @@
 
 ## Header Menu
 - **Needs to be dynamic** - High
-	Currently required the page to be refreshed for the sign in/up buttons to turn into log out.
-	Also the burger menu needs to not be there on unauthenticated pages.
+	Burger menu needs to not be there on unauthenticated pages.
 	We can either have two menus or make it dynamic.
 
 | .               | Burger Menu | Title | Right Side | Theme Switcher |
 | --------------- | ----------- | ----- | ---------- | -------------- |
 | Authenticated   |             | X     | Sign in/up | X              |
 | UnAuthenticated | X           | X     | Log out    | X              |
+
+## Footer
+- **Needs to have a consistent design across all pages** (except authentication pages) - Medium
 
 ## Theme
 - **Pick Main Theme** - Medium
@@ -86,3 +74,8 @@
 - **Come up with a timeline for routine checks and updates of code, database, API, etc.** - Low
 - **Search component turns blue-ish grey after use. Stop it** - Medium
 - **Take Styling from Sign-in white box and apply it as background to every page's main component** - Medium
+- **Tab icon should reflect site information** - Medium
+- **Game list component has been copied three times. Merge them**  - Low
+	- There should be a better way to make it one component that changes the columns based on what page we are on
+- **Give needed credits** - High
+- **The Background zoom/ Main Menu zoom changes from the home page to other pages. Investigate** - Low
