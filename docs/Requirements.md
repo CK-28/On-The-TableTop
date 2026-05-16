@@ -29,7 +29,9 @@
 
 ## Search Page
  [[Search Page.png]]
-- **Partial searching to be implemented** - Medium
+- **Page should start with ~something~ showing** - Low
+	- Or, only navigate there after using global search bar
+	- Show trending games?
 
 ## Profile Page
 [[Profile Page.png]]

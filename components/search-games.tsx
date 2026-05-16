@@ -17,16 +17,14 @@ export default function SearchGames() {
         const supabase = await createClient();
 
         // TODO: improve search to sort by most popular or something
-        // TODO: make search on partial text
-        const BoardGames = (await supabase.from("BoardGames").select().textSearch('name', searchGame)).data;
-        // const { data, error } = await supabase.rpc('search_boardgames_partial', { query: searchGame });
+        const { data, error } = await supabase.rpc('search_boardgames', { search_term: searchGame });
 
-        // if (error) console.error(error);
-        // else console.log(data);
+        if (error) {
+            console.error(error);
+        } 
         
-        
-        // console.log(BoardGames)
-        setSearchResults(BoardGames || [])
+        console.log(data)
+        setSearchResults(data || [])
     }
 
     return (
