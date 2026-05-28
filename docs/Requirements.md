@@ -30,6 +30,8 @@
 ## Search Page
  [[Search Page.png]]
 - **Partial searching to be implemented** - Medium
+	- Already did, Alanna was being picky. Make her test it - High
+- **Search should submit when hitting "Enter"** - High
 
 ## Profile Page
 [[Profile Page.png]]
@@ -63,8 +65,14 @@
 - **Pick Main Theme** - Medium
 - **Pick Dark Theme** - Low
 
+## Sign up Process
+- **When signing up, email should not come from supabase and/or should not look stupid** - low
+- **Button to go back to sign in after confirming email on sign up** - High
+- **Allow users to use username to sign in** - low
+- **Should be able to view password when creating account** - medium
+- **Duplicate emails need to be pointed out** - High
+
 ## Other
-- **Look into hosting** - High
 - **Go through all the TODO's in the code and make them tickets** - High
 - **Clean up code/repo** - Medium
 	- **ClassName property needs to be cleaned up, consistent, and using common global classes where possible** - low
@@ -75,7 +83,6 @@
 - **Search component turns blue-ish grey after use. Stop it** - Medium
 - **Take Styling from Sign-in white box and apply it as background to every page's main component** - Medium
 - **Tab icon should reflect site information** - Medium
-- **Game list component has been copied three times. Merge them**  - Low
-	- There should be a better way to make it one component that changes the columns based on what page we are on
 - **Give needed credits** - High
 - **The Background zoom/ Main Menu zoom changes from the home page to other pages. Investigate** - Low
+- **Clean up game names with weird letting** - low
