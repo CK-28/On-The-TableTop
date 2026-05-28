@@ -15,13 +15,13 @@
 - **Games List UI** - High
 	Display the games in a table with all the required data separated with a good amount of space (name, owner, player count, time to play, image, etc)
 	*Owner is not part of the game object. Would need more work. Make its own ticket?*
-- **Games list to update dynamically** - Medium
-	Display the games within the player's collections dynamically and without having to use the 'Start Party button'
+		A "getPartyGames" Edge function has been created to start. Some docs can be found [here](https://supabase.com/docs/reference/javascript/functions-invoke)
 - **Games List to have filters** - Medium
-	Especially filter for based on number of players.
-	Decide on other filters and add them? can be separate stories
-- **Include the user in the Party Users list and consider their collection for the Party Games** - High
-	- Show Crown next to their name to symbolize being the user/"party owner" - Medium
+	Number of players
+	Playtime
+	Co-op or not
+	Expansions
+- **Show Crown next to their name to symbolize being the user/"party owner"** - Medium
 
 ## Users Page
 [[Users Page.png]]
@@ -32,6 +32,13 @@
 - **Partial searching to be implemented** - Medium
 	- Already did, Alanna was being picky. Make her test it - High
 - **Search should submit when hitting "Enter"** - High
+- **Page should start with ~something~ showing** - Low
+	- Or, only navigate there after using global search bar
+	- Show trending games?
+- ![[Pasted image 20260528171225.png]] - High
+	- Check text wrapping of publisher names
+- **Put year on new line cuz there's empty space there anyways** - High
+	- Also if year is 0 make it not show or undefined or something
 
 ## Profile Page
 [[Profile Page.png]]
