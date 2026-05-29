@@ -2,7 +2,6 @@
 
 import { useState, useEffect, Suspense } from "react";
 import PartyList from "./party-list";
-import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import { createClient } from "@/lib/supabase/client";
 import { useAtomValue } from "jotai";
@@ -19,6 +18,9 @@ export default function PartyWrapper() {
     if (!party.includes(currentUser)) {
       setParty([...party, currentUser]);
     } 
+
+    fetchGames();
+
   }, [party]);
 
   function addToParty(user: string) {
@@ -41,8 +43,7 @@ export default function PartyWrapper() {
     }
   }
 
-  // TODO: These functions are inside each other...not in other files tho. When is what appropriate?
-  async function handleClick() {    
+  async function fetchGames() {
     const supabase = await createClient();
     const playerCollections = (await supabase.from("UserCollectionByUserName").select('user_collection').in("user_name", party)).data;
 
@@ -71,9 +72,6 @@ export default function PartyWrapper() {
               <PartyList party={friends} onClick={addToParty} />
             </div>
           </div>
-          <Button className="w-full" onClick={() => handleClick()}>
-            Start Party
-          </Button>
         </div>
 
         <div className="flex-1 flex flex-col gap-4">
