@@ -29,8 +29,8 @@
 
 ## Search Page
  [[Search Page.png]]
-- **Partial searching to be implemented** - Medium
-	- Already did, Alanna was being picky. Make her test it - High
+- **Partial searching to be implemented** - High
+	- Already did, Alanna was being picky. Make her test it
 - **Search should submit when hitting "Enter"** - High
 - **Page should start with ~something~ showing** - Low
 	- Or, only navigate there after using global search bar
