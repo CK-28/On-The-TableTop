@@ -9,18 +9,29 @@ import { userFriendsAtom, userNameAtom } from "@/app/store";
 import GameList from "../game-list";
 
 export default function PartyWrapper() {
+  const currentUser = useAtomValue(userNameAtom);
   const [friends, setFriends] = useState<string[]>(useAtomValue(userFriendsAtom));
-  const [party, setParty] = useState<string[]>([]);
+  const [party, setParty] = useState<string[]>(() => (currentUser ? [currentUser] : []));
   const [games, setGames] = useState<Game[]>([]);
-  const [currentUser, setCurrentUser] = useState<string>(useAtomValue(userNameAtom));
 
   useEffect(() => {
-    if (!party.includes(currentUser)) {
-      setParty([...party, currentUser]);
-    } 
+    if (!currentUser) {
+      console.log("ERROR: No current user found. Skipping party setup.");
+      return;
+    }
 
+    setParty((currentParty) =>
+      currentParty.includes(currentUser) ? currentParty : [...currentParty, currentUser]
+    );
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (party.length === 0) {
+      console.log("ERROR: No users in party. Skipping game fetch.");
+      return;
+    }
+    
     fetchGames();
-
   }, [party]);
 
   function addToParty(user: string) {
@@ -63,7 +74,7 @@ export default function PartyWrapper() {
           <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">
             <div className="flex flex-col gap-3">
               <h1 className="text-2xl">Friends In Party</h1>
-              <PartyList party={party} onClick={removeFromParty} />
+              <PartyList party={party} onClick={removeFromParty} owner={currentUser} />
             </div>
           </div>
           <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">

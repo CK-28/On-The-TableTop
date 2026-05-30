@@ -1,16 +1,17 @@
 "use client";
 
-export default function PartyList({ party, onClick }: { party: string[], onClick: (u: string) => void }) {
+export default function PartyList({party, onClick, owner}: {party: string[]; onClick: (u: string) => void; owner?: string}) {
   return (
-    <div>
-      <ul>
-        {party.map((partyMember) => (
-          <li key={partyMember}>
-            <button onClick={() => onClick(partyMember)}>{partyMember}</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul>
+      {party.map((partyMember) => (
+        <li key={partyMember} className="flex items-center gap-2">
+          {partyMember === owner ? (
+            <span className="material-symbols-outlined text-yellow-500">crown</span>
+          ) : null}
+          <button onClick={() => onClick(partyMember)}>{partyMember}</button>
+        </li>
+      ))}
+    </ul>
   );
 }
 
