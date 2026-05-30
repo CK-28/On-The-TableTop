@@ -3,8 +3,7 @@
 import { useEffect } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import { userNameAtom, userGamesAtom, userFriendsAtom } from "@/app/store";
-import { createClient } from "@/lib/supabase/client";
+import { hydrateUserCollectionAtom, isLoadingUserCollectionAtom, userFriendsAtom, userGamesAtom } from "@/app/store";
 import boardGamesImage from "@/lib/board-games.png";
 import friendsImage from "@/lib/friends.png";
 import partyImage from "@/lib/party.png";
@@ -44,31 +43,12 @@ const cardItems = [
 
 export default function ProtectedPage() {
   const router = useRouter();
-  const userName = useAtomValue(userNameAtom);
-  const setUserCollection = useSetAtom(userGamesAtom);
-  const setUserFriends = useSetAtom(userFriendsAtom);
+  const loading = useAtomValue(isLoadingUserCollectionAtom);
+  const hydrate = useSetAtom(hydrateUserCollectionAtom);
 
-  // TODO: Can/should these come from the store?
   useEffect(() => {
-    async function loadUserData() {
-      const supabase = await createClient();
-      const response = await supabase
-        .from("UserCollectionByUserName")
-        .select("*")
-        .eq("user_name", userName)
-        .single();
-
-      const userGames = response.data?.user_collection || [];
-      const userFriends = response.data?.user_friends || [];
-
-      setUserCollection(userGames);
-      setUserFriends(userFriends);
-    }
-
-    if (userName) {
-      loadUserData();
-    }
-  }, [userName, setUserCollection, setUserFriends]);
+    hydrate();
+  }, [hydrate]);
 
   return (
     <div className="flex-1 flex flex-col justify-center items-center py-6">

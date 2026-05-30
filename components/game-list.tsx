@@ -18,7 +18,6 @@ export default function GameList({
 }) {
   const userCollection = useAtomValue(userGamesAtom);
   
-  console.log("In game-list: " + userCollection);
   function findGameInCollection(gameID: number): boolean {
     const index = userCollection.indexOf(gameID);
     return index > -1;

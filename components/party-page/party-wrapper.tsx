@@ -51,7 +51,7 @@ export default function PartyWrapper() {
     console.log("Combined collections grabbed from all users:", collections);
 
     const gamesFromCollection = (await supabase.from("BoardGames").select().in("id", collections)).data;
-    console.log("Games from collection:", gamesFromCollection);
+    //console.log("Games from collection:", gamesFromCollection);
 
     setGames(gamesFromCollection || []);
   }
