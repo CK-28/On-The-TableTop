@@ -5,34 +5,32 @@ import { hasEnvVars } from "@/lib/utils";
 import MainMenu from "./main-menu";
 import { ThemeSwitcher } from "./theme-switcher";
 import Link from "next/link";
+import { AuthMenu } from "./auth-menu";
 
 export default function PageHeader() {
 
     return (
-        <header className="relative w-full border-b border-b-foreground/10 header mb-4">
-            <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
-                <div className="flex items-center">
-                    <MainMenu />
-                </div>
+        <header className="header-parent">
+            <div className="mobile-menu">
+                <Suspense>
+                    <AuthMenu />
+                </Suspense>
+            </div>
 
-                <Link href="/home">
-                    <h1 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-semibold text-center text-white">
-                        On The TableTop
-                    </h1>
-                </Link>
+            <Link href="/home" className="header-text">
+                On The TableTop
+            </Link>
 
-
-                <div className="flex items-center gap-4 text-sm">
-                    {!hasEnvVars ? (
-                        <EnvVarWarning />
-                    ) : (
-                        <Suspense>
-                            <AuthButton />
-                        </Suspense>
-                    )}
-                    {/* TODO: Update icon colour and create a dark theme */}
-                    {/* <ThemeSwitcher /> */}
-                </div>
+            <div className="header-buttons">
+                {!hasEnvVars ? (
+                    <EnvVarWarning />
+                ) : (
+                    <Suspense>
+                        <AuthButton />
+                    </Suspense>
+                )}
+                {/* TODO: Update icon colour and create a dark theme */}
+                {/* <ThemeSwitcher /> */}
             </div>
         </header>
     );

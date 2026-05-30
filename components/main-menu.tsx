@@ -10,6 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
+import { LogoutButton } from "./logout-button";
 
 export default function MainMenu() {
     const [open, setOpen] = useState(false);
@@ -25,8 +26,8 @@ export default function MainMenu() {
     };
 
     const DrawerList = (
-        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-            <List>
+        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} className="menu">
+            <List className="menu-list">
                 <ListItem disablePadding>
                     <ListItemButton onClick={() => routeTo("/home")}>
                         <ListItemText primary="Home" />
@@ -53,6 +54,9 @@ export default function MainMenu() {
                     </ListItemButton>
                 </ListItem>
             </List>
+            <div className="logout-in-menu">
+                <LogoutButton />
+            </div>
         </Box>
     );
 
