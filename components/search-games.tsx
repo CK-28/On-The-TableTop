@@ -51,6 +51,11 @@ export default function SearchGames() {
                             className="w-80"
                             value={searchGame}
                             onChange={(e) => setSearchGame(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleClick();
+                                }
+                            }}
                         />
                         <Button onClick={() => handleClick()}>
                             Search

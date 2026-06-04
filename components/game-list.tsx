@@ -10,11 +10,13 @@ export default function GameList({
   hidePublisher = false,
   hideAddRemove = false,
   hideGameStats = false,
+  hideOwners = false,
 }: {
   games: Game[];
   hidePublisher?: boolean;
   hideAddRemove?: boolean;
   hideGameStats?: boolean;
+  hideOwners?: boolean;
 }) {
   const userCollection = useAtomValue(userGamesAtom);
   
@@ -69,6 +71,20 @@ export default function GameList({
                 sx={{ fontSize: '12px' }}
               >  
                 <span>{game.publisher}</span>
+              </Stack>
+            )}
+            {!hideOwners && (
+              <Stack
+                flex={0.5}
+                alignItems="center"
+                justifyContent="center"
+                sx={{ fontSize: "12px" }}
+              >
+                {/* <AvatarGroup max={4}>
+                </AvatarGroup> */}
+                <span>
+                  {(game.owners ?? []).join(", ")}
+                </span>
               </Stack>
             )}
             {!hideAddRemove && (

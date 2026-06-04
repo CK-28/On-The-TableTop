@@ -32,6 +32,11 @@ export default function SearchUsers() {
                         className="w-80"
                         value={searchUser}
                         onChange={(e) => setSearchUser(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleClick();
+                            }
+                        }}
                     />
                     <Button onClick={() => handleClick()}>
                         Search

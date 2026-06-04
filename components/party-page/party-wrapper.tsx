@@ -56,15 +56,18 @@ export default function PartyWrapper() {
 
   async function fetchGames() {
     const supabase = await createClient();
-    const playerCollections = (await supabase.from("UserCollectionByUserName").select('user_collection').in("user_name", party)).data;
+    const { data, error } = await supabase.functions.invoke(
+      "getPartyGames",
+      {
+        body: {
+          players: party,
+        },
+      }
+    );
 
-    const collections = (playerCollections?.map((pc) => pc.user_collection) ?? []).flat();
-    console.log("Combined collections grabbed from all users:", collections);
+    console.log("Response from getPartyGames function:", { data, error });
 
-    const gamesFromCollection = (await supabase.from("BoardGames").select().in("id", collections)).data;
-    console.log("Games from collection:", gamesFromCollection);
-
-    setGames(gamesFromCollection || []);
+    setGames(data?.data ?? []);
   }
 
   return (
@@ -88,7 +91,7 @@ export default function PartyWrapper() {
         <div className="flex-1 flex flex-col gap-4">
           <h1 className="text-2xl">Board Games On The Table</h1>
             <Suspense fallback={<div>Loading Games...</div>}>
-                <GameList games={games} hidePublisher={true} hideAddRemove={true}/>
+                <GameList games={games} hidePublisher={true} hideOwners={false} hideAddRemove={true}/>
             </Suspense>
         </div>
       </CardContent>

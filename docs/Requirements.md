@@ -1,3 +1,5 @@
+[Google Docs Link](https://docs.google.com/spreadsheets/d/1Wz3adsr7ztLd6wxgjBg1rpGXNJXtRjVT-k_2vOGW090/edit?usp=sharing)
+
 ## Start Up Page
 - **User sign in status should be consistent** - High
 	Currently the User Stays signed in? After restarting server? or at least the page will say "please sign in" but the sign in button is not there - only logout.

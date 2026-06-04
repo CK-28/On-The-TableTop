@@ -5,10 +5,10 @@ export default function PartyList({party, onClick, owner}: {party: string[]; onC
     <ul>
       {party.map((partyMember) => (
         <li key={partyMember} className="flex items-center gap-2">
+          <button onClick={() => onClick(partyMember)}>{partyMember}</button>
           {partyMember === owner ? (
             <span className="material-symbols-outlined text-yellow-500">crown</span>
           ) : null}
-          <button onClick={() => onClick(partyMember)}>{partyMember}</button>
         </li>
       ))}
     </ul>
