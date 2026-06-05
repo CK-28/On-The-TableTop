@@ -17,5 +17,5 @@ type Game = {
     description: string;
     publisher: string;
     image: string;
-    owners: string[];
+    owners?: string[];  //TODO: owners are only filled when fetching games for parties. Should there be two seperate objects? Code works but this might be confusing.
 };
