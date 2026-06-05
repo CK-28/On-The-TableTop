@@ -42,13 +42,12 @@ const cardItems = [
   },
 ];
 
-export default function ProtectedPage() {
+export default function Home() {
   const router = useRouter();
   const userName = useAtomValue(userNameAtom);
   const setUserCollection = useSetAtom(userGamesAtom);
   const setUserFriends = useSetAtom(userFriendsAtom);
 
-  // TODO: Can/should these come from the store?
   useEffect(() => {
     async function loadUserData() {
       const supabase = await createClient();

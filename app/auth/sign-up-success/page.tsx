@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -23,6 +24,11 @@ export default function Page() {
                 You&apos;ve successfully signed up. Please check your email to
                 confirm your account before signing in.
               </p>
+              <div className="mt-4 text-center text-sm">
+              <Link href="/auth/login" className="underline underline-offset-4">
+                Back to Sign in
+              </Link>
+            </div>
             </CardContent>
           </Card>
         </div>
