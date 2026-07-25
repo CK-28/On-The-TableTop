@@ -10,11 +10,13 @@ export default function GameList({
   hidePublisher = false,
   hideAddRemove = false,
   hideGameStats = false,
+  hideOwners = false,
 }: {
   games: Game[];
   hidePublisher?: boolean;
   hideAddRemove?: boolean;
   hideGameStats?: boolean;
+  hideOwners?: boolean;
 }) {
   const userCollection = useAtomValue(userGamesAtom);
   
@@ -36,7 +38,7 @@ export default function GameList({
       <ul className="w-full">
         {games.map((game) => (
           <Box key={game.id}>
-            <li className="flex flex-row gap-4 p-2">
+            <li className="flex flex-row gap-4 p-2 flex-wrap items-start">
               <Box
                 sx={{
                   width: 80,
@@ -46,8 +48,13 @@ export default function GameList({
               >                
                 <img src={game.image} alt={game.name} style={{width : '100%', height: '100%', objectFit: 'contain'}} />
               </Box>
-              <div className='flex-[2]'>
-                <span style={{ fontWeight: 'bold' }}>{game.name}</span><span>, {game.yearpublished}</span>
+              <div className='flex-[2]' style={{ minWidth: 0 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', overflowWrap: 'anywhere', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+                  <span style={{ fontWeight: 'bold', display: 'block', overflowWrap: 'anywhere', wordBreak: 'break-word' }}>{game.name}</span>
+                  {Number(game.yearpublished) !== 0 && (
+                    <span style={{ fontSize: '12px' }}>{Number(game.yearpublished)}</span>
+                  )}
+                </div>
               </div>
             {!hideGameStats && (
               <Stack
@@ -69,6 +76,18 @@ export default function GameList({
                 sx={{ fontSize: '12px' }}
               >  
                 <span>{game.publisher}</span>
+              </Stack>
+            )}
+            {!hideOwners && (
+              <Stack
+                flex={0.5}
+                alignItems="center"
+                justifyContent="center"
+                sx={{ fontSize: "12px" }}
+              >
+                <span>
+                  {(game.owners ?? []).join(", ")}
+                </span>
               </Stack>
             )}
             {!hideAddRemove && (

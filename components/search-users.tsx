@@ -1,6 +1,6 @@
 "use client"
 import { Input } from "@/components/ui/input";
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { Button } from "./ui/button";
 import { createClient } from "@/lib/supabase/client";
 import UserList from "./user-list";
@@ -9,15 +9,26 @@ import { Card, CardContent } from "@/components/ui/card";
 export default function SearchUsers() {
     const [searchUser, setSearchUser] = useState("");
     const [searchResults, setSearchResults] = useState<User[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     async function handleClick() {
         console.log('User searched for "', searchUser, '"');
+        setIsLoading(true);
         const supabase = await createClient();
 
-        //TODO: make search on partial text
-        const {data : profiles} = (await supabase.from("profiles").select().textSearch('user_name', searchUser));
-        console.log(profiles)
-        setSearchResults(profiles || [])
+        try {
+            //TODO: make search on partial text
+            const {data : profiles, error} = (await supabase.from("profiles").select().textSearch('user_name', searchUser));
+
+            if (error) {
+                console.error(error);
+            }
+
+            console.log(profiles);
+            setSearchResults(profiles || []);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
 
@@ -32,14 +43,21 @@ export default function SearchUsers() {
                         className="w-80"
                         value={searchUser}
                         onChange={(e) => setSearchUser(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleClick();
+                            }
+                        }}
                     />
                     <Button onClick={() => handleClick()}>
                         Search
                     </Button>
                 </div>
-                <Suspense fallback={<div>Loading Users...</div>}>
+                {isLoading ? (
+                    <div>Loading Users...</div>
+                ) : (
                     <UserList users={searchResults} />
-                </Suspense>
+                )}
             </CardContent>
         </Card>
     );

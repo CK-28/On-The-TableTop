@@ -9,18 +9,29 @@ import { userFriendsAtom, userNameAtom } from "@/app/store";
 import GameList from "../game-list";
 
 export default function PartyWrapper() {
+  const currentUser = useAtomValue(userNameAtom);
   const [friends, setFriends] = useState<string[]>(useAtomValue(userFriendsAtom));
-  const [party, setParty] = useState<string[]>([]);
+  const [party, setParty] = useState<string[]>(() => (currentUser ? [currentUser] : []));
   const [games, setGames] = useState<Game[]>([]);
-  const [currentUser, setCurrentUser] = useState<string>(useAtomValue(userNameAtom));
 
   useEffect(() => {
-    if (!party.includes(currentUser)) {
-      setParty([...party, currentUser]);
-    } 
+    if (!currentUser) {
+      console.log("ERROR: No current user found. Skipping party setup.");
+      return;
+    }
 
+    setParty((currentParty) =>
+      currentParty.includes(currentUser) ? currentParty : [...currentParty, currentUser]
+    );
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (party.length === 0) {
+      console.log("ERROR: No users in party. Skipping game fetch.");
+      return;
+    }
+    
     fetchGames();
-
   }, [party]);
 
   function addToParty(user: string) {
@@ -45,15 +56,18 @@ export default function PartyWrapper() {
 
   async function fetchGames() {
     const supabase = await createClient();
-    const playerCollections = (await supabase.from("UserCollectionByUserName").select('user_collection').in("user_name", party)).data;
+    const { data, error } = await supabase.functions.invoke(
+      "getPartyGames",
+      {
+        body: {
+          players: party,
+        },
+      }
+    );
 
-    const collections = (playerCollections?.map((pc) => pc.user_collection) ?? []).flat();
-    console.log("Combined collections grabbed from all users:", collections);
+    console.log("Response from getPartyGames function:", { data, error });
 
-    const gamesFromCollection = (await supabase.from("BoardGames").select().in("id", collections)).data;
-    console.log("Games from collection:", gamesFromCollection);
-
-    setGames(gamesFromCollection || []);
+    setGames(data?.data ?? []);
   }
 
   return (
@@ -63,7 +77,7 @@ export default function PartyWrapper() {
           <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">
             <div className="flex flex-col gap-3">
               <h1 className="text-2xl">Friends In Party</h1>
-              <PartyList party={party} onClick={removeFromParty} />
+              <PartyList party={party} onClick={removeFromParty} owner={currentUser} />
             </div>
           </div>
           <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">
@@ -77,7 +91,7 @@ export default function PartyWrapper() {
         <div className="flex-1 flex flex-col gap-4">
           <h1 className="text-2xl">Board Games On The Table</h1>
             <Suspense fallback={<div>Loading Games...</div>}>
-                <GameList games={games} hidePublisher={true} hideAddRemove={true}/>
+                <GameList games={games} hidePublisher={true} hideOwners={false} hideAddRemove={true}/>
             </Suspense>
         </div>
       </CardContent>

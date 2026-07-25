@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 type User = {
   id: number;
   user_name: string;
@@ -16,4 +17,5 @@ type Game = {
     description: string;
     publisher: string;
     image: string;
+    owners?: string[];  //TODO: owners are only filled when fetching games for parties. Should there be two seperate objects? Code works but this might be confusing.
 };

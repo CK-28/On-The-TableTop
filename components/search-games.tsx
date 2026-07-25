@@ -1,7 +1,7 @@
 "use client"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { Button } from "./ui/button";
 import { createClient } from "@/lib/supabase/client";
 import GameList from "./game-list";
@@ -11,20 +11,26 @@ import Stack from "@mui/material/Stack";
 export default function SearchGames() {
     const [searchGame, setSearchGame] = useState("");
     const [searchResults, setSearchResults] = useState<Game[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     async function handleClick() {
-        console.log(searchGame)
+        console.log('User searched for "', searchGame, '"')
+        setIsLoading(true);
         const supabase = await createClient();
 
         // TODO: improve search to sort by most popular or something
-        const { data, error } = await supabase.rpc('search_boardgames', { search_term: searchGame });
+        try {
+            const { data, error } = await supabase.rpc('search_boardgames', { search_term: searchGame });
 
-        if (error) {
-            console.error(error);
-        } 
-        
-        console.log(data)
-        setSearchResults(data || [])
+            if (error) {
+                console.error(error);
+            }
+            
+            console.log(data);
+            setSearchResults(data || []);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -51,6 +57,11 @@ export default function SearchGames() {
                             className="w-80"
                             value={searchGame}
                             onChange={(e) => setSearchGame(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleClick();
+                                }
+                            }}
                         />
                         <Button onClick={() => handleClick()}>
                             Search
@@ -59,9 +70,11 @@ export default function SearchGames() {
                     <Label>
                         {searchResults?.length} Result(s)
                     </Label>
-                    <Suspense fallback={<div>Loading Games...</div>}>
+                    {isLoading ? (
+                        <div>Loading Games...</div>
+                    ) : (
                         <GameList games={searchResults}/>
-                    </Suspense>
+                    )}
                 </Stack>
             </CardContent>
         </Card>
