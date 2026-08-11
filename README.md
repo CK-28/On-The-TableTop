@@ -93,4 +93,3 @@ npm run start
 - `lint` — Run linters (if configured)
 
 Check `package.json` for exact script names.
-
