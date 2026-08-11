@@ -84,36 +84,9 @@ npm run start
 
 Check `package.json` for exact script names.
 
-## Contributing
-
-Thanks for checking out the project! A few tips for contributors:
-
-- Fork the repo and create a feature branch.
-- Keep changes small and focused; open a Pull Request to the `main` branch.
-- Run linters and keep TypeScript errors free before submitting.
-
-If you'd like help getting started, open an issue describing the area you want to work on.
-
 ## Notable Files
 
 - `app/` — Main app entry (routes & layouts)
 - `components/` — UI components and feature modules
 - `lib/supabase` — Supabase client and server helpers
 
-## Demo & Screenshots
-
-Add a short demo GIF or screenshots to `docs/Images` and update this section with links to the assets to make the README pop.
-
-## License
-
-This project is open source. Add a license file (e.g., `LICENSE.md`) if you want to specify terms.
-
----
-
-If you want, I can:
-
-- Add badges (build, license, coverage)
-- Wire a demo GIF into `docs/Images` and reference it here
-- Create a short `docs/SETUP.md` that documents Supabase tables and seed data
-
-Tell me which of the above you'd like next.
