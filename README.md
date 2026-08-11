@@ -1,22 +1,30 @@
 # On The TableTop
 
-A modern, friendly web app for discovering, sharing, and playing board games with friends. Built with Next.js, TypeScript, Tailwind CSS and Supabase for backend services. This repository showcases a clean component architecture, auth flows, party features, and helpful developer tooling.
+Board game night always comes down to the same questions: who's coming, what do they own, and what can we actually play with this many people? On The TableTop was built to solve that!
+The app's core feature, "Start a Party," takes the guesswork out of game night - just list who's attending, and the app cross-references everyone's collections and each game's player count to surface exactly which games are playable given who's in the room. Users can create an account to catalog their game collection and connect with friends to browse each other's libraries. 
+Future features include filtering by playtime and genre for more targeted results and a home page dashboard presenting users with trending games and friend activity.
 
-## Highlights
+## Key Features
 
-- **Authentication & Profiles:** Sign up, login, password reset, and user profiles backed by Supabase.
-- **Game Discovery:** Search and browse games with fast, accessible UI components.
-- **Party Mode:** Create and manage parties to play with friends — invite, join, and share game lists.
-- **Admin Tools:** Add/remove users and games via dedicated components for maintainers.
-- **Guided Onboarding:** In-app tutorial steps help new users connect Supabase and fetch data.
-- **Production-ready:** TypeScript-first codebase, Tailwind for rapid UI, deployable to Vercel.
+- Track personal game collection using built-in and custom lists
+- Comprehensive database integration to find and catalog games
+- Add friends and browse their collections
+- Plan a party based on who's attending and instantly see which games are available
+- Filter results by player count, playtime, genre, or other criteria
+
+## Technical Details
+- Reactive front-end implemented with Next.js  and React
+- Integrated with Supabase for authentication, database management, and BaaS including custom TypeScript and PostgreSQL functions for server-side logic
+- Deployed and hosted using Vercel
+- Custom UI using MUI 3 component library - designed to be intuitive and attractive
 
 ## Tech Stack
 
 - Next.js (App Router)
 - TypeScript
 - Tailwind CSS
-- Supabase (Auth + Database)
+- MUI and shadcn/ui components
+- Supabase (Auth + Database + BaaS)
 - ESLint + Prettier
 
 ## Quick Start — Local Development
@@ -48,6 +56,8 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-supabase-url.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key # optional for server-only tasks
 ```
+
+Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` can be found in [your Supabase project's API settings](https://supabase.com/dashboard/project/_?showConnect=true)
 
 3. Run the dev server
 
@@ -84,36 +94,3 @@ npm run start
 
 Check `package.json` for exact script names.
 
-## Contributing
-
-Thanks for checking out the project! A few tips for contributors:
-
-- Fork the repo and create a feature branch.
-- Keep changes small and focused; open a Pull Request to the `main` branch.
-- Run linters and keep TypeScript errors free before submitting.
-
-If you'd like help getting started, open an issue describing the area you want to work on.
-
-## Notable Files
-
-- `app/` — Main app entry (routes & layouts)
-- `components/` — UI components and feature modules
-- `lib/supabase` — Supabase client and server helpers
-
-## Demo & Screenshots
-
-Add a short demo GIF or screenshots to `docs/Images` and update this section with links to the assets to make the README pop.
-
-## License
-
-This project is open source. Add a license file (e.g., `LICENSE.md`) if you want to specify terms.
-
----
-
-If you want, I can:
-
-- Add badges (build, license, coverage)
-- Wire a demo GIF into `docs/Images` and reference it here
-- Create a short `docs/SETUP.md` that documents Supabase tables and seed data
-
-Tell me which of the above you'd like next.
