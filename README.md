@@ -4,6 +4,8 @@ Board game night always comes down to the same questions: who's coming, what do 
 The app's core feature, "Start a Party," takes the guesswork out of game night - just list who's attending, and the app cross-references everyone's collections and each game's player count to surface exactly which games are playable given who's in the room. Users can create an account to catalog their game collection and connect with friends to browse each other's libraries. 
 Future features include filtering by playtime and genre for more targeted results and a home page dashboard presenting users with trending games and friend activity.
 
+[**View the live website here!**](https://board-games-app-opal.vercel.app/)
+
 ## Key Features
 
 - Track personal game collection using built-in and custom lists
