@@ -103,4 +103,4 @@ Check `package.json` for exact script names.
 *Start a Party Pagee**
 ![Party planner](public/pictures/Party%20Page.png)
 
-View more screenshots in the `docs/screenshots` folder.
+View more screenshots in the [public/pictures](public/pictures) folder.
