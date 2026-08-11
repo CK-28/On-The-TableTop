@@ -94,3 +94,13 @@ npm run start
 
 Check `package.json` for exact script names.
 
+## Screenshots
+
+**Landing Page**
+![Login page](public/pictures/Login%20Page.png)
+**Board Games Seach Page**
+![Game search](public/pictures/Game%20Search%20Page.png)
+*Start a Party Pagee**
+![Party planner](public/pictures/Party%20Page.png)
+
+View more screenshots in the `docs/screenshots` folder.
