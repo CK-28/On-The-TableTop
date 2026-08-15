@@ -57,21 +57,19 @@ export function LoginForm({
 
       const signInResult = await Promise.race([signInPromise, timeoutPromise]) as {
         error?: Error | null;
+        data?: any;
       };
-      console.log("LoginForm: signInWithPassword returned", signInResult);
-      clearTimeout(timeout);
       if (signInResult?.error) throw signInResult.error;
       // Update this route to redirect to an authenticated route. The user already has an active session.
       const userResp = await supabase.auth.getUser();
-      console.log("LoginForm: getUser returned", userResp);
       const userNameTemp = userResp.data.user?.user_metadata?.user_name;
       setUserName(userNameTemp);
       router.push("/home");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
+      clearTimeout(timeout);
       setIsLoading(false);
-      console.log("LoginForm: handleLogin finished");
     }
   };
 
@@ -121,6 +119,7 @@ export function LoginForm({
                 {isLoading ? "Logging in..." : "Login"}
               </Button>
             </div>
+            
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
               <Link

@@ -39,11 +39,19 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
      */
     async function loadAndSetCollection(name: string) {
       try {
-        const { data: row } = await supabase
+        // add a short timeout so a stalled network doesn't block hydration
+        const fetchPromise = supabase
           .from("UserCollectionByUserName")
           .select("user_collection, user_friends")
           .eq("user_name", name)
           .single();
+
+        const timeoutMs = 5000;
+        const timeoutPromise = new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("load collection timeout")), timeoutMs)
+        );
+
+        const { data: row } = await Promise.race([fetchPromise, timeoutPromise]) as any;
 
         if (!mounted) return; // bail if the component unmounted while we waited
 
@@ -51,8 +59,12 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         setUserGames(row?.user_collection ?? []);
         setUserFriends(row?.user_friends ?? []);
       } catch (err) {
-        // Non-fatal: log and continue (atoms remain unchanged or cleared elsewhere).
-        console.error("AuthProvider: failed to load user collection", err);
+        // Non-fatal: continue (atoms will be set to empty arrays below).
+        // ensure atoms are at least empty arrays so consumers render predictable UI
+        if (mounted) {
+          setUserGames([]);
+          setUserFriends([]);
+        }
       }
     }
 
