@@ -44,30 +44,6 @@ const cardItems = [
 
 export default function Home() {
   const router = useRouter();
-  const userName = useAtomValue(userNameAtom);
-  const setUserCollection = useSetAtom(userGamesAtom);
-  const setUserFriends = useSetAtom(userFriendsAtom);
-
-  useEffect(() => {
-    async function loadUserData() {
-      const supabase = await createClient();
-      const response = await supabase
-        .from("UserCollectionByUserName")
-        .select("*")
-        .eq("user_name", userName)
-        .single();
-
-      const userGames = response.data?.user_collection || [];
-      const userFriends = response.data?.user_friends || [];
-
-      setUserCollection(userGames);
-      setUserFriends(userFriends);
-    }
-
-    if (userName) {
-      loadUserData();
-    }
-  }, [userName, setUserCollection, setUserFriends]);
 
   return (
     <div className="flex-1 flex flex-col justify-center items-center py-6">

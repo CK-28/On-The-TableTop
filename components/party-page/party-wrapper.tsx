@@ -10,11 +10,16 @@ import GameList from "../game-list";
 
 export default function PartyWrapper() {
   const currentUser = useAtomValue(userNameAtom);
-  const [friends, setFriends] = useState<string[]>(useAtomValue(userFriendsAtom));
-  const [party, setParty] = useState<string[]>(() => (currentUser ? [currentUser] : []));
+  const friendsAtom = useAtomValue(userFriendsAtom);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [friends, setFriends] = useState<string[]>([]);
+  const [party, setParty] = useState<string[]>([]);
   const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
+    // mark hydrated and initialize client-only state to avoid SSR/CSR mismatch
+    setIsHydrated(true);
+
     if (!currentUser) {
       console.log("ERROR: No current user found. Skipping party setup.");
       return;
@@ -23,6 +28,11 @@ export default function PartyWrapper() {
     setParty((currentParty) =>
       currentParty.includes(currentUser) ? currentParty : [...currentParty, currentUser]
     );
+
+    // initialize friends from atom only on client
+    if (friendsAtom && friendsAtom.length > 0) {
+      setFriends(friendsAtom);
+    }
   }, [currentUser]);
 
   useEffect(() => {

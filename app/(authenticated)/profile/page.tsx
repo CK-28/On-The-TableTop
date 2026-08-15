@@ -14,6 +14,7 @@ export default function Profile() {
   const gameIds = useAtomValue(userGamesAtom);
   const friends = useAtomValue(userFriendsAtom);
   const [email, setEmail] = useState("");
+  const [isHydrated, setIsHydrated] = useState(false);
   const [games, setGames] = useState<Game[]>([]);
   const [friendUsers, setFriendUsers] = useState<User[]>([]);
   const [loadingGames, setLoadingGames] = useState(false);
@@ -21,6 +22,9 @@ export default function Profile() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // mark component as hydrated on client to avoid SSR/CSR content mismatch
+    setIsHydrated(true);
+
     async function loadEmail() {
       try {
         const supabase = createClient();
@@ -93,8 +97,10 @@ export default function Profile() {
     loadFriendUsers();
   }, [friends]);
 
+  const displayName = isHydrated ? name || "Profile" : "Profile";
+
   const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-    name || "Profile"
+    displayName
   )}&background=2563eb&color=ffffff&size=128`;
 
   return (
@@ -112,7 +118,7 @@ export default function Profile() {
               />
             </div>
             <div className="flex flex-col justify-center gap-1">
-              <p className="text-2xl font-semibold">{name || "Profile"}</p>
+              <p className="text-2xl font-semibold">{displayName}</p>
               <p className="text-sm text-muted-foreground">{email || "No email available"}</p>
             </div>
           </div>

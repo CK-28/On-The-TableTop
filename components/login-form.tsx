@@ -35,20 +35,43 @@ export function LoginForm({
     setIsLoading(true);
     setError(null);
 
+    console.log("LoginForm: starting sign-in for", email);
+
+    // Safety timeout: if sign-in doesn't resolve within 15s, stop loading.
+    const timeout = setTimeout(() => {
+      console.warn("LoginForm: sign-in timed out");
+      setIsLoading(false);
+      setError("Login timed out. Check your network and try again.");
+    }, 15000);
+
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      // Run sign-in with a timeout so the UI doesn't hang indefinitely.
+      const signInPromise = supabase.auth.signInWithPassword({
         email,
         password,
       });
-      if (error) throw error;
+
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("sign-in timeout")), 15000)
+      );
+
+      const signInResult = await Promise.race([signInPromise, timeoutPromise]) as {
+        error?: Error | null;
+      };
+      console.log("LoginForm: signInWithPassword returned", signInResult);
+      clearTimeout(timeout);
+      if (signInResult?.error) throw signInResult.error;
       // Update this route to redirect to an authenticated route. The user already has an active session.
-      const userNameTemp = (await supabase.auth.getUser()).data.user?.user_metadata?.user_name;
+      const userResp = await supabase.auth.getUser();
+      console.log("LoginForm: getUser returned", userResp);
+      const userNameTemp = userResp.data.user?.user_metadata?.user_name;
       setUserName(userNameTemp);
       router.push("/home");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
       setIsLoading(false);
+      console.log("LoginForm: handleLogin finished");
     }
   };
 
