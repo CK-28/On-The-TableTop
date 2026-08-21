@@ -5,7 +5,7 @@ import { useAtomValue } from "jotai";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/client";
-import { userFriendsAtom, userGamesAtom, userNameAtom } from "@/app/store";
+import { collectionStatusAtom, userEmailAtom, userFriendsAtom, userGamesAtom, userNameAtom } from "@/app/store";
 import UserList from "@/components/user-list";
 import GameList from "@/components/game-list";
 
@@ -13,38 +13,34 @@ export default function Profile() {
   const name = useAtomValue(userNameAtom);
   const gameIds = useAtomValue(userGamesAtom);
   const friends = useAtomValue(userFriendsAtom);
-  const [email, setEmail] = useState("");
-  const [isHydrated, setIsHydrated] = useState(false);
+  const collectionStatus = useAtomValue(collectionStatusAtom);
+  const email = useAtomValue(userEmailAtom);
+  const [isClient, setIsClient] = useState(false);
   const [games, setGames] = useState<Game[]>([]);
   const [friendUsers, setFriendUsers] = useState<User[]>([]);
   const [loadingGames, setLoadingGames] = useState(false);
   const [loadingFriends, setLoadingFriends] = useState(false);
+  const [gamesLoadedFor, setGamesLoadedFor] = useState<string | null>(null);
+  const [friendsLoadedFor, setFriendsLoadedFor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const contentReady = isClient && collectionStatus !== "loading";
+  const gameIdsKey = JSON.stringify(gameIds);
+  const friendsKey = JSON.stringify(friends);
 
   useEffect(() => {
-    // mark component as hydrated on client to avoid SSR/CSR content mismatch
-    setIsHydrated(true);
-
-    async function loadEmail() {
-      try {
-        const supabase = createClient();
-        const { data: userData, error: userError } = await supabase.auth.getUser();
-        if (userError) {
-          throw userError;
-        }
-        setEmail(userData?.user?.email || "");
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load email");
-      }
-    }
-
-    loadEmail();
+    setIsClient(true);
   }, []);
 
   useEffect(() => {
     async function loadGames() {
+      if (collectionStatus === "loading") {
+        setGamesLoadedFor(null);
+        return;
+      }
+
       if (gameIds.length === 0) {
         setGames([]);
+        setGamesLoadedFor(gameIdsKey);
         return;
       }
 
@@ -60,20 +56,28 @@ export default function Profile() {
           throw gamesError;
         }
         setGames(boardGames || []);
+        setGamesLoadedFor(gameIdsKey);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load games");
+        setGamesLoadedFor(gameIdsKey);
       } finally {
         setLoadingGames(false);
       }
     }
 
     loadGames();
-  }, [gameIds]);
+  }, [collectionStatus, gameIds, gameIdsKey]);
 
   useEffect(() => {
     async function loadFriendUsers() {
+      if (collectionStatus === "loading") {
+        setFriendsLoadedFor(null);
+        return;
+      }
+
       if (friends.length === 0) {
         setFriendUsers([]);
+        setFriendsLoadedFor(friendsKey);
         return;
       }
 
@@ -87,17 +91,19 @@ export default function Profile() {
 
         if (usersError) throw usersError;
         setFriendUsers(users || []);
+        setFriendsLoadedFor(friendsKey);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load friends");
+        setFriendsLoadedFor(friendsKey);
       } finally {
         setLoadingFriends(false);
       }
     }
 
     loadFriendUsers();
-  }, [friends]);
+  }, [collectionStatus, friends, friendsKey]);
 
-  const displayName = isHydrated ? name || "Profile" : "Profile";
+  const displayName = isClient ? name || "Profile" : "Profile";
 
   const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
     displayName
@@ -119,7 +125,9 @@ export default function Profile() {
             </div>
             <div className="flex flex-col justify-center gap-1">
               <p className="text-2xl font-semibold">{displayName}</p>
-              <p className="text-sm text-muted-foreground">{email || "No email available"}</p>
+              <p className="text-sm text-muted-foreground">
+                {isClient ? email || "No email available" : "No email available"}
+              </p>
             </div>
           </div>
         </div>
@@ -128,8 +136,10 @@ export default function Profile() {
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-xl border bg-background p-6">
             <h2 className="mb-4 text-xl font-semibold">Games</h2>
-            {loadingGames ? (
+            {!contentReady || gamesLoadedFor !== gameIdsKey || loadingGames ? (
               <p>Loading games...</p>
+            ) : collectionStatus === "error" ? (
+              <p>Unable to load games</p>
             ) : games.length > 0 ? (
               <GameList games={games as Game[]} hidePublisher={true} hideGameStats={true} />
             ) : (
@@ -139,8 +149,10 @@ export default function Profile() {
 
           <div className="rounded-xl border bg-background p-6">
             <h2 className="mb-4 text-xl font-semibold">Friends</h2>
-            {loadingFriends ? (
+            {!contentReady || friendsLoadedFor !== friendsKey || loadingFriends ? (
               <p>Loading friends...</p>
+            ) : collectionStatus === "error" ? (
+              <p>Unable to load friends</p>
             ) : friendUsers.length > 0 ? (
               <UserList users={friendUsers} />
             ) : (

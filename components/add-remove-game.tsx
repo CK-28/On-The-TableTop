@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { useAtom, useAtomValue } from "jotai";
-import { userGamesAtom, userNameAtom } from "@/app/store";
+import { collectionStatusAtom, userGamesAtom, userNameAtom } from "@/app/store";
 import { Button } from "./ui/button";
 import { useState } from "react";
 
@@ -10,13 +10,21 @@ export default function AddRemoveGame({ item, alreadyInList }: { item: number, a
   const [itemInList, setItemInList] = useState(alreadyInList);
   const [userCollection, setUserCollection] = useAtom(userGamesAtom);
   const userName = useAtomValue(userNameAtom);
+  const collectionStatus = useAtomValue(collectionStatusAtom);
+
+  if (collectionStatus === "loading") {
+    return <span>Loading...</span>;
+  }
+
+  if (collectionStatus === "error") {
+    return <span>Unable to load collection.</span>;
+  }
 
   function addItem(item: number): void {
     console.log("Before add: " + userCollection);
     console.log("Adding item: " + item);
 
-    userCollection.push(item);
-    setUserCollection(userCollection);
+    setUserCollection((currentCollection) => [...currentCollection, item]);
     console.log("After add: " + userCollection);
 
     setItemInList(true);
@@ -30,10 +38,9 @@ export default function AddRemoveGame({ item, alreadyInList }: { item: number, a
     if (index > -1) {
       console.log("Before remove: " + userCollection);
       console.log("Removing item: " + item);
-      userCollection.splice(index, 1)
-
-      console.log("After removing: " + userCollection);
-      setUserCollection(userCollection);
+      const nextCollection = userCollection.filter((_, currentIndex) => currentIndex !== index);
+      console.log("After removing: " + nextCollection);
+      setUserCollection(nextCollection);
     } else {
       console.log("Failed to update, item not found in collection");
     }
@@ -58,9 +65,7 @@ export default function AddRemoveGame({ item, alreadyInList }: { item: number, a
       console.log("Collection synced");
     }
 
-    const { data: verifyData } = await supabase.from('UserCollectionByUserName').select('user_collection').eq('user_name', userName).single();
-    console.log('Verified games in DB:', verifyData?.user_collection);
-    return true;
+    return !error;
   }
 
   return !itemInList ? (

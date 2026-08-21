@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { useAtom, useAtomValue } from "jotai";
-import { userFriendsAtom, userNameAtom } from "@/app/store";
+import { collectionStatusAtom, userFriendsAtom, userNameAtom } from "@/app/store";
 import { Button } from "./ui/button";
 import { useState } from "react";
 
@@ -10,10 +10,18 @@ export default function AddRemoveUser({ item, alreadyInList }: { item: string, a
   const [itemInList, setItemInList] = useState(alreadyInList);
   const [userCollection, setUserCollection] = useAtom(userFriendsAtom);
   const userName = useAtomValue(userNameAtom);
+  const collectionStatus = useAtomValue(collectionStatusAtom);
+
+  if (collectionStatus === "loading") {
+    return <span>Loading...</span>;
+  }
+
+  if (collectionStatus === "error") {
+    return <span>Unable to load friends.</span>;
+  }
 
   function addItem(item: string): void {
-    userCollection.push(item);
-    setUserCollection(userCollection);
+    setUserCollection((currentCollection) => [...currentCollection, item]);
 
     setItemInList(true);
     updateCollection().then((wasUpdateSuccessful) => {
@@ -24,9 +32,7 @@ export default function AddRemoveUser({ item, alreadyInList }: { item: string, a
   function removeItem(item: string): void {
     const index = userCollection.indexOf(item);
     if (index > -1) {
-      userCollection.splice(index, 1)
-
-      setUserCollection(userCollection);
+      setUserCollection(userCollection.filter((_, currentIndex) => currentIndex !== index));
     } else {
       console.log("Failed to update, item not found in collection");
     }
@@ -51,9 +57,7 @@ export default function AddRemoveUser({ item, alreadyInList }: { item: string, a
       console.log("Collection synced");
     }
 
-    const { data: verifyData } = await supabase.from('UserCollectionByUserName').select('user_friends').eq('user_name', userName).single();
-    console.log('Verified games in DB:', verifyData?.user_friends);
-    return true;
+    return !error;
   }
 
   return !itemInList ? (

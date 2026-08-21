@@ -1,7 +1,5 @@
 "use client";
 
-import { useSetAtom } from 'jotai'
-import { userNameAtom } from '@/app/store'
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -22,7 +20,6 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const setUserName = useSetAtom(userNameAtom)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -35,40 +32,16 @@ export function LoginForm({
     setIsLoading(true);
     setError(null);
 
-    console.log("LoginForm: starting sign-in for", email);
-
-    // Safety timeout: if sign-in doesn't resolve within 15s, stop loading.
-    const timeout = setTimeout(() => {
-      console.warn("LoginForm: sign-in timed out");
-      setIsLoading(false);
-      setError("Login timed out. Check your network and try again.");
-    }, 15000);
-
     try {
-      // Run sign-in with a timeout so the UI doesn't hang indefinitely.
-      const signInPromise = supabase.auth.signInWithPassword({
+      const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-
-      const timeoutPromise = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error("sign-in timeout")), 15000)
-      );
-
-      const signInResult = await Promise.race([signInPromise, timeoutPromise]) as {
-        error?: Error | null;
-        data?: any;
-      };
-      if (signInResult?.error) throw signInResult.error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      const userResp = await supabase.auth.getUser();
-      const userNameTemp = userResp.data.user?.user_metadata?.user_name;
-      setUserName(userNameTemp);
+      if (signInError) throw signInError;
       router.push("/home");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
-      clearTimeout(timeout);
       setIsLoading(false);
     }
   };

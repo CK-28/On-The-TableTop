@@ -1,5 +1,4 @@
 import PageHeader from "@/components/page-header";
-import HydrationGuard from "@/components/hydration-guard";
 
 export default function AuthenticatedLayout({
   children,
@@ -10,7 +9,7 @@ export default function AuthenticatedLayout({
     <div>
       <PageHeader />
       <main>
-        <HydrationGuard>{children}</HydrationGuard>
+        {children}
       </main>
     </div>
   );
