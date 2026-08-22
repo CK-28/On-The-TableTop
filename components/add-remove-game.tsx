@@ -6,7 +6,7 @@ import { collectionStatusAtom, userGamesAtom, userNameAtom } from "@/app/store";
 import { Button } from "./ui/button";
 import { useState } from "react";
 
-export default function AddRemoveGame({ item, alreadyInList }: { item: number, alreadyInList: boolean }) {
+export default function AddRemoveGame({ game, item, alreadyInList }: { game: Game, item: number, alreadyInList: boolean }) {
   const [itemInList, setItemInList] = useState(alreadyInList);
   const [userCollection, setUserCollection] = useAtom(userGamesAtom);
   const userName = useAtomValue(userNameAtom);
@@ -14,55 +14,45 @@ export default function AddRemoveGame({ item, alreadyInList }: { item: number, a
 
   if (collectionStatus === "loading") {
     return <span>Loading...</span>;
-  }
-
-  if (collectionStatus === "error") {
+  } else if (collectionStatus === "error") {
     return <span>Unable to load collection.</span>;
   }
 
   function addItem(item: number): void {
-    console.log("Before add: " + userCollection);
-    console.log("Adding item: " + item);
-
-    setUserCollection((currentCollection) => [...currentCollection, item]);
-    console.log("After add: " + userCollection);
+    const nextCollection = userCollection.some((currentGame) => currentGame.id === item)
+      ? userCollection
+      : [...userCollection, game];
+    setUserCollection(nextCollection);
 
     setItemInList(true);
-    updateCollection().then((wasUpdateSuccessful) => {
+    updateCollection(nextCollection).then((wasUpdateSuccessful) => {
       setItemInList(wasUpdateSuccessful);
-    })
+    });
   }
 
   function removeItem(item: number): void {
-    const index = userCollection.indexOf(item);
+    const index = userCollection.findIndex((currentGame) => currentGame.id === item);
     if (index > -1) {
-      console.log("Before remove: " + userCollection);
-      console.log("Removing item: " + item);
       const nextCollection = userCollection.filter((_, currentIndex) => currentIndex !== index);
-      console.log("After removing: " + nextCollection);
       setUserCollection(nextCollection);
+      setItemInList(false);
+      updateCollection(nextCollection).then((wasUpdateSuccessful) => {
+        setItemInList(!wasUpdateSuccessful);
+      });
     } else {
-      console.log("Failed to update, item not found in collection");
+      setItemInList(false);
     }
-
-    setItemInList(false);
-    updateCollection().then((wasUpdateSuccessful) => {
-      setItemInList(!wasUpdateSuccessful);
-    })
   }
 
-  async function updateCollection(): Promise<boolean> {
+  async function updateCollection(collection: Game[]): Promise<boolean> {
     const supabase = createClient();
-    console.log("username: " + userName);
-    console.log("collection: " + userCollection);
-    console.log("collectionAtom: " + userGamesAtom);
-
-    const { error } = await supabase.from("UserCollectionByUserName").upsert({user_name: userName, user_collection: userCollection});
+    const { error } = await supabase.from("UserCollectionByUserName").upsert({
+      user_name: userName,
+      user_collection: collection.map((currentGame) => currentGame.id),
+    });
 
     if (error) {
       console.error("Sync error:", error);
-    } else {
-      console.log("Collection synced");
     }
 
     return !error;

@@ -1,0 +1,3 @@
+- Add ability to find board game stores nearby
+	- Maybe follow-able?
+	- They can market their events

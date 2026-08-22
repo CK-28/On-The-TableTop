@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import {
   userNameAtom,
   userEmailAtom,
+  userAvatarUrlAtom,
   userGamesAtom,
   userFriendsAtom,
   collectionStatusAtom,
@@ -18,6 +19,12 @@ type RealtimeSubscriptionLike = { unsubscribe?: () => void };
 // Small type for the user metadata shape we expect from Supabase.
 type UserMetadata = { user_name?: string };
 
+function getAvatarUrl(name: string) {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(
+    name || "Profile"
+  )}&background=2563eb&color=ffffff&size=128`;
+}
+
 /**
  * AuthProvider
  * - Client-side component that hydrates Jotai atoms from Supabase auth + DB
@@ -27,23 +34,41 @@ type UserMetadata = { user_name?: string };
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const setUserName = useSetAtom(userNameAtom);
   const setUserEmail = useSetAtom(userEmailAtom);
+  const setUserAvatarUrl = useSetAtom(userAvatarUrlAtom);
   const setUserGames = useSetAtom(userGamesAtom);
   const setUserFriends = useSetAtom(userFriendsAtom);
   const setCollectionStatus = useSetAtom(collectionStatusAtom);
   const router = useRouter();
 
   useEffect(() => {
-    // Create a browser supabase client for auth and data fetching.
     const supabase = createClient();
 
     // 'mounted' guards against setting state after unmount.
     let mounted = true;
     let collectionRequestId = 0;
 
-    /**
-     * Fetch the user's saved collection row and update atoms.
-     * Kept as a helper to avoid duplicating the same DB query in multiple places.
-     */
+    function clearCollection(status: "loaded" | "error" = "loaded") {
+      setUserGames([]);
+      setUserFriends([]);
+      setCollectionStatus(status);
+    }
+
+    function clearUserState(status: "loaded" | "error" = "loaded") {
+      setUserName("");
+      setUserEmail("");
+      setUserAvatarUrl("");
+      clearCollection(status);
+    }
+
+    function setUserIdentity(user: { email?: string; user_metadata?: unknown }) {
+      const name = (user.user_metadata as UserMetadata | undefined)?.user_name ?? "";
+      setUserName(name);
+      setUserEmail(user.email ?? "");
+      setUserAvatarUrl(getAvatarUrl(name));
+      return name;
+    }
+
+    // Fetch the user's saved collection row and update atoms.
     async function loadAndSetCollection(name: string) {
       const requestId = ++collectionRequestId;
       setCollectionStatus("loading");
@@ -64,8 +89,28 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
         if (!mounted || requestId !== collectionRequestId) return;
 
-        setUserGames(row?.user_collection ?? []);
-        setUserFriends(row?.user_friends ?? []);
+        const gameIds = row?.user_collection ?? [];
+        const friendNames = row?.user_friends ?? [];
+        const [gamesResult, friendsResult] = await Promise.all([
+          gameIds.length > 0
+            ? supabase
+                .from("BoardGames")
+                .select("id, name, image, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, publisher, is_expansion, description")
+                .in("id", gameIds)
+            : Promise.resolve({ data: [], error: null }),
+          friendNames.length > 0
+            ? supabase
+                .from("profiles")
+                .select("id, user_name")
+                .in("user_name", friendNames)
+            : Promise.resolve({ data: [], error: null }),
+        ]);
+
+        if (gamesResult.error) throw gamesResult.error;
+        if (friendsResult.error) throw friendsResult.error;
+
+        setUserGames(gamesResult.data ?? []);
+        setUserFriends(friendsResult.data ?? []);
         setCollectionStatus("loaded");
       } catch (err) {
         if (!mounted || requestId !== collectionRequestId) return;
@@ -85,40 +130,26 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     async function init() {
       try {
         const { data, error } = await supabase.auth.getUser();
-        if (error) throw error;
+        // A missing session is expected on public pages, not an application error.
+        if (error && error.name !== "AuthSessionMissingError") throw error;
         const user = data?.user;
         if (!mounted) return;
 
         if (user) {
-          // Read a simple user_name field from metadata; fall back to empty string.
-          const name = (user.user_metadata as unknown as UserMetadata)?.user_name ?? "";
-          setUserName(name);
-          setUserEmail(user.email ?? "");
+          const name = setUserIdentity(user);
 
           if (name) {
             void loadAndSetCollection(name);
           } else {
-            setUserGames([]);
-            setUserFriends([]);
-            setCollectionStatus("loaded");
+            clearCollection();
           }
         } else {
-          setUserName("");
-          setUserEmail("");
-          setUserGames([]);
-          setUserFriends([]);
-          setCollectionStatus("loaded");
-
-          router.replace("/");
+          clearUserState();
         }
       } catch (err) {
         console.error("AuthProvider init error", err);
         if (mounted) {
-          setUserName("");
-          setUserEmail("");
-          setUserGames([]);
-          setUserFriends([]);
-          setCollectionStatus("error");
+          clearUserState("error");
         }
       }
     }
@@ -130,7 +161,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
      * Subscribes to Supabase client-side auth events and reloads the collection
      * when the user signs in or auth changes.
      */
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return;
 
       // init() already loads the current session on mount. Ignore Supabase's
@@ -140,23 +171,16 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       // If session is null or event is SIGNED_OUT, clear atoms.
       if (!session || event === "SIGNED_OUT") {
         collectionRequestId++;
-        setUserName("");
-        setUserEmail("");
-        setUserGames([]);
-        setUserFriends([]);
-        setCollectionStatus("loaded");
+        clearUserState();
         router.replace("/");
       } else if (session.user) {
         if (event !== "SIGNED_IN" && event !== "USER_UPDATED") return;
-        const name = (session.user.user_metadata as unknown as UserMetadata)?.user_name ?? "";
-        setUserName(name);
-        setUserEmail(session.user.email ?? "");
+        
+        const name = setUserIdentity(session.user);
         if (name) {
           void loadAndSetCollection(name);
         } else {
-          setUserGames([]);
-          setUserFriends([]);
-          setCollectionStatus("loaded");
+          clearCollection();
         }
       }
     });
@@ -168,7 +192,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       // defensive call in case subscription shape differs at runtime
       sub?.unsubscribe?.();
     };
-  }, [router, setUserName, setUserEmail, setUserGames, setUserFriends, setCollectionStatus]);
+  }, [router, setUserName, setUserEmail, setUserAvatarUrl, setUserGames, setUserFriends, setCollectionStatus]);
 
   // Render children unchanged — this component only manages client-side sync.
   return <>{children}</>;

@@ -23,16 +23,13 @@ export default function GameList({
 
   if (collectionStatus === "loading") {
     return <p>Loading...</p>;
-  }
-
-  if (collectionStatus === "error") {
+  } else if (collectionStatus === "error") {
     return <p>Unable to load collection.</p>;
   }
   
   console.log("In game-list: " + userCollection);
   function findGameInCollection(gameID: number): boolean {
-    const index = userCollection.indexOf(gameID);
-    return index > -1;
+    return userCollection.some((game) => game.id === gameID);
   }
 
   function defaultToMinimum(min: number, max: number) {
@@ -100,7 +97,7 @@ export default function GameList({
               </Stack>
             )}
             {!hideAddRemove && (
-              <AddRemoveGame item={game.id} alreadyInList={findGameInCollection( game.id )} />
+              <AddRemoveGame game={game} item={game.id} alreadyInList={findGameInCollection(game.id)} />
             )}
             </li>
           <Divider />

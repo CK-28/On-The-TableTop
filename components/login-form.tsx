@@ -37,6 +37,7 @@ export function LoginForm({
         email,
         password,
       });
+
       if (signInError) throw signInError;
       router.push("/home");
     } catch (error: unknown) {

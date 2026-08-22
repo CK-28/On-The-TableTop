@@ -12,7 +12,7 @@ export default function PartyWrapper() {
   const currentUser = useAtomValue(userNameAtom);
   const friendsAtom = useAtomValue(userFriendsAtom);
   const collectionStatus = useAtomValue(collectionStatusAtom);
-  const [friends, setFriends] = useState<string[]>([]);
+  const [friends, setFriends] = useState<User[]>([]);
   const [party, setParty] = useState<string[]>([]);
   const [games, setGames] = useState<Game[]>([]);
 
@@ -26,7 +26,6 @@ export default function PartyWrapper() {
       currentParty.includes(currentUser) ? currentParty : [...currentParty, currentUser]
     );
 
-    // Copy the populated atom, including an empty collection for a new user.
     if (collectionStatus !== "loading") {
       setFriends(friendsAtom);
     }
@@ -57,7 +56,7 @@ export default function PartyWrapper() {
   }, [party]);
 
   function addToParty(user: string) {
-    setFriends((party) => party.filter((u) => u !== user));
+    setFriends((party) => party.filter((friend) => friend.user_name !== user));
 
     setParty((party) => {
       if (party.find((p) => p === user)) return party;
@@ -70,8 +69,8 @@ export default function PartyWrapper() {
       setParty((party) => party.filter((u) => u !== user));
 
       setFriends((party) => {
-        if (party.find((p) => p === user)) return party;
-        return [...party, user];
+        if (party.find((friend) => friend.user_name === user)) return party;
+        return [...party, { id: 0, user_name: user }];
       });
     }
   }
@@ -100,7 +99,7 @@ export default function PartyWrapper() {
               ) : collectionStatus === "error" ? (
                 <p>Unable to load friends.</p>
               ) : (
-                <PartyList party={friends} onClick={addToParty} />
+                <PartyList party={friends.map((friend) => friend.user_name)} onClick={addToParty} />
               )}
             </div>
           </div>
