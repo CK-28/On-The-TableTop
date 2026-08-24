@@ -11,12 +11,8 @@ export default function PageHeader() {
     return (
         <header className="relative w-full border-b border-b-foreground/10 header mb-4">
             <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
-                <div className="flex items-center">
-                    <MainMenu />
-                </div>
-
                 <Link href="/home">
-                    <h1 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-semibold text-center text-white">
+                    <h1 className=" text-xl font-semibold text-white">
                         On The TableTop
                     </h1>
                 </Link>
@@ -30,8 +26,8 @@ export default function PageHeader() {
                             <AuthButton />
                         </Suspense>
                     )}
-                    {/* TODO: Update icon colour and create a dark theme */}
-                    {/* <ThemeSwitcher /> */}
+                     {/* TODO: Update icon colour and create a dark theme
+                     <ThemeSwitcher />  */}
                 </div>
             </div>
         </header>
