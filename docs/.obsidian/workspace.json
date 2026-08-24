@@ -14,7 +14,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Requirements.md",
+                "file": "Archive/Requirements.md",
                 "mode": "source",
                 "source": false
               },
@@ -33,10 +33,14 @@
             "id": "28fea2e8747c67e6",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Ideas.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Ideas"
             }
           }
         ]
@@ -59,7 +63,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -215,16 +221,18 @@
   },
   "active": "28fea2e8747c67e6",
   "lastOpenFiles": [
+    "Archive/Requirements.md",
+    "Ideas.md",
+    "Monetizing.md",
+    "Errors To Worry About.md",
+    "Credits To Give.md",
+    "Colours.md",
+    "Archive/Brain Storming - ToDo.md",
+    "Archive",
     "Requirements Table.md",
-    "Requirements.md",
     "Images/Pasted image 20260528171225.png",
     "Images/Profile Page.png",
-    "Credits To Give.md",
-    "Brain Storming - ToDo.md",
-    "Colours.md",
-    "Monetizing.md",
     "Images/Party Page.png",
-    "Errors To Worry About.md",
     "BGG API/Broken Game Entries in BGG CSV.md",
     "Images/Search Page.png",
     "Images/Pasted image 20260410222436.png",

@@ -5,13 +5,15 @@ import PartyList from "./party-list";
 import { Card, CardContent } from "../ui/card";
 import { createClient } from "@/lib/supabase/client";
 import { useAtomValue } from "jotai";
-import { userFriendsAtom, userNameAtom } from "@/app/store";
+import { collectionStatusAtom, userFriendsAtom, userNameAtom } from "@/app/store";
 import GameList from "../game-list";
 
 export default function PartyWrapper() {
   const currentUser = useAtomValue(userNameAtom);
-  const [friends, setFriends] = useState<string[]>(useAtomValue(userFriendsAtom));
-  const [party, setParty] = useState<string[]>(() => (currentUser ? [currentUser] : []));
+  const friendsAtom = useAtomValue(userFriendsAtom);
+  const collectionStatus = useAtomValue(collectionStatusAtom);
+  const [friends, setFriends] = useState<User[]>([]);
+  const [party, setParty] = useState<string[]>([]);
   const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
@@ -23,19 +25,38 @@ export default function PartyWrapper() {
     setParty((currentParty) =>
       currentParty.includes(currentUser) ? currentParty : [...currentParty, currentUser]
     );
-  }, [currentUser]);
+
+    if (collectionStatus !== "loading") {
+      setFriends(friendsAtom);
+    }
+  }, [collectionStatus, currentUser, friendsAtom]);
 
   useEffect(() => {
     if (party.length === 0) {
       console.log("ERROR: No users in party. Skipping game fetch.");
       return;
     }
-    
-    fetchGames();
+
+    async function loadGames() {
+      const supabase = createClient();
+      const { data, error } = await supabase.functions.invoke(
+        "getPartyGames",
+        {
+          body: {
+            players: party,
+          },
+        }
+      );
+
+      console.log("Response from getPartyGames function:", { data, error });
+      setGames(data?.data ?? []);
+    }
+
+    loadGames();
   }, [party]);
 
   function addToParty(user: string) {
-    setFriends((party) => party.filter((u) => u !== user));
+    setFriends((party) => party.filter((friend) => friend.user_name !== user));
 
     setParty((party) => {
       if (party.find((p) => p === user)) return party;
@@ -48,26 +69,10 @@ export default function PartyWrapper() {
       setParty((party) => party.filter((u) => u !== user));
 
       setFriends((party) => {
-        if (party.find((p) => p === user)) return party;
-        return [...party, user];
+        if (party.find((friend) => friend.user_name === user)) return party;
+        return [...party, { id: 0, user_name: user }];
       });
     }
-  }
-
-  async function fetchGames() {
-    const supabase = await createClient();
-    const { data, error } = await supabase.functions.invoke(
-      "getPartyGames",
-      {
-        body: {
-          players: party,
-        },
-      }
-    );
-
-    console.log("Response from getPartyGames function:", { data, error });
-
-    setGames(data?.data ?? []);
   }
 
   return (
@@ -77,13 +82,25 @@ export default function PartyWrapper() {
           <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">
             <div className="flex flex-col gap-3">
               <h1 className="text-2xl">Friends In Party</h1>
-              <PartyList party={party} onClick={removeFromParty} owner={currentUser} />
+              {collectionStatus === "loading" ? (
+                <p>Loading friends...</p>
+              ) : collectionStatus === "error" ? (
+                <p>Unable to load friends.</p>
+              ) : (
+                <PartyList party={party} onClick={removeFromParty} owner={currentUser} />
+              )}
             </div>
           </div>
           <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">
             <div className="flex flex-col gap-3">
               <h1 className="text-2xl">All Friends</h1>
-              <PartyList party={friends} onClick={addToParty} />
+              {collectionStatus === "loading" ? (
+                <p>Loading friends...</p>
+              ) : collectionStatus === "error" ? (
+                <p>Unable to load friends.</p>
+              ) : (
+                <PartyList party={friends.map((friend) => friend.user_name)} onClick={addToParty} />
+              )}
             </div>
           </div>
         </div>

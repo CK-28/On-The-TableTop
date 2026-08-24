@@ -46,16 +46,22 @@ export async function updateSession(request: NextRequest) {
   // with the Supabase client, your users may be randomly logged out.
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
+  const pathname = request.nextUrl.pathname;
+  const isPublicRoute = pathname === "/" || pathname.startsWith("/auth");
 
-  if (
-    request.nextUrl.pathname !== "/" &&
-    !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth")
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
+  if (!user && !isPublicRoute) {
+    // Signed-out users can only access the public entry and auth routes.
     const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
+    url.pathname = "/";
+    url.search = "";
+    return NextResponse.redirect(url);
+  }
+
+  if (user && isPublicRoute) {
+    // Authenticated users should stay in the app instead of returning to auth pages.
+    const url = request.nextUrl.clone();
+    url.pathname = "/home";
+    url.search = "";
     return NextResponse.redirect(url);
   }
 

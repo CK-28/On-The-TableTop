@@ -2,58 +2,64 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { useAtom, useAtomValue } from "jotai";
-import { userFriendsAtom, userNameAtom } from "@/app/store";
+import { collectionStatusAtom, userFriendsAtom, userNameAtom } from "@/app/store";
 import { Button } from "./ui/button";
 import { useState } from "react";
 
-export default function AddRemoveUser({ item, alreadyInList }: { item: string, alreadyInList: boolean }) {
+export default function AddRemoveUser({ user, item, alreadyInList }: { user: User, item: string, alreadyInList: boolean }) {
   const [itemInList, setItemInList] = useState(alreadyInList);
   const [userCollection, setUserCollection] = useAtom(userFriendsAtom);
   const userName = useAtomValue(userNameAtom);
+  const collectionStatus = useAtomValue(collectionStatusAtom);
+
+  if (collectionStatus === "loading") {
+    return <span>Loading...</span>;
+  } else if (collectionStatus === "error") {
+    return <span>Unable to load friends.</span>;
+  }
 
   function addItem(item: string): void {
-    userCollection.push(item);
-    setUserCollection(userCollection);
+    const nextCollection = userCollection.some((currentUser) => currentUser.user_name === item)
+      ? userCollection
+      : [...userCollection, user];
+    setUserCollection(nextCollection);
 
     setItemInList(true);
-    updateCollection().then((wasUpdateSuccessful) => {
+    updateCollection(nextCollection).then((wasUpdateSuccessful) => {
       setItemInList(wasUpdateSuccessful);
-    })
+    });
   }
 
   function removeItem(item: string): void {
-    const index = userCollection.indexOf(item);
+    const index = userCollection.findIndex((currentUser) => currentUser.user_name === item);
     if (index > -1) {
-      userCollection.splice(index, 1)
-
-      setUserCollection(userCollection);
+      const nextCollection = userCollection.filter((_, currentIndex) => currentIndex !== index);
+      setUserCollection(nextCollection);
+      setItemInList(false);
+      updateCollection(nextCollection).then((wasUpdateSuccessful) => {
+        setItemInList(!wasUpdateSuccessful);
+      });
     } else {
-      console.log("Failed to update, item not found in collection");
+      setItemInList(false);
     }
-
-    setItemInList(false);
-    updateCollection().then((wasUpdateSuccessful) => {
-      setItemInList(!wasUpdateSuccessful);
-    })
   }
 
-  async function updateCollection(): Promise<boolean> {
+  async function updateCollection(collection: User[]): Promise<boolean> {
     const supabase = createClient();
-    console.log("username: " + userName);
-    console.log("collection: " + userCollection);
-    console.log("collectionAtom: " + userFriendsAtom);
-
-    const { error } = await supabase.from("UserCollectionByUserName").upsert({user_name: userName, user_friends: userCollection});
+    const { error } = await supabase.from("UserCollectionByUserName").upsert({
+      user_name: userName,
+      user_friends: collection.map((currentUser) => currentUser.user_name),
+    });
 
     if (error) {
       console.error("Sync error:", error);
-    } else {
-      console.log("Collection synced");
     }
 
+    // TODO: Used for verification. Can be removed
     const { data: verifyData } = await supabase.from('UserCollectionByUserName').select('user_friends').eq('user_name', userName).single();
     console.log('Verified games in DB:', verifyData?.user_friends);
-    return true;
+
+    return !error;
   }
 
   return !itemInList ? (

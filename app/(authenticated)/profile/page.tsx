@@ -1,101 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useAtomValue } from "jotai";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import { createClient } from "@/lib/supabase/client";
-import { userFriendsAtom, userGamesAtom, userNameAtom } from "@/app/store";
+import {
+  collectionStatusAtom,
+  userEmailAtom,
+  userFriendsAtom,
+  userAvatarUrlAtom,
+  userGamesAtom,
+  userNameAtom,
+} from "@/app/store";
 import UserList from "@/components/user-list";
 import GameList from "@/components/game-list";
 
 export default function Profile() {
   const name = useAtomValue(userNameAtom);
-  const gameIds = useAtomValue(userGamesAtom);
+  const games = useAtomValue(userGamesAtom);
   const friends = useAtomValue(userFriendsAtom);
-  const [email, setEmail] = useState("");
-  const [games, setGames] = useState<Game[]>([]);
-  const [friendUsers, setFriendUsers] = useState<User[]>([]);
-  const [loadingGames, setLoadingGames] = useState(false);
-  const [loadingFriends, setLoadingFriends] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const userAvatarUrl = useAtomValue(userAvatarUrlAtom);
+  const collectionStatus = useAtomValue(collectionStatusAtom);
+  const email = useAtomValue(userEmailAtom);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    async function loadEmail() {
-      try {
-        const supabase = createClient();
-        const { data: userData, error: userError } = await supabase.auth.getUser();
-        if (userError) {
-          throw userError;
-        }
-        setEmail(userData?.user?.email || "");
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load email");
-      }
-    }
-
-    loadEmail();
+    setIsClient(true);
   }, []);
 
-  useEffect(() => {
-    async function loadGames() {
-      if (gameIds.length === 0) {
-        setGames([]);
-        return;
-      }
-
-      try {
-        setLoadingGames(true);
-        const supabase = createClient();
-        const { data: boardGames, error: gamesError } = await supabase
-          .from("BoardGames")
-          .select("id, name, image, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, publisher, is_expansion, description")
-          .in("id", gameIds);
-
-        if (gamesError) {
-          throw gamesError;
-        }
-        setGames(boardGames || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load games");
-      } finally {
-        setLoadingGames(false);
-      }
-    }
-
-    loadGames();
-  }, [gameIds]);
-
-  useEffect(() => {
-    async function loadFriendUsers() {
-      if (friends.length === 0) {
-        setFriendUsers([]);
-        return;
-      }
-
-      try {
-        setLoadingFriends(true);
-        const supabase = createClient();
-        const { data: users, error: usersError } = await supabase
-          .from("profiles")
-          .select("id, user_name")
-          .in("user_name", friends);
-
-        if (usersError) throw usersError;
-        setFriendUsers(users || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load friends");
-      } finally {
-        setLoadingFriends(false);
-      }
-    }
-
-    loadFriendUsers();
-  }, [friends]);
-
-  const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-    name || "Profile"
-  )}&background=2563eb&color=ffffff&size=128`;
+  const displayName = isClient ? name || "Profile" : "Profile";
+  const avatarUrl = isClient && userAvatarUrl
+    ? userAvatarUrl
+    : "https://ui-avatars.com/api/?name=Profile&background=2563eb&color=ffffff&size=128";
 
   return (
     <Card className="max-w-[1000px] mx-auto">
@@ -112,8 +48,10 @@ export default function Profile() {
               />
             </div>
             <div className="flex flex-col justify-center gap-1">
-              <p className="text-2xl font-semibold">{name || "Profile"}</p>
-              <p className="text-sm text-muted-foreground">{email || "No email available"}</p>
+              <p className="text-2xl font-semibold">{displayName}</p>
+              <p className="text-sm text-muted-foreground">
+                {isClient ? email || "No email available" : "No email available"}
+              </p>
             </div>
           </div>
         </div>
@@ -122,10 +60,12 @@ export default function Profile() {
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-xl border bg-background p-6">
             <h2 className="mb-4 text-xl font-semibold">Games</h2>
-            {loadingGames ? (
+            {collectionStatus === "loading" ? (
               <p>Loading games...</p>
+            ) : collectionStatus === "error" ? (
+              <p>Unable to load games</p>
             ) : games.length > 0 ? (
-              <GameList games={games as Game[]} hidePublisher={true} hideGameStats={true} />
+              <GameList games={games} hidePublisher={true} hideGameStats={true} />
             ) : (
               <p className="text-sm text-muted-foreground">No games found</p>
             )}
@@ -133,17 +73,18 @@ export default function Profile() {
 
           <div className="rounded-xl border bg-background p-6">
             <h2 className="mb-4 text-xl font-semibold">Friends</h2>
-            {loadingFriends ? (
+            {collectionStatus === "loading" ? (
               <p>Loading friends...</p>
-            ) : friendUsers.length > 0 ? (
-              <UserList users={friendUsers} />
+            ) : collectionStatus === "error" ? (
+              <p>Unable to load friends</p>
+            ) : friends.length > 0 ? (
+              <UserList users={friends} />
             ) : (
               <p className="text-sm text-muted-foreground">No friends found</p>
             )}
           </div>
         </div>
 
-        {error ? <p className="text-sm text-red-500">{error}</p> : null}
       </CardContent>
     </Card>
   );

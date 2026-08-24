@@ -5,10 +5,12 @@ export default function AuthenticatedLayout({
 }: {
   children: React.ReactNode;
 }) {
-    return (
-        <div>
-            <PageHeader />
-            <main>{children}</main>
-        </div>
-    );
+  return (
+    <div>
+      <PageHeader />
+      <main>
+        {children}
+      </main>
+    </div>
+  );
 }

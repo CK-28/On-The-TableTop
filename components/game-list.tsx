@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtomValue } from 'jotai';
-import { userGamesAtom } from "@/app/store";
+import { collectionStatusAtom, userGamesAtom } from "@/app/store";
 import { Stack, Divider, Box } from '@mui/material';
 import AddRemoveGame from './add-remove-game';
 
@@ -19,11 +19,17 @@ export default function GameList({
   hideOwners?: boolean;
 }) {
   const userCollection = useAtomValue(userGamesAtom);
+  const collectionStatus = useAtomValue(collectionStatusAtom);
+
+  if (collectionStatus === "loading") {
+    return <p>Loading...</p>;
+  } else if (collectionStatus === "error") {
+    return <p>Unable to load collection.</p>;
+  }
   
   console.log("In game-list: " + userCollection);
   function findGameInCollection(gameID: number): boolean {
-    const index = userCollection.indexOf(gameID);
-    return index > -1;
+    return userCollection.some((game) => game.id === gameID);
   }
 
   function defaultToMinimum(min: number, max: number) {
@@ -91,7 +97,7 @@ export default function GameList({
               </Stack>
             )}
             {!hideAddRemove && (
-              <AddRemoveGame item={game.id} alreadyInList={findGameInCollection( game.id )} />
+              <AddRemoveGame game={game} item={game.id} alreadyInList={findGameInCollection(game.id)} />
             )}
             </li>
           <Divider />

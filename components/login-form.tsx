@@ -1,7 +1,5 @@
 "use client";
 
-import { useSetAtom } from 'jotai'
-import { userNameAtom } from '@/app/store'
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -22,7 +20,6 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const setUserName = useSetAtom(userNameAtom)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -36,14 +33,12 @@ export function LoginForm({
     setError(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-      if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      const userNameTemp = (await supabase.auth.getUser()).data.user?.user_metadata?.user_name;
-      setUserName(userNameTemp);
+
+      if (signInError) throw signInError;
       router.push("/home");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
@@ -98,6 +93,7 @@ export function LoginForm({
                 {isLoading ? "Logging in..." : "Login"}
               </Button>
             </div>
+            
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
               <Link
