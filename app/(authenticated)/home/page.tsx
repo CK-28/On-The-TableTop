@@ -14,7 +14,8 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Stack } from "@mui/material";
+import PartyButton from "@/components/party-button";
 
 // const cardItems = [
 //   {
@@ -45,20 +46,41 @@ import { Box, Grid } from "@mui/material";
 
 export default function Home() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }} style={{
+      display: "flex",
+      justifyContent: "center",
+    }}>
       <Grid container spacing={2}>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Card>Profile</Card>
-        </Grid>
-        <Grid size={{ xs: 12, md: 8 }}>
-          <Card>Games Collection</Card>
-        </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Card>Start a party</Card>
-        </Grid>
-        <Grid size={{ xs: 12, md: 8 }}>
-          <Card>Friends</Card>
-        </Grid>
+        <Stack spacing={2} width={300}>
+          <Card style={
+            {
+              height: 350
+            }
+          }>Profile</Card>
+          <Card style={
+            {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: 150
+            }
+          }>
+            <PartyButton />
+          </Card>
+        </Stack>
+        <Stack spacing={2} width={850}>
+          <Card style={
+            {
+              height: 250
+            }
+          }>Games Collection</Card>
+
+          <Card style={
+            {
+              height: 250
+            }
+          }>Friends</Card>
+        </Stack>
       </Grid>
     </Box>
 
