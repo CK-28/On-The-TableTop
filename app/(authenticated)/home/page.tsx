@@ -15,64 +15,75 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
-const cardItems = [
-  {
-    title: "Browse Games",
-    image: boardGamesImage.src,
-    description: "Explore exciting new games to add to your collection",
-    route: "/games",
-  },
-  {
-    title: "Find Friends",
-    image: friendsImage.src,
-    description: "Find friends to play with",
-    route: "/users",
-  },
-  {
-    title: "Plan a Party",
-    image: partyImage.src,
-    description: "Prepare the perfect game night with friends",
-    route: "/party",
-  },
-  {
-    title: "View Your Profile",
-    image: profileImage.src,
-    description: "View your collection of games and friends",
-    route: "/profile",
-  },
-];
+// const cardItems = [
+//   {
+//     title: "Browse Games",
+//     image: boardGamesImage.src,
+//     description: "Explore exciting new games to add to your collection",
+//     route: "/games",
+//   },
+//   {
+//     title: "Find Friends",
+//     image: friendsImage.src,
+//     description: "Find friends to play with",
+//     route: "/users",
+//   },
+//   {
+//     title: "Plan a Party",
+//     image: partyImage.src,
+//     description: "Prepare the perfect game night with friends",
+//     route: "/party",
+//   },
+//   {
+//     title: "View Your Profile",
+//     image: profileImage.src,
+//     description: "View your collection of games and friends",
+//     route: "/profile",
+//   },
+// ];
 
 export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="flex-1 flex flex-col justify-center items-center py-6">
-      <div className="grid w-full max-w-[1000px] gap-4 sm:grid-cols-2 max-h-[1000px]">
-        {cardItems.map((item) => (
-          <Card key={item.title} className="max-w-full flex flex-col">
-            <CardActionArea onClick={() => router.push(item.route)} className="flex-1 flex flex-col">
-              <CardMedia
-                component="img"
-                image={item.image}
-                alt={item.title}
-                sx={{
-                  maxHeight: '300px',
-                  objectFit: 'contain',
-                  objectPosition: 'center',
-                }}
-              />
-              <CardContent className="flex-1">
-                <Typography gutterBottom variant="h5" component="div">
-                  {item.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {item.description}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))}
+    <div>
+      <div style={{display: 'flex'}}>
+        <Card style={{flex: '1'}}>Top Left (1/3)</Card>
+        <Card style={{flex: '2'}}>Top Right (2/3)</Card>
+      </div>
+      <div style={{display: 'flex', padding: '10px'}}>
+        <Card style={{flex: '1'}}>Bottom Left (1/3)</Card>
+        <Card style={{flex: '2'}}>Bottom Right (2/3)</Card>
       </div>
     </div>
+
+    // <div className="flex-1 flex flex-col justify-center items-center py-6">
+    //   <div className="grid w-full max-w-[1000px] gap-4 sm:grid-cols-2 max-h-[1000px]">
+    //     {cardItems.map((item) => (
+    //       <Card key={item.title} className="max-w-full flex flex-col">
+    //         <CardActionArea onClick={() => router.push(item.route)} className="flex-1 flex flex-col">
+    //           <CardMedia
+    //             component="img"
+    //             image={item.image}
+    //             alt={item.title}
+    //             sx={{
+    //               maxHeight: '300px',
+    //               objectFit: 'contain',
+    //               objectPosition: 'center',
+    //             }}
+    //           />
+    //           <CardContent className="flex-1">
+    //             <Typography gutterBottom variant="h5" component="div">
+    //               {item.title}
+    //             </Typography>
+    //             <Typography variant="body2" color="text.secondary">
+    //               {item.description}
+    //             </Typography>
+    //           </CardContent>
+    //         </CardActionArea>
+    //       </Card>
+    //     ))}
+    //   </div>
+    // </div>
   );
 }
