@@ -14,6 +14,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import { Box, Grid } from "@mui/material";
 
 // const cardItems = [
 //   {
@@ -43,19 +44,23 @@ import Typography from "@mui/material/Typography";
 // ];
 
 export default function Home() {
-  const router = useRouter();
-
   return (
-    <div>
-      <div style={{display: 'flex'}}>
-        <Card style={{flex: '1'}}>Top Left (1/3)</Card>
-        <Card style={{flex: '2'}}>Top Right (2/3)</Card>
-      </div>
-      <div style={{display: 'flex', padding: '10px'}}>
-        <Card style={{flex: '1'}}>Bottom Left (1/3)</Card>
-        <Card style={{flex: '2'}}>Bottom Right (2/3)</Card>
-      </div>
-    </div>
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <Card>Profile</Card>
+        </Grid>
+        <Grid size={{ xs: 12, md: 8 }}>
+          <Card>Games Collection</Card>
+        </Grid>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <Card>Start a party</Card>
+        </Grid>
+        <Grid size={{ xs: 12, md: 8 }}>
+          <Card>Friends</Card>
+        </Grid>
+      </Grid>
+    </Box>
 
     // <div className="flex-1 flex flex-col justify-center items-center py-6">
     //   <div className="grid w-full max-w-[1000px] gap-4 sm:grid-cols-2 max-h-[1000px]">
