@@ -10,7 +10,10 @@ export default function PartyButton() {
             style={
                 {
                     background: "#fc5300",
-                    color: "white"
+                    color: "white",
+                    width: 250,
+                    height: 60,
+                    fontSize: 22
                 }
             }
         >
