@@ -34,40 +34,40 @@ export default function GameListHome({
   }
 
   return (
-    <ul style={{ display: "flex" }}>
+    <ul style={{ display: "flex", overflow: "auto", padding: 1 }}>
       {games.map((game) => (
-          <li key={game.id} style={{ display: "flex", flexDirection: "column", height: "100%", alignItems: "center", justifyContent: "space-between" }}>
-            <Card sx={{
-              background: "#f6f2f1",
-              marginRight: 2,
-              height: "30vh",
-            }}>
-              <CardContent sx={{
+        <li key={game.id}>
+          <Card sx={{
+            background: "#f6f2f1",
+            marginRight: 2,
+            height: "32vh",
+            width: "21vh"
+          }}>
+            <CardContent
+              sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "space-between",
-                height: "100%"
+                alignItems: "center"
               }}>
-                <Box sx={{ width: "20vh", height: "20vh" }}>
-                  <img src={game.image} alt={game.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                </Box>
-                <span style={{ fontWeight: 'bold', display: 'block', overflowWrap: 'anywhere', wordBreak: 'break-word' }}>{game.name}</span>
-                <Stack sx={{ fontSize: '12px', width: "100%" }}>
-                  <Stack direction={"row"} sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                    <span style={{ width: "60%" }}>{game.publisher}</span>
-                    {Number(game.yearpublished) !== 0 && (
-                      <span style={{ fontSize: '12px' }}>{Number(game.yearpublished)}</span>
-                    )}
-                  </Stack>
-                  <Stack direction={"row"} sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                    <span>{defaultToMinimum(game.minplayers, game.maxplayers)}</span>
-                    <span>{defaultToMinimum(game.minplaytime, game.maxplaytime)}</span>
-                  </Stack>
+              <Box sx={{ width: "20vh", height: "20vh" }}>
+                <img src={game.image} alt={game.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 10 }} />
+              </Box>
+              <span style={{ fontWeight: 'bold', display: 'block', overflowWrap: "break-word", padding: 2, textAlign: "center" }}>{game.name}</span>
+              <Stack justifyContent={"space-between"} sx={{ fontSize: '12px', width: "100%", height: "100%" }}>
+                <Stack direction={"row"} sx={{ display: "flex", justifyContent: "space-between", width: "100%", paddingTop: 2 }}>
+                  <span style={{ width: "60%" }}>{game.publisher}</span>
+                  {Number(game.yearpublished) !== 0 && (
+                    <span style={{ fontSize: '12px' }}>{Number(game.yearpublished)}</span>
+                  )}
                 </Stack>
-              </CardContent>
-            </Card>
-          </li>
+                <Stack direction={"row"} sx={{ display: "flex", justifyContent: "space-between", width: "100%", paddingTop: 1 }}>
+                  <span>{defaultToMinimum(game.minplayers, game.maxplayers)}</span>
+                  <span>{defaultToMinimum(game.minplaytime, game.maxplaytime)}</span>
+                </Stack>
+              </Stack>
+            </CardContent>
+          </Card>
+        </li>
       ))
       }
     </ul >

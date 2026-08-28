@@ -76,9 +76,9 @@ export default function Home() {
         </Card>
       </Stack>
       <Stack spacing={2} width={"60%"}>
-        <Card sx={{ height: "40vh", overflow: "auto" }} >
+        <Card sx={{ height: "40vh" }} >
           <CardContent>
-            <h2 className="mb-4 text-xl font-semibold">Games</h2>
+            <h2 className="mb-2 text-xl font-semibold">Games</h2>
             {collectionStatus === "loading" ? (
               <p>Loading games...</p>
             ) : collectionStatus === "error" ? (
@@ -90,7 +90,7 @@ export default function Home() {
             )}
           </CardContent>
         </Card>
-        <Card sx={{ height: "40vh", overflow: "auto" }}>
+        <Card sx={{ height: "40vh"}}>
           <CardContent>
             <div className="rounded-xl border bg-background p-6">
               <h2 className="mb-4 text-xl font-semibold">Friends</h2>
