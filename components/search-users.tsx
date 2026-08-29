@@ -1,7 +1,6 @@
 "use client"
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Button } from "./ui/button";
 import { createClient } from "@/lib/supabase/client";
 import UserList from "./user-list";
 import { Card, CardContent } from "@/components/ui/card";
@@ -49,9 +48,6 @@ export default function SearchUsers() {
                             }
                         }}
                     />
-                    <Button onClick={() => handleClick()}>
-                        Search
-                    </Button>
                 </div>
                 {isLoading ? (
                     <div>Loading Users...</div>
