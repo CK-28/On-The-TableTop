@@ -84,7 +84,7 @@ export default function Home() {
             ) : collectionStatus === "error" ? (
               <p>Unable to load games</p>
             ) : games.length > 0 ? (
-              <GameListHome games={games} hidePublisher={true} hideGameStats={true} />
+              <GameListHome games={games} />
             ) : (
               <p className="text-sm text-muted-foreground">No games found</p>
             )}
