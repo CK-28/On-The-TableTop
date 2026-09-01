@@ -3,7 +3,6 @@ import { Label } from "@/components/ui/label";
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import UserList from "./user-list";
-import { Card, CardContent } from "@/components/ui/card";
 import Stack from "@mui/material/Stack";
 import { useSearchParams } from "next/navigation";
 
@@ -19,8 +18,11 @@ export default function SearchUsers() {
         const supabase = await createClient();
 
         try {
-            // TODO: Can this format be used for games? Or Alanna doesnt approve?
-            const { data, error } = await supabase.from("profiles").select("id, user_name").ilike("user_name", `%${term}%`).order("user_name", { ascending: true });
+            const { data, error } = await supabase
+                .from("profiles")
+                .select("user_name")
+                .ilike("user_name", `%${term}%`)
+                .order("user_name", { ascending: true });
 
             if (error) {
                 console.error(error);
@@ -42,26 +44,22 @@ export default function SearchUsers() {
     }, [handleSearch, searchUser]);
 
     return (
-        <Card className="max-w-[1000px] mx-auto">
-            <CardContent className="flex flex-col justify-center items-center p-2">
-                <Stack
-                    direction="column"
-                    spacing={2}
-                    marginTop={2}
-                    sx={{
-                        alignItems: "center",
-                    }}
-                >
-                    <Label>
-                        {searchUser ? `${searchResults.length} Result(s)` : "Search for a user"}
-                    </Label>
-                    {isLoading ? (
-                        <div>Loading Users...</div>
-                    ) : (
-                        <UserList users={searchResults} />
-                    )}
-                </Stack>
-            </CardContent>
-        </Card>
+        <Stack
+            direction="column"
+            spacing={2}
+            marginTop={2}
+            sx={{
+                alignItems: "center",
+            }}
+        >
+            <Label>
+                {searchUser ? `${searchResults.length} Result(s)` : "Search for a user"}
+            </Label>
+            {isLoading ? (
+                <div>Loading Users...</div>
+            ) : (
+                <UserList users={searchResults} />
+            )}
+        </Stack>
     );
 }
