@@ -20,7 +20,7 @@ export default function SearchUsers() {
         try {
             const { data, error } = await supabase
                 .from("profiles")
-                .select("user_name")
+                .select("id, user_name")
                 .ilike("user_name", `%${term}%`)
                 .order("user_name", { ascending: true });
 
