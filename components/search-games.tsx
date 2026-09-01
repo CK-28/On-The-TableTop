@@ -32,6 +32,7 @@ export default function SearchGames() {
             setIsLoading(false);
         }
     }, []);
+    
     useEffect(() => {
         if (searchGame) {
             void handleSearch(searchGame);
@@ -50,14 +51,6 @@ export default function SearchGames() {
                     sx={{
                         alignItems: "center",
                     }}>
-                    <Stack
-                        direction="row"
-                        spacing={1}
-                        sx={{
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}>
-                    </Stack>
                     <Label>
                         {searchGame ? `${searchResults.length} Result(s)` : "Search for a game"}
                     </Label>
