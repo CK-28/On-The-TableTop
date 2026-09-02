@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import PartyList from "./party-list";
-import { Card, CardContent } from "../ui/card";
+import { Box, Card, CardContent, Checkbox, FormControlLabel, Grid, Stack } from "@mui/material";
 import { createClient } from "@/lib/supabase/client";
 import { useAtomValue } from "jotai";
 import { collectionStatusAtom, userFriendsAtom, userNameAtom } from "@/app/store";
@@ -15,6 +15,7 @@ export default function PartyWrapper() {
   const [friends, setFriends] = useState<User[]>([]);
   const [party, setParty] = useState<string[]>([]);
   const [games, setGames] = useState<Game[]>([]);
+  const [filterByPlayerCount, setFilterByPlayerCount] = useState(false);
 
   useEffect(() => {
     if (!currentUser) {
@@ -75,13 +76,15 @@ export default function PartyWrapper() {
     }
   }
 
+  const displayedGames = filterByPlayerCount ? games.filter((game) => game.minplayers <= party.length && game.maxplayers >= party.length) : games;
+
   return (
-    <Card className="max-w-[1000px] mx-auto">
-      <CardContent className="flex flex-row gap-8 p-6">
-        <div className="flex w-1/3 flex-col gap-4 min-h-[640px]">
-          <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">
-            <div className="flex flex-col gap-3">
-              <h1 className="text-2xl">Friends In Party</h1>
+    <Grid container spacing={2} width="100%" justifyContent="center">
+      <Stack spacing={2} sx={{ width: { xs: "100%", md: "20%" } }}>
+        <Card sx={{ minHeight: "40vh" }}>
+          <CardContent>
+            <Stack spacing={2}>
+              <h1 className="text-2xl">Party Members ({party.length})</h1>
               {collectionStatus === "loading" ? (
                 <p>Loading friends...</p>
               ) : collectionStatus === "error" ? (
@@ -89,11 +92,13 @@ export default function PartyWrapper() {
               ) : (
                 <PartyList party={party} onClick={removeFromParty} owner={currentUser} />
               )}
-            </div>
-          </div>
-          <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">
-            <div className="flex flex-col gap-3">
-              <h1 className="text-2xl">All Friends</h1>
+            </Stack>
+          </CardContent>
+        </Card>
+        <Card sx={{ minHeight: "40vh" }}>
+          <CardContent>
+            <Stack spacing={2}>
+              <h1 className="text-2xl">Add Friends</h1>
               {collectionStatus === "loading" ? (
                 <p>Loading friends...</p>
               ) : collectionStatus === "error" ? (
@@ -101,17 +106,34 @@ export default function PartyWrapper() {
               ) : (
                 <PartyList party={friends.map((friend) => friend.user_name)} onClick={addToParty} />
               )}
-            </div>
-          </div>
-        </div>
+            </Stack>
+          </CardContent>
+        </Card>
+      </Stack>
 
-        <div className="flex-1 flex flex-col gap-4">
-          <h1 className="text-2xl">Board Games On The Table</h1>
-            <Suspense fallback={<div>Loading Games...</div>}>
-                <GameList games={games} hidePublisher={true} hideOwners={false} hideAddRemove={true}/>
-            </Suspense>
-        </div>
-      </CardContent>
-    </Card>
+      <Stack spacing={2} sx={{ width: { xs: "100%", md: "60%" } }}>
+        <Card sx={{ minHeight: "80vh" }}>
+          <CardContent>
+            <Stack spacing={2}>
+              <Box className="rounded-xl border bg-background p-4">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filterByPlayerCount}
+                      onChange={(event) => setFilterByPlayerCount(event.target.checked)}
+                    />
+                  }
+                  label={`Limit by party size`}
+                />
+              </Box>
+              <h1 className="text-2xl">Board Games On The Table</h1>
+              <Suspense fallback={<div>Loading Games...</div>}>
+                <GameList games={displayedGames} hidePublisher={true} hideOwners={false} hideAddRemove={true} />
+              </Suspense>
+            </Stack>
+          </CardContent>
+        </Card>
+      </Stack>
+    </Grid>
   );
 }
