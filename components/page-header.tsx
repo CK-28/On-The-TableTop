@@ -10,7 +10,7 @@ export default function PageHeader() {
         <header className="relative w-full border-b border-b-foreground/10 header mb-4">
             <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
                 <Link href="/home">
-                    <h1 className=" text-xl font-semibold text-white">
+                    <h1 className="text-xl font-semibold text-white">
                         On The TableTop
                     </h1>
                 </Link>

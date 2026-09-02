@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import PartyList from "./party-list";
-import { Box, Card, CardContent, Checkbox, FormControlLabel, Grid, Stack } from "@mui/material";
-import { createClient } from "@/lib/supabase/client";
+import { Card, CardContent, Grid, Stack } from "@mui/material";
 import { useAtomValue } from "jotai";
 import { collectionStatusAtom, userFriendsAtom, userNameAtom } from "@/app/store";
-import GameList from "../game-list";
+import PartyGames from "./partyGames";
 
 export default function PartyWrapper() {
   const currentUser = useAtomValue(userNameAtom);
@@ -14,8 +13,6 @@ export default function PartyWrapper() {
   const collectionStatus = useAtomValue(collectionStatusAtom);
   const [friends, setFriends] = useState<User[]>([]);
   const [party, setParty] = useState<string[]>([]);
-  const [games, setGames] = useState<Game[]>([]);
-  const [filterByPlayerCount, setFilterByPlayerCount] = useState(false);
 
   useEffect(() => {
     if (!currentUser) {
@@ -31,30 +28,6 @@ export default function PartyWrapper() {
       setFriends(friendsAtom);
     }
   }, [collectionStatus, currentUser, friendsAtom]);
-
-  useEffect(() => {
-    if (party.length === 0) {
-      console.log("ERROR: No users in party. Skipping game fetch.");
-      return;
-    }
-
-    async function loadGames() {
-      const supabase = createClient();
-      const { data, error } = await supabase.functions.invoke(
-        "getPartyGames",
-        {
-          body: {
-            players: party,
-          },
-        }
-      );
-
-      console.log("Response from getPartyGames function:", { data, error });
-      setGames(data?.data ?? []);
-    }
-
-    loadGames();
-  }, [party]);
 
   function addToParty(user: string) {
     setFriends((party) => party.filter((friend) => friend.user_name !== user));
@@ -75,8 +48,6 @@ export default function PartyWrapper() {
       });
     }
   }
-
-  const displayedGames = filterByPlayerCount ? games.filter((game) => game.minplayers <= party.length && game.maxplayers >= party.length) : games;
 
   return (
     <Grid container spacing={2} width="100%" justifyContent="center">
@@ -114,23 +85,7 @@ export default function PartyWrapper() {
       <Stack spacing={2} sx={{ width: { xs: "100%", md: "60%" } }}>
         <Card sx={{ minHeight: "80vh" }}>
           <CardContent>
-            <Stack spacing={2}>
-              <Box className="rounded-xl border bg-background p-4">
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={filterByPlayerCount}
-                      onChange={(event) => setFilterByPlayerCount(event.target.checked)}
-                    />
-                  }
-                  label={`Limit by party size`}
-                />
-              </Box>
-              <h1 className="text-2xl">Board Games On The Table</h1>
-              <Suspense fallback={<div>Loading Games...</div>}>
-                <GameList games={displayedGames} hidePublisher={true} hideOwners={false} hideAddRemove={true} />
-              </Suspense>
-            </Stack>
+            <PartyGames party={party} />
           </CardContent>
         </Card>
       </Stack>

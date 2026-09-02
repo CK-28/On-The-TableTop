@@ -64,12 +64,14 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: url('../lib/Background.svg');
+    background-image:
+      linear-gradient(hsl(var(--background) / 80%), hsl(var(--background) / 80%)),
+      url('../lib/Background.svg');
     background-size: cover;
     background-attachment: fixed;
   }
 }
 
 header {
-  background-color: #fc5300;
+  background-color: #00A6A6;
 }
