@@ -33,9 +33,7 @@ export default function Home() {
   return (
     <Grid container spacing={2} width={"100%"} justifyContent={"center"}>
       <Stack spacing={2} width={"20%"}>
-        <Card style={{
-          height: "60vh"
-        }}>
+        <Card>
           <CardContent
             style={{
               padding: 50
