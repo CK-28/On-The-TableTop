@@ -10,7 +10,7 @@ export default function HeaderSearch() {
 
     async function handleClick() {
         const query = searchValue.trim();
-        router.push(query ? `/games?search=${encodeURIComponent(query)}` : "/games");
+        router.push(query ? `/search?search=${encodeURIComponent(query)}` : "/search");
     }
 
     return (

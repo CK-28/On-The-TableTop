@@ -11,6 +11,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 
+// TODO: Is this needed at all?
 export default function MainMenu() {
     const [open, setOpen] = useState(false);
 

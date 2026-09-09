@@ -3,7 +3,6 @@ import { Label } from "@/components/ui/label";
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import GameList from "./game-list";
-import { Card, CardContent } from "@/components/ui/card";
 import Stack from "@mui/material/Stack";
 import { useSearchParams } from "next/navigation";
 
@@ -31,7 +30,8 @@ export default function SearchGames() {
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [searchGame]);
+
     useEffect(() => {
         if (searchGame) {
             void handleSearch(searchGame);
@@ -41,33 +41,21 @@ export default function SearchGames() {
     }, [handleSearch, searchGame]);
 
     return (
-        <Card className="max-w-[1000px] mx-auto">
-            <CardContent className="flex flex-col justify-center items-center p-2">
-                <Stack
-                    direction="column"
-                    spacing={2}
-                    marginTop={2}
-                    sx={{
-                        alignItems: "center",
-                    }}>
-                    <Stack
-                        direction="row"
-                        spacing={1}
-                        sx={{
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}>
-                    </Stack>
-                    <Label>
-                        {searchGame ? `${searchResults.length} Result(s)` : "Search for a game"}
-                    </Label>
-                    {isLoading ? (
-                        <div>Loading Games...</div>
-                    ) : (
-                        <GameList games={searchResults} />
-                    )}
-                </Stack>
-            </CardContent>
-        </Card>
+        <Stack
+            direction="column"
+            spacing={2}
+            marginTop={2}
+            sx={{
+                alignItems: "center",
+            }}>
+            <Label>
+                {searchGame ? `${searchResults.length} Result(s)` : "Search for a game"}
+            </Label>
+            {isLoading ? (
+                <div>Loading Games...</div>
+            ) : (
+                <GameList games={searchResults} />
+            )}
+        </Stack>
     );
 }
