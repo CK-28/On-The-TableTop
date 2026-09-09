@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import PartyList from "./party-list";
-import { Card, CardContent } from "../ui/card";
-import { createClient } from "@/lib/supabase/client";
+import { Card, CardContent, Grid, Stack } from "@mui/material";
 import { useAtomValue } from "jotai";
 import { collectionStatusAtom, userFriendsAtom, userNameAtom } from "@/app/store";
-import GameList from "../game-list";
+import PartyGames from "./partyGames";
 
 export default function PartyWrapper() {
   const currentUser = useAtomValue(userNameAtom);
@@ -14,7 +13,6 @@ export default function PartyWrapper() {
   const collectionStatus = useAtomValue(collectionStatusAtom);
   const [friends, setFriends] = useState<User[]>([]);
   const [party, setParty] = useState<string[]>([]);
-  const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
     if (!currentUser) {
@@ -30,30 +28,6 @@ export default function PartyWrapper() {
       setFriends(friendsAtom);
     }
   }, [collectionStatus, currentUser, friendsAtom]);
-
-  useEffect(() => {
-    if (party.length === 0) {
-      console.log("ERROR: No users in party. Skipping game fetch.");
-      return;
-    }
-
-    async function loadGames() {
-      const supabase = createClient();
-      const { data, error } = await supabase.functions.invoke(
-        "getPartyGames",
-        {
-          body: {
-            players: party,
-          },
-        }
-      );
-
-      console.log("Response from getPartyGames function:", { data, error });
-      setGames(data?.data ?? []);
-    }
-
-    loadGames();
-  }, [party]);
 
   function addToParty(user: string) {
     setFriends((party) => party.filter((friend) => friend.user_name !== user));
@@ -76,12 +50,12 @@ export default function PartyWrapper() {
   }
 
   return (
-    <Card className="max-w-[1000px] mx-auto">
-      <CardContent className="flex flex-row gap-8 p-6">
-        <div className="flex w-1/3 flex-col gap-4 min-h-[640px]">
-          <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">
-            <div className="flex flex-col gap-3">
-              <h1 className="text-2xl">Friends In Party</h1>
+    <Grid container spacing={2} width="100%" justifyContent="center">
+      <Stack spacing={2} sx={{ width: { xs: "100%", md: "20%" } }}>
+        <Card sx={{ minHeight: "40vh" }}>
+          <CardContent>
+            <Stack spacing={2}>
+              <h1 className="text-2xl">Party Members ({party.length})</h1>
               {collectionStatus === "loading" ? (
                 <p>Loading friends...</p>
               ) : collectionStatus === "error" ? (
@@ -89,11 +63,13 @@ export default function PartyWrapper() {
               ) : (
                 <PartyList party={party} onClick={removeFromParty} owner={currentUser} />
               )}
-            </div>
-          </div>
-          <div className="grid flex-1 gap-4 rounded-xl border bg-background p-4">
-            <div className="flex flex-col gap-3">
-              <h1 className="text-2xl">All Friends</h1>
+            </Stack>
+          </CardContent>
+        </Card>
+        <Card sx={{ minHeight: "40vh" }}>
+          <CardContent>
+            <Stack spacing={2}>
+              <h1 className="text-2xl">Add Friends</h1>
               {collectionStatus === "loading" ? (
                 <p>Loading friends...</p>
               ) : collectionStatus === "error" ? (
@@ -101,17 +77,18 @@ export default function PartyWrapper() {
               ) : (
                 <PartyList party={friends.map((friend) => friend.user_name)} onClick={addToParty} />
               )}
-            </div>
-          </div>
-        </div>
+            </Stack>
+          </CardContent>
+        </Card>
+      </Stack>
 
-        <div className="flex-1 flex flex-col gap-4">
-          <h1 className="text-2xl">Board Games On The Table</h1>
-            <Suspense fallback={<div>Loading Games...</div>}>
-                <GameList games={games} hidePublisher={true} hideOwners={false} hideAddRemove={true}/>
-            </Suspense>
-        </div>
-      </CardContent>
-    </Card>
+      <Stack spacing={2} sx={{ width: { xs: "100%", md: "60%" } }}>
+        <Card sx={{ minHeight: "80vh" }}>
+          <CardContent>
+            <PartyGames party={party} />
+          </CardContent>
+        </Card>
+      </Stack>
+    </Grid>
   );
 }

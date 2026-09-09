@@ -69,7 +69,8 @@ export default function Home() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            height: "20vh"
+            backgroundColor: "transparent",
+            boxShadow: "none"
           }
         }>
           <PartyButton />
