@@ -62,6 +62,22 @@ export default function Home() {
             </Stack>
           </CardContent>
         </Card>
+        <Card sx={{ height: "40vh", border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }}>
+          <CardContent>
+            <div className="rounded-xl border bg-background p-6">
+              <h2 className="mb-4 text-xl font-semibold">Friends</h2>
+              {collectionStatus === "loading" ? (
+                <p>Loading friends...</p>
+              ) : collectionStatus === "error" ? (
+                <p>Unable to load friends</p>
+              ) : friends.length > 0 ? (
+                <UserList users={friends} />
+              ) : (
+                <p className="text-sm text-muted-foreground">No friends found</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
         <Card style={
           {
             display: "flex",
@@ -87,22 +103,6 @@ export default function Home() {
             ) : (
               <p className="text-sm text-muted-foreground">No games found</p>
             )}
-          </CardContent>
-        </Card>
-        <Card sx={{ height: "40vh", border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }}>
-          <CardContent>
-            <div className="rounded-xl border bg-background p-6">
-              <h2 className="mb-4 text-xl font-semibold">Friends</h2>
-              {collectionStatus === "loading" ? (
-                <p>Loading friends...</p>
-              ) : collectionStatus === "error" ? (
-                <p>Unable to load friends</p>
-              ) : friends.length > 0 ? (
-                <UserList users={friends} />
-              ) : (
-                <p className="text-sm text-muted-foreground">No friends found</p>
-              )}
-            </div>
           </CardContent>
         </Card>
       </Stack>
