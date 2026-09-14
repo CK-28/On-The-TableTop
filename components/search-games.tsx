@@ -1,9 +1,12 @@
 "use client"
 import { Label } from "@/components/ui/label";
+import { useAtomValue } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import GameList from "./game-list";
-import Stack from "@mui/material/Stack";
+import { collectionStatusAtom, userGamesAtom } from "@/app/store";
+import AddRemoveGame from "./add-remove-game";
+import GameCard, { GAME_CARD_GAP, GAME_CARD_WIDTH } from "./game-card";
+import { Box, Stack } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 
 export default function SearchGames() {
@@ -11,6 +14,8 @@ export default function SearchGames() {
     const searchGame = searchParams.get("search") || "";
     const [searchResults, setSearchResults] = useState<Game[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const userCollection = useAtomValue(userGamesAtom);
+    const collectionStatus = useAtomValue(collectionStatusAtom);
 
     const handleSearch = useCallback(async (term: string) => {
         console.log('User searched for "', searchGame, '"')
@@ -53,8 +58,45 @@ export default function SearchGames() {
             </Label>
             {isLoading ? (
                 <div>Loading Games...</div>
+            ) : collectionStatus === "loading" ? (
+                <div>Loading collection...</div>
+            ) : collectionStatus === "error" ? (
+                <div>Unable to load collection.</div>
             ) : (
-                <GameList games={searchResults} />
+                <Box
+                    component="ul"
+                    sx={{
+                        display: "grid",
+                        gridTemplateColumns: `repeat(auto-fill, ${GAME_CARD_WIDTH})`,
+                        columnGap: GAME_CARD_GAP,
+                        rowGap: 3,
+                        justifyContent: "center",
+                        listStyle: "none",
+                        margin: 0,
+                        p: 1,
+                        width: "100%",
+                    }}
+                >
+                    {searchResults.map((game) => (
+                        <Box
+                            component="li"
+                            key={game.id}
+                            sx={{
+                                minWidth: 0,
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                            }}
+                        >
+                            <GameCard game={game} />
+                            <AddRemoveGame
+                                game={game}
+                                item={game.id}
+                                alreadyInList={userCollection.some((currentGame) => currentGame.id === game.id)}
+                            />
+                        </Box>
+                    ))}
+                </Box>
             )}
         </Stack>
     );
