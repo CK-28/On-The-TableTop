@@ -9,6 +9,7 @@ import {
   userEmailAtom,
   userAvatarUrlAtom,
   userGamesAtom,
+  userWishlistAtom,
   userFriendsAtom,
   collectionStatusAtom,
 } from "@/app/store";
@@ -36,6 +37,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   const setUserEmail = useSetAtom(userEmailAtom);
   const setUserAvatarUrl = useSetAtom(userAvatarUrlAtom);
   const setUserGames = useSetAtom(userGamesAtom);
+  const setUserWishlist = useSetAtom(userWishlistAtom);
   const setUserFriends = useSetAtom(userFriendsAtom);
   const setCollectionStatus = useSetAtom(collectionStatusAtom);
   const router = useRouter();
@@ -49,6 +51,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
     function clearCollection(status: "loaded" | "error" = "loaded") {
       setUserGames([]);
+      setUserWishlist([]);
       setUserFriends([]);
       setCollectionStatus(status);
     }
@@ -77,7 +80,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       try {
         const fetchPromise = supabase
           .from("UserCollectionByUserName")
-          .select("user_collection, user_friends")
+          .select("user_collection, user_wishlist, user_friends")
           .eq("user_name", name)
           .maybeSingle();
         const timeoutPromise = new Promise<never>((_, reject) =>
@@ -90,13 +93,20 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         if (!mounted || requestId !== collectionRequestId) return;
 
         const gameIds = row?.user_collection ?? [];
+        const wishlistGameIds = row?.user_wishlist ?? [];
         const friendNames = row?.user_friends ?? [];
-        const [gamesResult, friendsResult] = await Promise.all([
+        const [gamesResult, wishListResult, friendsResult] = await Promise.all([
           gameIds.length > 0
             ? supabase
                 .from("BoardGames")
                 .select("id, name, image, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, publisher, is_expansion, description")
                 .in("id", gameIds)
+            : Promise.resolve({ data: [], error: null }),
+          wishlistGameIds.length > 0
+            ? supabase
+                .from("BoardGames")
+                .select("id, name, image, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, publisher, is_expansion, description")
+                .in("id", wishlistGameIds)
             : Promise.resolve({ data: [], error: null }),
           friendNames.length > 0
             ? supabase
@@ -107,15 +117,18 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         ]);
 
         if (gamesResult.error) throw gamesResult.error;
+        if (wishListResult.error) throw wishListResult.error;
         if (friendsResult.error) throw friendsResult.error;
 
         setUserGames(gamesResult.data ?? []);
+        setUserWishlist(wishListResult.data ?? []);
         setUserFriends(friendsResult.data ?? []);
         setCollectionStatus("loaded");
       } catch (err) {
         if (!mounted || requestId !== collectionRequestId) return;
         console.error("AuthProvider: failed to load user collection", err);
         setUserGames([]);
+        setUserWishlist([]);
         setUserFriends([]);
         setCollectionStatus("error");
       } finally {
@@ -192,7 +205,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       // defensive call in case subscription shape differs at runtime
       sub?.unsubscribe?.();
     };
-  }, [router, setUserName, setUserEmail, setUserAvatarUrl, setUserGames, setUserFriends, setCollectionStatus]);
+  }, [router, setUserName, setUserEmail, setUserAvatarUrl, setUserGames, setUserWishlist, setUserFriends, setCollectionStatus]);
 
   // Render children unchanged — this component only manages client-side sync.
   return <>{children}</>;
