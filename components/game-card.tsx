@@ -20,13 +20,13 @@ export default function GameCard({
                 <Box sx={{ width: "100%", aspectRatio: "4 / 3", borderRadius: 1, overflow: "hidden" }}>
                     <Box component="img" src={game.image} alt={game.name} sx={{ width: "100%", height: "100%", objectFit: "contain" }} />
                 </Box>
-                <Box component="span" sx={{ fontWeight: 700, display: "-webkit-box", overflow: "hidden", overflowWrap: "break-word", width: "100%", height: "2.4em", maxHeight: "2.4em", flexShrink: 0, lineHeight: "1.2em", mt: "0.65em", mb: "0.6em", WebkitBoxOrient: "vertical", WebkitLineClamp: 2 }}>{game.name}</Box>
-                <Stack sx={{ fontSize: 11, width: "100%", minWidth: 0 }}>
-                    <Box component="span" sx={{ display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                <Box component="span" sx={{ fontWeight: 700, display: "-webkit-box", overflow: "hidden", overflowWrap: "break-word", textAlign: "center", width: "100%", height: "2.4em", maxHeight: "2.4em", flexShrink: 0, lineHeight: "1.2em", mt: "0.65em", mb: "0.6em", WebkitBoxOrient: "vertical", WebkitLineClamp: 2 }}>{game.name}</Box>
+                <Stack direction="row" sx={{ fontSize: 11, width: "100%", minWidth: 0, alignItems: "center", gap: 0.5 }}>
+                    <Box component="span" sx={{ minWidth: 0, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {game.publisher}
                     </Box>
                     {Number(game.yearpublished) !== 0 && (
-                        <Box component="span" sx={{ display: "block", mt: 0.375 }}>
+                        <Box component="span" sx={{ flexShrink: 0 }}>
                             {Number(game.yearpublished)}
                         </Box>
                     )}
