@@ -15,8 +15,26 @@ export default function GameCard({
     }
 
     return (
-        <Card sx={{ background: "#f6f2f1", height: "28vh", width: GAME_CARD_WIDTH, display: "flex", flexDirection: "column", border: "1px solid #e5e7eb", borderRadius: 2, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }}>
-            <CardContent sx={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0, width: "100%", boxSizing: "border-box", p: 1.25, "&:last-child": { pb: 1.25 } }}>
+        <Card sx={{
+            background: "#f6f2f1",
+            height: "28vh",
+            width: GAME_CARD_WIDTH,
+            display: "flex",
+            flexDirection: "column",
+            border: "1px solid #e5e7eb",
+            borderRadius: 2,
+            boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)"
+            }}>
+            <CardContent sx={{
+                display: "flex",
+                flexDirection: "column",
+                flex: 1,
+                minHeight: 0,
+                width: "100%",
+                boxSizing: "border-box",
+                p: 1.25,
+                "&:last-child": { pb: 1.25 }
+                }}>
                 <Box sx={{ width: "100%", aspectRatio: "4 / 3", borderRadius: 1, overflow: "hidden" }}>
                     <Box component="img" src={game.image} alt={game.name} sx={{ width: "100%", height: "100%", objectFit: "contain" }} />
                 </Box>
