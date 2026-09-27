@@ -14,7 +14,7 @@ export default function Search() {
   };
 
   return (
-    <Card className="max-w-[1000px] mx-auto">
+    <Card className="mx-auto w-4/5">
       <CardContent className="p-2">
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs value={tab} onChange={handleChange}>

@@ -2,7 +2,8 @@
 
 import { useAtomValue } from 'jotai';
 import { collectionStatusAtom, userGamesAtom } from "@/app/store";
-import GameCard from './game-card';
+import GameCard, { GAME_CARD_GAP } from './game-card';
+import { Box } from '@mui/material';
 
 export default function GameListHome({
   games
@@ -21,13 +22,13 @@ export default function GameListHome({
   console.log("In game-list: " + userCollection);
 
   return (
-    <ul style={{ display: "flex", overflow: "auto", padding: 1 }}>
+    <Box component="ul" sx={{ display: "flex", gap: GAME_CARD_GAP, overflow: "auto", p: 1 }}>
       {games.map((game) => (
         <li key={game.id}>
           <GameCard game={game}/>
         </li>
       ))
       }
-    </ul >
+    </Box>
   );
 }

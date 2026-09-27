@@ -59,12 +59,12 @@ export default function AddRemoveGame({ game, item, alreadyInList }: { game: Gam
   }
 
   return !itemInList ? (
-    <div className="flex items-center gap-4">
-      <Button onClick={() => addItem(item)}>Add</Button>
+    <div className="mt-2 flex w-full items-center justify-center">
+      <Button className="w-1/2 bg-[#fc5300] text-white hover:bg-[#fc5300]/90" onClick={() => addItem(item)}>Add</Button>
     </div>
   ) : (
-    <div className="flex items-center gap-4">
-      <Button onClick={() => removeItem(item)}>Remove</Button>
+    <div className="mt-2 flex w-full items-center justify-center">
+      <Button className="w-1/2 border border-[#fc5300] bg-transparent text-black shadow-sm hover:bg-[#fc5300]/10 hover:text-black" onClick={() => removeItem(item)}>Remove</Button>
     </div>
   );
 }
