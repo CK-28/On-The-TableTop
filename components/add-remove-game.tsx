@@ -4,13 +4,16 @@ import { createClient } from "@/lib/supabase/client";
 import { useAtom, useAtomValue } from "jotai";
 import { collectionStatusAtom, userGamesAtom, userNameAtom } from "@/app/store";
 import { Button } from "./ui/button";
+import { Box, MenuItem, Popover } from "@mui/material";
 import { useState } from "react";
 
 export default function AddRemoveGame({ game, item, alreadyInList }: { game: Game, item: number, alreadyInList: boolean }) {
-  const [itemInList, setItemInList] = useState(alreadyInList);
   const [userCollection, setUserCollection] = useAtom(userGamesAtom);
   const userName = useAtomValue(userNameAtom);
   const collectionStatus = useAtomValue(collectionStatusAtom);
+  const [itemInList, setItemInList] = useState(alreadyInList);
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+  const menuOpen = Boolean(menuAnchor);
 
   if (collectionStatus === "loading") {
     return <span>Loading...</span>;
@@ -18,6 +21,8 @@ export default function AddRemoveGame({ game, item, alreadyInList }: { game: Gam
     return <span>Unable to load collection.</span>;
   }
 
+  // Make this not be called "nextCollection" - maybe "updatedCollection"?. Also, make it check if Owned or Wishlist is clicked and update the correct collection given that info
+  // Update to use the menu that comes up from the bottom? it will make the app design easier
   function addItem(item: number): void {
     const nextCollection = userCollection.some((currentGame) => currentGame.id === item)
       ? userCollection
@@ -59,9 +64,30 @@ export default function AddRemoveGame({ game, item, alreadyInList }: { game: Gam
   }
 
   return !itemInList ? (
-    <div className="mt-2 flex w-full items-center justify-center">
-      <Button className="w-1/2 bg-[#fc5300] text-white hover:bg-[#fc5300]/90" onClick={() => addItem(item)}>Add</Button>
-    </div>
+    <>
+      <div className="mt-2 flex w-full items-center justify-center">
+        <Button className="w-1/2 bg-[#fc5300] text-white hover:bg-[#fc5300]/90" onClick={(event) => setMenuAnchor(event.currentTarget)}>Add</Button>
+      </div>
+
+      <Popover
+        open={menuOpen}
+        anchorEl={menuAnchor}
+        onClose={() => setMenuAnchor(null)}
+        anchorOrigin={{
+          vertical: 'center',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <Box sx={{ minWidth: 140 }}>
+          <MenuItem onClick={() => { setMenuAnchor(null); addItem(item); }}>Owned</MenuItem>
+          <MenuItem onClick={() => { setMenuAnchor(null); addItem(item); }}>Wishlist</MenuItem>
+        </Box>
+      </Popover>
+    </>
   ) : (
     <div className="mt-2 flex w-full items-center justify-center">
       <Button className="w-1/2 border border-[#fc5300] bg-transparent text-black shadow-sm hover:bg-[#fc5300]/10 hover:text-black" onClick={() => removeItem(item)}>Remove</Button>
