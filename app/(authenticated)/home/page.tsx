@@ -33,7 +33,7 @@ export default function Home() {
   return (
     <Grid container spacing={2} width={"100%"} justifyContent={"center"}>
       <Stack spacing={2} width={"20%"}>
-        <Card>
+        <Card sx={{ border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }}>
           <CardContent
             style={{
               padding: 50
@@ -75,7 +75,7 @@ export default function Home() {
         </Card>
       </Stack>
       <Stack spacing={2} width={"60%"}>
-        <Card sx={{ height: "40vh" }} >
+        <Card sx={{ height: "40vh", border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }} >
           <CardContent>
             <h2 className="mb-2 text-xl font-semibold">Games</h2>
             {collectionStatus === "loading" ? (
@@ -89,7 +89,7 @@ export default function Home() {
             )}
           </CardContent>
         </Card>
-        <Card sx={{ height: "40vh"}}>
+        <Card sx={{ height: "40vh", border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }}>
           <CardContent>
             <div className="rounded-xl border bg-background p-6">
               <h2 className="mb-4 text-xl font-semibold">Friends</h2>
