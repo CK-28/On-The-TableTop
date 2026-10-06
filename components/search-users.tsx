@@ -1,10 +1,11 @@
 "use client"
-import { Label } from "@/components/ui/label";
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import UserList from "./user-list";
-import Stack from "@mui/material/Stack";
+import { Label } from "./ui/label";
 import { useSearchParams } from "next/navigation";
+
+import Stack from "@mui/material/Stack";
+import UserList from "./user-list";
 
 export default function SearchUsers() {
     const searchParams = useSearchParams();
@@ -44,14 +45,7 @@ export default function SearchUsers() {
     }, [handleSearch, searchUser]);
 
     return (
-        <Stack
-            direction="column"
-            spacing={2}
-            marginTop={2}
-            sx={{
-                alignItems: "center",
-            }}
-        >
+        <Stack className="search-stack" spacing={2}>
             <Label>
                 {searchUser ? `${searchResults.length} Result(s)` : "Search for a user"}
             </Label>

@@ -1,19 +1,21 @@
 "use client"
-import { Label } from "@/components/ui/label";
 import { useAtomValue } from "jotai";
+import { collectionStatusAtom, userGamesAtom } from "@/app/store";
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { collectionStatusAtom, userGamesAtom } from "@/app/store";
-import AddRemoveGame from "./add-remove-game";
-import GameCard, { GAME_CARD_GAP, GAME_CARD_WIDTH } from "./game-card";
-import { Box, Stack } from "@mui/material";
 import { useSearchParams } from "next/navigation";
+import { Label } from "./ui/label";
+import { Box, Stack } from "@mui/material";
+
+import AddRemoveGame from "./add-remove-game";
+import GameCard from "./game-card";
 
 export default function SearchGames() {
     const searchParams = useSearchParams();
     const searchGame = searchParams.get("search") || "";
     const [searchResults, setSearchResults] = useState<Game[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    
     const userCollection = useAtomValue(userGamesAtom);
     const collectionStatus = useAtomValue(collectionStatusAtom);
 
@@ -46,13 +48,7 @@ export default function SearchGames() {
     }, [handleSearch, searchGame]);
 
     return (
-        <Stack
-            direction="column"
-            spacing={2}
-            marginTop={2}
-            sx={{
-                alignItems: "center",
-            }}>
+        <Stack className="search-stack" spacing={2}>
             <Label>
                 {searchGame ? `${searchResults.length} Result(s)` : "Search for a game"}
             </Label>
@@ -65,28 +61,12 @@ export default function SearchGames() {
             ) : (
                 <Box
                     component="ul"
-                    sx={{
-                        display: "grid",
-                        gridTemplateColumns: `repeat(auto-fill, ${GAME_CARD_WIDTH})`,
-                        columnGap: GAME_CARD_GAP,
-                        rowGap: 3,
-                        justifyContent: "center",
-                        listStyle: "none",
-                        margin: 0,
-                        p: 1,
-                        width: "100%",
-                    }}
+                    className="game-search-grid"
                 >
                     {searchResults.map((game) => (
                         <Box
                             component="li"
                             key={game.id}
-                            sx={{
-                                minWidth: 0,
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                            }}
                         >
                             <GameCard game={game} />
                             <AddRemoveGame

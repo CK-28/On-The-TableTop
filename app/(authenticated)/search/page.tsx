@@ -14,16 +14,16 @@ export default function Search() {
   };
 
   return (
-    <Card className="mx-auto w-4/5">
-      <CardContent className="p-2">
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+    <Card style={{width: "80%", margin: "auto"}}>
+      <CardContent style={{padding: ".5rem"}}>
+        <Box>
           <Tabs value={tab} onChange={handleChange}>
             <Tab label="Games" />
             <Tab label="Users" />
           </Tabs>
         </Box>
 
-        <Suspense fallback={<div className="mx-auto max-w-[1000px] p-6">Loading results...</div>}>
+        <Suspense fallback={<div>Loading results...</div>}>
           {tab === 0 ? <SearchGames /> : <SearchUsers />}
         </Suspense>
       </CardContent>
