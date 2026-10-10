@@ -78,8 +78,16 @@ export default function AddRemoveGame({ game }: { game: Game }) {
       </div>
 
       <Drawer anchor="bottom" open={menuOpen} onClose={() => setMenuOpen(false)}>
-        <MenuItem onClick={() => { setMenuOpen(false); addItem(game.id, userGamesAtom); }}>Owned</MenuItem>
-        <MenuItem onClick={() => { setMenuOpen(false); addItem(game.id, userWishlistAtom); }}>Wishlist</MenuItem>
+        <MenuItem style={{ justifyContent: "center", textAlign: "center" }}
+          onClick={() => { setMenuOpen(false); addItem(game.id, userGamesAtom); }}
+        >
+          Owned
+        </MenuItem>
+        <MenuItem style={{ justifyContent: "center", textAlign: "center" }}
+          onClick={() => { setMenuOpen(false); addItem(game.id, userWishlistAtom); }}
+        >
+          Wishlist
+        </MenuItem>
       </Drawer>
     </>
   ) : (
