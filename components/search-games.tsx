@@ -1,22 +1,20 @@
 "use client"
+
 import { useAtomValue } from "jotai";
-import { collectionStatusAtom, userGamesAtom } from "@/app/store";
+import { collectionStatusAtom } from "@/app/store";
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useSearchParams } from "next/navigation";
-import { Label } from "./ui/label";
-import { Box, Stack } from "@mui/material";
-
 import AddRemoveGame from "./add-remove-game";
 import GameCard from "./game-card";
+import { Box, Stack } from "@mui/material";
+import { useSearchParams } from "next/navigation";
+import { Label } from "./ui/label";
 
 export default function SearchGames() {
     const searchParams = useSearchParams();
     const searchGame = searchParams.get("search") || "";
     const [searchResults, setSearchResults] = useState<Game[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    
-    const userCollection = useAtomValue(userGamesAtom);
     const collectionStatus = useAtomValue(collectionStatusAtom);
 
     const handleSearch = useCallback(async (term: string) => {
@@ -69,11 +67,7 @@ export default function SearchGames() {
                             key={game.id}
                         >
                             <GameCard game={game} />
-                            <AddRemoveGame
-                                game={game}
-                                item={game.id}
-                                alreadyInList={userCollection.some((currentGame) => currentGame.id === game.id)}
-                            />
+                            <AddRemoveGame game={game} />
                         </Box>
                     ))}
                 </Box>
