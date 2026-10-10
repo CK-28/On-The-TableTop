@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { useAtomValue } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { collectionStatusAtom, userGamesAtom } from "@/app/store";
+import { collectionStatusAtom } from "@/app/store";
 import AddRemoveGame from "./add-remove-game";
 import GameCard, { GAME_CARD_GAP, GAME_CARD_WIDTH } from "./game-card";
 import { Box, Stack } from "@mui/material";
@@ -14,7 +14,6 @@ export default function SearchGames() {
     const searchGame = searchParams.get("search") || "";
     const [searchResults, setSearchResults] = useState<Game[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const userCollection = useAtomValue(userGamesAtom);
     const collectionStatus = useAtomValue(collectionStatusAtom);
 
     const handleSearch = useCallback(async (term: string) => {
@@ -89,11 +88,7 @@ export default function SearchGames() {
                             }}
                         >
                             <GameCard game={game} />
-                            <AddRemoveGame
-                                game={game}
-                                item={game.id}
-                                alreadyInList={userCollection.some((currentGame) => currentGame.id === game.id)}
-                            />
+                            <AddRemoveGame game={game} />
                         </Box>
                     ))}
                 </Box>
