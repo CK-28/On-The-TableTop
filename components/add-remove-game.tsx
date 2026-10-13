@@ -70,7 +70,6 @@ export default function AddRemoveGame({ game }: { game: Game }) {
     return !error;
   }
 
-  // HTML
   return !isOwned && !isWishlisted ? (
     <>
       <div className="mt-2 flex w-full items-center justify-center">

@@ -92,15 +92,15 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
         if (!mounted || requestId !== collectionRequestId) return;
 
-        const gameIds = row?.user_collection ?? [];
+        const collectionGameIds = row?.user_collection ?? [];
         const wishlistGameIds = row?.user_wishlist ?? [];
         const friendNames = row?.user_friends ?? [];
-        const [gamesResult, wishListResult, friendsResult] = await Promise.all([
-          gameIds.length > 0
+        const [gamesResult, wishlistResult, friendsResult] = await Promise.all([
+          collectionGameIds.length > 0
             ? supabase
                 .from("BoardGames")
                 .select("id, name, image, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, publisher, is_expansion, description")
-                .in("id", gameIds)
+                .in("id", collectionGameIds)
             : Promise.resolve({ data: [], error: null }),
           wishlistGameIds.length > 0
             ? supabase
@@ -117,11 +117,11 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         ]);
 
         if (gamesResult.error) throw gamesResult.error;
-        if (wishListResult.error) throw wishListResult.error;
+        if (wishlistResult.error) throw wishlistResult.error;
         if (friendsResult.error) throw friendsResult.error;
 
         setUserGames(gamesResult.data ?? []);
-        setUserWishlist(wishListResult.data ?? []);
+        setUserWishlist(wishlistResult.data ?? []);
         setUserFriends(friendsResult.data ?? []);
         setCollectionStatus("loaded");
       } catch (err) {

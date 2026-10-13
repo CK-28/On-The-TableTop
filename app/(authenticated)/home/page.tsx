@@ -1,7 +1,7 @@
 "use client";
 
 import Card from "@mui/material/Card";
-import { Box, CardContent, Grid, Stack } from "@mui/material";
+import { CardContent, Grid, Stack } from "@mui/material";
 import PartyButton from "@/components/party-button";
 import { useEffect, useState } from "react";
 import { useAtomValue } from "jotai";
@@ -99,7 +99,7 @@ export default function Home() {
       <Stack spacing={2} width={"60%"}>
         <Card sx={{ height: "40vh", border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }} >
           <CardContent>
-            <h2 className="mb-2 text-xl font-semibold">Games</h2>
+            <h2 className="mb-2 text-xl font-semibold">Collection</h2>
             {collectionStatus === "loading" ? (
               <p>Loading games...</p>
             ) : collectionStatus === "error" ? (
@@ -122,7 +122,7 @@ export default function Home() {
             ) : wishlist.length > 0 ? (
               <GameListHome games={wishlist} />
             ) : (
-              <p className="text-sm text-muted-foreground">No wishlist items found</p>
+              <p className="text-sm text-muted-foreground">Your wishlist is empty!</p>
             )}
           </CardContent>
         </Card>
