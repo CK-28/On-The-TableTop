@@ -50,10 +50,10 @@ export default function PartyWrapper() {
   }
 
   return (
-    <Grid container spacing={2} width="100%" justifyContent="center">
-      <Stack spacing={2} sx={{ width: { xs: "100%", md: "20%" } }}>
-        <Card sx={{ minHeight: "40vh", border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }}>
-          <CardContent>
+    <Grid container spacing={2} justifyContent={"center"}>
+      <Stack spacing={2} width={"27vh"}>
+        <Card sx={{borderRadius: 4}}>
+          <CardContent className="party-user-list-card">
             <Stack spacing={2}>
               <h1 className="text-2xl">Party Members ({party.length})</h1>
               {collectionStatus === "loading" ? (
@@ -61,13 +61,13 @@ export default function PartyWrapper() {
               ) : collectionStatus === "error" ? (
                 <p>Unable to load friends.</p>
               ) : (
-                <PartyList party={party} onClick={removeFromParty} owner={currentUser} />
+                <PartyList party={party} onClick={removeFromParty} owner={currentUser}/>
               )}
             </Stack>
           </CardContent>
         </Card>
-        <Card sx={{ minHeight: "40vh", border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }}>
-          <CardContent>
+        <Card sx={{borderRadius: 4}}>
+          <CardContent className="party-user-list-card">
             <Stack spacing={2}>
               <h1 className="text-2xl">Add Friends</h1>
               {collectionStatus === "loading" ? (
@@ -82,13 +82,11 @@ export default function PartyWrapper() {
         </Card>
       </Stack>
 
-      <Stack spacing={2} sx={{ width: { xs: "100%", md: "60%" } }}>
-        <Card sx={{ minHeight: "80vh", border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }}>
-          <CardContent>
+        <Card sx={{borderRadius: 4, width: "100vh"}}>
+          <CardContent className="party-game-list-card">
             <PartyGames party={party} />
           </CardContent>
         </Card>
-      </Stack>
     </Grid>
   );
 }

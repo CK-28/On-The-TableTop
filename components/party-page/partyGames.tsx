@@ -86,16 +86,15 @@ export default function PartyGames({ party }: { party: string[] }) {
 
     return (
         <Stack spacing={2}>
-            <Box className="rounded-xl border bg-background p-4">
-                <Stack
-                    direction={{ xs: "column", sm: "row" }}
-                    spacing={2}
-                    alignItems={{ xs: "flex-start", sm: "center" }}
-                    flexWrap="wrap"
-                >
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <span>Players</span>
-                    <ToggleButtonGroup exclusive value={playerFilter} onChange={(_, value: PlayerFilter | null) => setPlayerFilter(value)} size="small" sx={{"& .MuiToggleButton-root": {minWidth: 0, height: 28, px: 0.75, fontSize: "0.65rem",},}}>
+            <Stack spacing={2} direction="row">
+                <Box>
+                    <span>Players </span>
+                    {/* TODO - move filters to separate component */}
+                    <ToggleButtonGroup exclusive
+                        value={playerFilter}
+                        onChange={(_, value: PlayerFilter | null) => setPlayerFilter(value)}
+                        size="small"
+                        sx={{ "& .MuiToggleButton-root": { minWidth: 0, height: 28, px: 0.75, fontSize: "0.65rem", }, }}>
                         <ToggleButton value="party">
                             Party
                         </ToggleButton>
@@ -121,10 +120,14 @@ export default function PartyGames({ party }: { party: string[] }) {
                             7+
                         </ToggleButton>
                     </ToggleButtonGroup>
-                </Stack>
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <span>Length</span>
-                    <ToggleButtonGroup value={lengthFilters} onChange={(_, value: LengthFilter[]) => setLengthFilters(value)} size="small" sx={{"& .MuiToggleButton-root": {minWidth: 0, height: 28, px: 0.75, fontSize: "0.65rem",},}}>
+                </Box>
+                <Box>
+                    <span>Length </span>
+                    <ToggleButtonGroup
+                        value={lengthFilters}
+                        onChange={(_, value: LengthFilter[]) => setLengthFilters(value)}
+                        size="small"
+                        sx={{ "& .MuiToggleButton-root": { minWidth: 0, height: 28, px: 0.75, fontSize: "0.65rem", }, }}>
                         <ToggleButton value="short">
                             Short
                         </ToggleButton>
@@ -138,9 +141,8 @@ export default function PartyGames({ party }: { party: string[] }) {
                             Killer
                         </ToggleButton>
                     </ToggleButtonGroup>
-                </Stack>
-                </Stack>
-            </Box>
+                </Box>
+            </Stack>
             <h1 className="text-2xl">Board Games On The Table</h1>
             <GameList games={displayedGames} hidePublisher={true} hideOwners={false} hideAddRemove={true} />
         </Stack>

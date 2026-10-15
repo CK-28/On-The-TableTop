@@ -93,3 +93,24 @@ header {
   row-gap: 24px;
   width: 100%;
 }
+
+/* Party Page */
+.party-user-list-card {
+  min-height: 40vh;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 2px rgba(30, 41, 59, 0.08);
+}
+
+.party-list-of-users {
+  display: flex;
+  align-items: center;
+  padding: 2;
+  width: 50vh;
+}
+
+.party-game-list-card {
+  min-height: 85vh;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(30, 41, 59, 0.08);
+}
+

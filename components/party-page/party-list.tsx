@@ -10,11 +10,11 @@ export default function PartyList({party, onClick, owner}: {party: string[]; onC
   return (
     <ul>
       {party.map((partyMember) => (
-        <li key={partyMember} className="flex items-center gap-2">
-          <Avatar src={getAvatarUrl(partyMember)} alt={`${partyMember}'s profile picture`} sx={{ width: 36, height: 36 }}/>
+        <li key={partyMember} className="party-list-of-users">
+          <Avatar src={getAvatarUrl(partyMember)} alt={`${partyMember}'s profile picture`} sx={{ width: 36, height: 36, marginRight: 1 }}/>
           <button onClick={() => onClick(partyMember)}>{partyMember}</button>
           {partyMember === owner ? (
-            <span className="material-symbols-outlined text-yellow-500">crown</span>
+            <span style={{color: "rgba(234, 179, 8)"}} className="material-symbols-outlined">crown</span>
           ) : null}
         </li>
       ))}
