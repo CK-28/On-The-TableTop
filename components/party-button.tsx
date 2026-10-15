@@ -7,15 +7,6 @@ export default function PartyButton() {
         <Button
             onClick={() => router.push("/party")}
             variant="contained"
-            style={
-                {
-                    background: "#fc5300",
-                    color: "white",
-                    width: 250,
-                    height: 60,
-                    fontSize: 22
-                }
-            }
         >
             Start a Party
         </Button>

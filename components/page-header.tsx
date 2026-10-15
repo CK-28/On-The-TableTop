@@ -23,9 +23,11 @@ export default function PageHeader() {
                     </h1>
                 </Link>
 
-                <Suspense fallback={<div />}>
-                    <AuthSearch />
-                </Suspense>
+                <div className="header-search">
+                    <Suspense fallback={<div />}>
+                        <AuthSearch />
+                    </Suspense>
+                </div>
 
                 {/* Leaving div commented in case we want the search bar back on the right side */}
                 {/* <div className="flex items-center gap-4"> */}

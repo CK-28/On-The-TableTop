@@ -93,3 +93,277 @@ header {
   row-gap: 24px;
   width: 100%;
 }
+
+.home-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  gap: 16px;
+  width: 80%;
+  height: calc(100dvh - 7rem);
+  margin: 0 auto 16px;
+}
+
+.home-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.home-right {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.home-right > .home-tabs {
+  display: none;
+}
+
+.home-profile .MuiCardContent-root > div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 48px;
+  text-align: center;
+}
+
+.home-friends {
+  flex: 1;
+  min-height: 0;
+}
+
+.home-friends .MuiCardContent-root {
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.home-layout h2 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.username {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.email {
+  margin: 8px 0 0;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+
+.profile-picture {
+  display: flex;
+  flex: 0 0 144px;
+  width: 144px;
+  height: 144px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+}
+
+.profile-picture > .MuiAvatar-root {
+  width: 100%;
+  height: 100%;
+}
+
+.home-party {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.home-party .MuiButton-root {
+  width: 250px;
+  height: 60px;
+  background: #fc5300;
+  color: #111827;
+  font-size: 22px;
+}
+
+.home-party .MuiButton-root:hover {
+  background: #dc4800;
+}
+
+.header-search {
+  display: block;
+}
+
+.mobile-navigation {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .header-search {
+    display: none;
+  }
+
+  .home-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 48px repeat(2, minmax(0, 1fr));
+    gap: 0;
+    width: 100%;
+    height: calc(100dvh - 97px - 65px - env(safe-area-inset-bottom));
+    box-sizing: border-box;
+    padding: 12px 6px;
+    overflow: hidden;
+  }
+
+  .home-profile,
+  .home-collection {
+    margin-bottom: 8px;
+  }
+
+  .authenticated-main {
+    padding-bottom: calc(65px + env(safe-area-inset-bottom));
+  }
+
+  .mobile-navigation {
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-around;
+    gap: 8px;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+    border-top: 1px solid #d1d5db;
+    background: #fff;
+    box-shadow: 0 -2px 8px rgba(30, 41, 59, 0.12);
+  }
+
+  .mobile-navigation-link {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: 48px;
+    border-radius: 8px;
+    color: #1f2937;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .mobile-navigation-link:focus-visible {
+    outline: 3px solid #1d4ed8;
+    outline-offset: 2px;
+  }
+
+  .mobile-navigation-party {
+    background: #fc5300;
+    color: #111827;
+  }
+
+  .mobile-navigation-party:hover {
+    background: #dc4800;
+  }
+
+  .home-left,
+  .home-right {
+    display: contents;
+  }
+
+  .home-profile {
+    grid-row: 1;
+  }
+
+  .home-profile .MuiCardContent-root > div {
+    flex-direction: row;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .home-profile .MuiCardContent-root > div > div:last-child {
+    min-width: 0;
+  }
+
+  .profile-picture {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .home-right > .home-tabs {
+    display: flex;
+    grid-row: 2;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+    background: #fff;
+  }
+
+  .home-tabs .MuiTab-root {
+    min-width: 0;
+    min-height: 48px;
+    padding: 6px 8px;
+    font-size: 0.875rem;
+  }
+
+  .home-collection,
+  .home-wishlist {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .home-collection {
+    grid-row: 3;
+  }
+
+  .home-wishlist {
+    grid-row: 4;
+  }
+
+  .home-collection .MuiCardContent-root,
+  .home-wishlist .MuiCardContent-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .home-collection .MuiCardContent-root ul,
+  .home-wishlist .MuiCardContent-root ul {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .home-collection .MuiCardContent-root ul > li,
+  .home-wishlist .MuiCardContent-root ul > li {
+    height: 100%;
+  }
+
+  .home-collection .MuiCardContent-root ul > li > .MuiCard-root,
+  .home-wishlist .MuiCardContent-root ul > li > .MuiCard-root {
+    height: 100% !important;
+    max-height: 100%;
+  }
+
+  .home-friends {
+    grid-row: 3 / span 2;
+    overflow: auto;
+  }
+
+  .home-party {
+    display: none;
+  }
+
+  .home-layout[data-tab="0"] .home-friends,
+  .home-layout[data-tab="1"] .home-collection,
+  .home-layout[data-tab="1"] .home-wishlist {
+    display: none;
+  }
+}
