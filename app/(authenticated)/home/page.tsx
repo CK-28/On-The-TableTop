@@ -3,6 +3,7 @@
 import { Avatar, Card, CardContent, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useAtomValue } from "jotai";
+import styles from "./page.module.css";
 import {
   collectionStatusAtom,
   userAvatarUrlAtom,
@@ -41,15 +42,15 @@ export default function Home() {
   };
 
   const profileCard = (
-    <Card className="home-profile">
+    <Card className={styles.profile}>
       <CardContent>
         <div>
-          <div className="profile-picture">
+          <div className={styles.picture}>
             <Avatar src={avatarUrl} />
           </div>
           <div>
-            <h2 className="username">{displayName}</h2>
-            <p className="email">
+            <h2 className={styles.username}>{displayName}</h2>
+            <p className={styles.email}>
               {isClient ? email || "No email available" : "No email available"}
             </p>
           </div>
@@ -59,9 +60,9 @@ export default function Home() {
   );
 
   const friendsPanel = (
-    <Card className="home-friends">
+    <Card className={styles.friends}>
       <CardContent>
-        <h2>Friends</h2>
+        <h2 className={styles.sectionTitle}>Friends</h2>
         {collectionStatus === "loading" ? (
           <p>Loading friends...</p>
         ) : collectionStatus === "error" ? (
@@ -78,9 +79,9 @@ export default function Home() {
   );
 
   const collectionPanel = (
-    <Card className="home-collection">
+    <Card className={styles.collection}>
       <CardContent>
-        <h2>Owned</h2>
+        <h2 className={styles.sectionTitle}>Owned</h2>
         {collectionStatus === "loading" ? (
           <p>Loading games...</p>
         ) : collectionStatus === "error" ? (
@@ -95,9 +96,9 @@ export default function Home() {
   );
 
   const wishlistPanel = (
-    <Card className="home-wishlist">
+    <Card className={styles.wishlist}>
       <CardContent>
-        <h2>Wishlist</h2>
+        <h2 className={styles.sectionTitle}>Wishlist</h2>
         {collectionStatus === "loading" ? (
           <p>Loading wishlist...</p>
         ) : collectionStatus === "error" ? (
@@ -112,17 +113,26 @@ export default function Home() {
   );
 
   return (
-    <div className="home-layout" data-tab={mobileTab}>
-      <div className="home-left">
+    <div className={styles.layout} data-tab={mobileTab}>
+      <div className={styles.left}>
         {profileCard}
         {friendsPanel}
-        <Card className="home-party">
+        <Card
+          className={styles.party}
+          sx={{
+            alignItems: "center",
+            justifyContent: "center",
+            borderColor: "transparent",
+            background: "transparent",
+            boxShadow: "none",
+          }}
+        >
           <PartyButton />
         </Card>
       </div>
-      <div className="home-right">
+      <div className={styles.right}>
         <Tabs
-          className="home-tabs"
+          className={styles.tabs}
           value={mobileTab}
           onChange={handleMobileTabChange}
           variant="fullWidth"
