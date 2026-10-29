@@ -22,7 +22,7 @@ export default function GameListHome({
   console.log("In game-list: " + userCollection);
 
   return (
-    <Box component="ul" sx={{ display: "flex", gap: GAME_CARD_GAP, overflowX: "auto", overflowY: "hidden", p: 1 }}>
+    <Box className="home-game-list" component="ul" sx={{ display: "flex", gap: GAME_CARD_GAP, overflowX: "auto", overflowY: "hidden", p: 1 }}>
       {games.map((game) => (
         <li key={game.id}>
           <GameCard game={game}/>

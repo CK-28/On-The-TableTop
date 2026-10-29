@@ -103,12 +103,18 @@ header {
 }
 
 @media (max-width: 600px) {
+  header .header-content {
+    width: 100%;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
   .header-search {
     display: none;
   }
 
   .authenticated-main {
-    padding-bottom: calc(65px + env(safe-area-inset-bottom));
+    padding-bottom: calc(73px + env(safe-area-inset-bottom));
   }
 
   .mobile-navigation {
@@ -132,11 +138,10 @@ header {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    min-height: 48px;
-    border-radius: 8px;
+    gap: 2px;
+    min-height: 56px;
     color: #1f2937;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-decoration: none;
   }
@@ -144,15 +149,6 @@ header {
   .mobile-navigation-link:focus-visible {
     outline: 3px solid #1d4ed8;
     outline-offset: 2px;
-  }
-
-  .mobile-navigation-party {
-    background: #fc5300;
-    color: #111827;
-  }
-
-  .mobile-navigation-party:hover {
-    background: #dc4800;
   }
 
 }

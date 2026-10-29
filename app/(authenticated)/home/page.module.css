@@ -4,7 +4,7 @@
   gap: 16px;
   width: 80%;
   height: calc(100dvh - 7rem);
-  margin: 0 auto 16px;
+  margin: 0 auto;
 }
 
 .left {
@@ -19,6 +19,7 @@
   display: grid;
   grid-template-rows: repeat(2, minmax(0, 1fr));
   row-gap: 16px;
+  min-height: 0;
 }
 
 .tabs {
@@ -83,16 +84,58 @@
   display: flex;
 }
 
+@media (min-width: 601px) {
+  .collection :global(.MuiCardContent-root),
+  .wishlist :global(.MuiCardContent-root) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    padding-bottom: 8px !important;
+  }
+
+  .collection :global(.home-game-list),
+  .wishlist :global(.home-game-list) {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .collection :global(.home-game-list) li,
+  .wishlist :global(.home-game-list) li {
+    height: 100%;
+  }
+
+  .collection :global(.home-game-list) :global(.MuiCard-root),
+  .wishlist :global(.home-game-list) :global(.MuiCard-root) {
+    height: 100% !important;
+  }
+
+  .collection :global(.home-game-list) :global(.MuiCardContent-root) > div:first-child,
+  .wishlist :global(.home-game-list) :global(.MuiCardContent-root) > div:first-child {
+    flex: 1;
+    min-height: 0;
+    aspect-ratio: auto !important;
+  }
+
+  .collection :global(.home-game-list) :global(.MuiCardContent-root) > div:last-child,
+  .wishlist :global(.home-game-list) :global(.MuiCardContent-root) > div:last-child {
+    margin-top: 8px !important;
+  }
+
+}
+
+/* MOBILE */
 @media (max-width: 600px) {
   .layout {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto 48px repeat(2, minmax(0, 1fr));
     gap: 0;
     width: 100%;
-    height: calc(100dvh - 97px - 65px - env(safe-area-inset-bottom));
+    height: calc(100dvh - 89px - 73px - env(safe-area-inset-bottom));
+    margin-top: -8px;
     margin-bottom: 0;
     box-sizing: border-box;
-    padding: 12px 6px;
+    padding: 4px 6px 12px;
     overflow: hidden;
   }
 
@@ -107,6 +150,10 @@
   .profile {
     grid-row: 1;
     margin-bottom: 8px;
+  }
+
+  .profile :global(.MuiCardContent-root) {
+    padding: 8px;
   }
 
   .profile :global(.MuiCardContent-root) > div {
@@ -140,11 +187,7 @@
     font-size: 0.875rem;
   }
 
-  .collection {
-    min-height: 0;
-    overflow: hidden;
-  }
-
+  .collection,
   .wishlist {
     min-height: 0;
     overflow: hidden;
@@ -159,14 +202,7 @@
     grid-row: 4;
   }
 
-  .collection :global(.MuiCardContent-root) {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    height: 100%;
-    box-sizing: border-box;
-  }
-
+  .collection :global(.MuiCardContent-root),
   .wishlist :global(.MuiCardContent-root) {
     display: flex;
     flex-direction: column;
@@ -175,28 +211,37 @@
     box-sizing: border-box;
   }
 
-  .collection :global(.MuiCardContent-root) ul {
-    flex: 1;
-    min-height: 0;
-  }
-
+  .collection :global(.MuiCardContent-root) ul,
   .wishlist :global(.MuiCardContent-root) ul {
     flex: 1;
     min-height: 0;
   }
 
-  .collection :global(.MuiCardContent-root) ul li {
-    height: 100%;
-  }
-
+  .collection :global(.MuiCardContent-root) ul li,
   .wishlist :global(.MuiCardContent-root) ul li {
     height: 100%;
   }
 
-  .collection :global(.MuiCardContent-root) ul :global(.MuiCard-root) {
-    height: 100% !important;
+  .collection :global(.home-game-list) li :global(.MuiCardContent-root) > div:first-child,
+  .wishlist :global(.home-game-list) li :global(.MuiCardContent-root) > div:first-child {
+    flex: 1;
+    min-height: 0;
+    aspect-ratio: auto !important;
   }
 
+  .collection :global(.home-game-list) li :global(.MuiCard-root),
+  .wishlist :global(.home-game-list) li :global(.MuiCard-root) {
+    width: 18vh !important;
+  }
+
+  .collection :global(.home-game-list) li :global(.MuiCardContent-root) > span,
+  .wishlist :global(.home-game-list) li :global(.MuiCardContent-root) > span {
+    height: auto !important;
+    max-height: 2.4em;
+    margin: 4px 0;
+  }
+
+  .collection :global(.MuiCardContent-root) ul :global(.MuiCard-root),
   .wishlist :global(.MuiCardContent-root) ul :global(.MuiCard-root) {
     height: 100% !important;
   }
@@ -210,10 +255,7 @@
     display: none;
   }
 
-  .layout[data-tab="1"] .collection {
-    display: none;
-  }
-
+  .layout[data-tab="1"] .collection,
   .layout[data-tab="1"] .wishlist {
     display: none;
   }
