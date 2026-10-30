@@ -85,8 +85,8 @@ export default function PartyGames({ party }: { party: string[] }) {
     );
 
     return (
-        <Stack spacing={2}>
-            <Box className="rounded-xl border bg-background p-4">
+        <Stack className="party-games" spacing={2}>
+            <Box className="party-game-filters rounded-xl border bg-background p-4">
                 <Stack
                     direction={{ xs: "column", sm: "row" }}
                     spacing={2}
@@ -141,8 +141,10 @@ export default function PartyGames({ party }: { party: string[] }) {
                 </Stack>
                 </Stack>
             </Box>
-            <h1 className="text-2xl">Board Games On The Table</h1>
-            <GameList games={displayedGames} hidePublisher={true} hideOwners={false} hideAddRemove={true} />
+            <h1 className="party-game-title text-2xl">Board Games On The Table</h1>
+            <div className="party-game-results">
+                <GameList games={displayedGames} hidePublisher={true} hideOwners={false} hideAddRemove={true} />
+            </div>
         </Stack>
     );
 }
