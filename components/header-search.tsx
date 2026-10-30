@@ -4,7 +4,11 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function HeaderSearch() {
+export default function HeaderSearch({
+    inputId = "search",
+}: {
+    inputId?: string;
+}) {
     const [searchValue, setSearchValue] = useState("");
     const router = useRouter();
 
@@ -15,7 +19,7 @@ export default function HeaderSearch() {
 
     return (
         <Input
-            id="search"
+            id={inputId}
             type="search"
             placeholder="Search"
             className="w-80"

@@ -49,11 +49,13 @@ export default function SearchUsers() {
             <Label>
                 {searchUser ? `${searchResults.length} Result(s)` : "Search for a user"}
             </Label>
-            {isLoading ? (
-                <div>Loading Users...</div>
-            ) : (
-                <UserList users={searchResults} />
-            )}
+            <div className="search-results">
+                {isLoading ? (
+                    <div>Loading Users...</div>
+                ) : (
+                    <UserList users={searchResults} />
+                )}
+            </div>
         </Stack>
     );
 }

@@ -4,11 +4,10 @@ import { useAtomValue } from "jotai";
 import { collectionStatusAtom } from "@/app/store";
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import AddRemoveGame from "./add-remove-game";
-import GameCard from "./game-card";
-import { Box, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { Label } from "./ui/label";
+import GameList from "./game-list";
 
 export default function SearchGames() {
     const searchParams = useSearchParams();
@@ -50,28 +49,17 @@ export default function SearchGames() {
             <Label>
                 {searchGame ? `${searchResults.length} Result(s)` : "Search for a game"}
             </Label>
-            {isLoading ? (
-                <div>Loading Games...</div>
-            ) : collectionStatus === "loading" ? (
-                <div>Loading collection...</div>
-            ) : collectionStatus === "error" ? (
-                <div>Unable to load collection.</div>
-            ) : (
-                <Box
-                    component="ul"
-                    className="game-search-grid"
-                >
-                    {searchResults.map((game) => (
-                        <Box
-                            component="li"
-                            key={game.id}
-                        >
-                            <GameCard game={game} />
-                            <AddRemoveGame game={game} />
-                        </Box>
-                    ))}
-                </Box>
-            )}
+            <div className="search-results">
+                {isLoading ? (
+                    <div>Loading Games...</div>
+                ) : collectionStatus === "loading" ? (
+                    <div>Loading collection...</div>
+                ) : collectionStatus === "error" ? (
+                    <div>Unable to load collection.</div>
+                ) : (
+                    <GameList games={searchResults} hideOwners={true} actionOnRight={true} />
+                )}
+            </div>
         </Stack>
     );
 }
