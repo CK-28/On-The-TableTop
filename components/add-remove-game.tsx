@@ -9,7 +9,13 @@ import { useState } from "react";
 
 type GamesListAtom = ReturnType<typeof atom<Game[]>>;
 
-export default function AddRemoveGame({ game }: { game: Game }) {
+export default function AddRemoveGame({
+  game,
+  compact = false,
+}: {
+  game: Game;
+  compact?: boolean;
+}) {
   const store = useStore();
   const userCollection = useAtomValue(userGamesAtom);
   const userWishlist = useAtomValue(userWishlistAtom);
@@ -72,8 +78,14 @@ export default function AddRemoveGame({ game }: { game: Game }) {
 
   return !isOwned && !isWishlisted ? (
     <>
-      <div className="mt-2 flex w-full items-center justify-center">
-        <Button className="w-1/2 bg-[#fc5300] text-white hover:bg-[#fc5300]/90" onClick={() => setMenuOpen(true)}>Add</Button>
+      <div className={compact ? "search-action-button flex shrink-0 items-center" : "mt-2 flex w-full items-center justify-center"}>
+        <Button
+          className={compact ? "w-44 shrink-0 whitespace-nowrap bg-[#fc5300] px-4 text-white hover:bg-[#fc5300]/90" : "w-1/2 bg-[#fc5300] text-white hover:bg-[#fc5300]/90"}
+          onClick={() => setMenuOpen(true)}
+        >
+          <span className={compact ? "search-action-label" : undefined}>{compact ? "Add to list" : "Add"}</span>
+          {compact && <span className="search-action-symbol">+</span>}
+        </Button>
       </div>
 
       <Drawer anchor="bottom" open={menuOpen} onClose={() => setMenuOpen(false)}>
@@ -90,15 +102,16 @@ export default function AddRemoveGame({ game }: { game: Game }) {
       </Drawer>
     </>
   ) : (
-    <div className="mt-2 flex w-full items-center justify-center">
+    <div className={compact ? "search-action-button flex shrink-0 items-center" : "mt-2 flex w-full items-center justify-center"}>
       <Button
-        className="w-1/2 border border-[#fc5300] bg-transparent text-black shadow-sm hover:bg-[#fc5300]/10 hover:text-black"
+        className={compact ? "w-44 shrink-0 whitespace-nowrap border border-[#fc5300] bg-transparent px-3 text-black shadow-sm hover:bg-[#fc5300]/10 hover:text-black" : "w-1/2 border border-[#fc5300] bg-transparent text-black shadow-sm hover:bg-[#fc5300]/10 hover:text-black"}
         onClick={() => {
           const listAtom = isOwned ? userGamesAtom : userWishlistAtom;
           void removeItem(game.id, listAtom);
         }}
       >
-        Remove from {isOwned ? "Owned" : "Wishlist"}
+        <span className="search-action-label">Remove from {isOwned ? "Owned" : "Wishlist"}</span>
+        {compact && <span className="search-action-symbol">×</span>}
       </Button>
     </div>
   );

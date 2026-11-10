@@ -1,10 +1,9 @@
 "use client";
 
-import Card from "@mui/material/Card";
-import { CardContent, Grid, Stack } from "@mui/material";
-import PartyButton from "@/components/party-button";
-import { useEffect, useState } from "react";
+import { Avatar, Card, CardContent, Tab, Tabs } from "@mui/material";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { useAtomValue } from "jotai";
+import styles from "./page.module.css";
 import {
   collectionStatusAtom,
   userAvatarUrlAtom,
@@ -14,13 +13,13 @@ import {
   userNameAtom,
   userWishlistAtom,
 } from "@/app/store";
-import Image from "next/image";
-import UserList from "@/components/user-list";
 import GameListHome from "@/components/game-list-home";
-
+import PartyButton from "@/components/party-button";
+import UserList from "@/components/user-list";
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
+  const [mobileTab, setMobileTab] = useState(0);
   const userAvatarUrl = useAtomValue(userAvatarUrlAtom);
   const name = useAtomValue(userNameAtom);
   const email = useAtomValue(userEmailAtom);
@@ -38,95 +37,112 @@ export default function Home() {
     ? userAvatarUrl
     : "https://ui-avatars.com/api/?name=Profile&background=2563eb&color=ffffff&size=128";
 
+  const handleMobileTabChange = (_: SyntheticEvent, newValue: number) => {
+    setMobileTab(newValue);
+  };
+
+  const profileCard = (
+    <Card className={styles.profile}>
+      <CardContent>
+        <div>
+          <div className={styles.picture}>
+            <Avatar src={avatarUrl} />
+          </div>
+          <div>
+            <h2 className={styles.username}>{displayName}</h2>
+            <p className={styles.email}>
+              {isClient ? email || "No email available" : "No email available"}
+            </p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  const friendsPanel = (
+    <Card className={styles.friends}>
+      <CardContent>
+        <h2 className={styles.sectionTitle}>Friends</h2>
+        {collectionStatus === "loading" ? (
+          <p>Loading friends...</p>
+        ) : collectionStatus === "error" ? (
+          <p>Unable to load friends</p>
+        ) : friends.length > 0 ? (
+          <div>
+            <UserList users={friends} />
+          </div>
+        ) : (
+          <p>No friends found</p>
+        )}
+      </CardContent>
+    </Card>
+  );
+
+  const collectionPanel = (
+    <Card className={styles.collection}>
+      <CardContent>
+        <h2 className={styles.sectionTitle}>Owned</h2>
+        {collectionStatus === "loading" ? (
+          <p>Loading games...</p>
+        ) : collectionStatus === "error" ? (
+          <p>Unable to load games</p>
+        ) : games.length > 0 ? (
+          <GameListHome games={games} />
+        ) : (
+          <p>No games found</p>
+        )}
+      </CardContent>
+    </Card>
+  );
+
+  const wishlistPanel = (
+    <Card className={styles.wishlist}>
+      <CardContent>
+        <h2 className={styles.sectionTitle}>Wishlist</h2>
+        {collectionStatus === "loading" ? (
+          <p>Loading wishlist...</p>
+        ) : collectionStatus === "error" ? (
+          <p>Unable to load wishlist</p>
+        ) : wishlist.length > 0 ? (
+          <GameListHome games={wishlist} />
+        ) : (
+          <p>Your wishlist is empty!</p>
+        )}
+      </CardContent>
+    </Card>
+  );
+
   return (
-    <Grid container spacing={2} width={"100%"} justifyContent={"center"}>
-      <Stack spacing={2} width={"20%"}>
-        <Card sx={{ border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }}>
-          <CardContent
-            style={{
-              padding: 50
-            }}>
-            <Stack
-              spacing={6}
-              style={{
-                alignItems: "center",
-                textAlign: "center",
-              }}>
-              <div className="relative h-36 w-36 overflow-hidden rounded-full border border-slate-200">
-                <Image
-                  src={avatarUrl}
-                  alt="Profile avatar"
-                  fill
-                  sizes="96px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex flex-col justify-center gap-2">
-                <p className="text-2xl font-semibold">{displayName}</p>
-                <p className="text-sm text-muted-foreground">
-                  {isClient ? email || "No email available" : "No email available"}
-                </p>
-              </div>
-            </Stack>
-          </CardContent>
-        </Card>
-        <Card sx={{ height: "40vh", border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }}>
-          <CardContent>
-            <h2 className="mb-4 text-xl font-semibold">Friends</h2>
-            {collectionStatus === "loading" ? (
-              <p>Loading friends...</p>
-            ) : collectionStatus === "error" ? (
-              <p>Unable to load friends</p>
-            ) : friends.length > 0 ? (
-              <UserList users={friends} />
-            ) : (
-              <p className="text-sm text-muted-foreground">No friends found</p>
-            )}
-          </CardContent>
-        </Card>
-        <Card style={
-          {
-            display: "flex",
+    <div className={styles.layout} data-tab={mobileTab}>
+      <div className={styles.left}>
+        {profileCard}
+        {friendsPanel}
+        <Card
+          className={styles.party}
+          sx={{
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "transparent",
-            boxShadow: "none"
-          }
-        }>
+            borderColor: "transparent",
+            background: "transparent",
+            boxShadow: "none",
+          }}
+        >
           <PartyButton />
         </Card>
-      </Stack>
-      <Stack spacing={2} width={"60%"}>
-        <Card sx={{ height: "40vh", border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }} >
-          <CardContent>
-            <h2 className="mb-2 text-xl font-semibold">Collection</h2>
-            {collectionStatus === "loading" ? (
-              <p>Loading games...</p>
-            ) : collectionStatus === "error" ? (
-              <p>Unable to load games</p>
-            ) : games.length > 0 ? (
-              <GameListHome games={games} />
-            ) : (
-              <p className="text-sm text-muted-foreground">No games found</p>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card sx={{ height: "40vh", border: "1px solid #e5e7eb", borderRadius: 3, boxShadow: "0 2px 8px rgba(30, 41, 59, 0.08)" }} >
-          <CardContent>
-            <h2 className="mb-2 text-xl font-semibold">Wishlist</h2>
-            {collectionStatus === "loading" ? (
-              <p>Loading wishlist...</p>
-            ) : collectionStatus === "error" ? (
-              <p>Unable to load wishlist</p>
-            ) : wishlist.length > 0 ? (
-              <GameListHome games={wishlist} />
-            ) : (
-              <p className="text-sm text-muted-foreground">Your wishlist is empty!</p>
-            )}
-          </CardContent>
-        </Card>
-      </Stack>
-    </Grid>
+      </div>
+      <div className={styles.right}>
+        <Tabs
+          className={styles.tabs}
+          value={mobileTab}
+          onChange={handleMobileTabChange}
+          variant="fullWidth"
+        >
+          <Tab label="Collection" />
+          <Tab label="Friends" />
+        </Tabs>
+        {collectionPanel}
+        {wishlistPanel}
+      </div>
+    </div>
   );
 }

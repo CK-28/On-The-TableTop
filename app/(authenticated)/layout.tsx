@@ -1,4 +1,5 @@
 import PageHeader from "@/components/page-header";
+import MobileNavigation from "@/components/mobile-navigation";
 
 export default function AuthenticatedLayout({
   children,
@@ -8,9 +9,10 @@ export default function AuthenticatedLayout({
   return (
     <div>
       <PageHeader />
-      <main>
+      <main className="authenticated-main">
         {children}
       </main>
+      <MobileNavigation />
     </div>
   );
 }
