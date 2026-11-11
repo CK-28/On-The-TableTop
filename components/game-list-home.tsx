@@ -2,13 +2,15 @@
 
 import { useAtomValue } from 'jotai';
 import { collectionStatusAtom, userGamesAtom } from "@/app/store";
-import GameCard, { GAME_CARD_GAP } from './game-card';
+import GameCardDesktop, { GAME_CARD_GAP } from './game-card-desktop';
 import { Box } from '@mui/material';
 
 export default function GameListHome({
-  games
+  games,
+  imageOnly
 }: {
   games: Game[];
+  imageOnly: boolean;
 }) {
   const userCollection = useAtomValue(userGamesAtom);
   const collectionStatus = useAtomValue(collectionStatusAtom);
@@ -21,14 +23,35 @@ export default function GameListHome({
 
   console.log("In game-list: " + userCollection);
 
+  function displayInfo(game: Game) {
+    console.log(game);
+  }
+
   return (
+    // imageOnly ? (
+    // TODO - centre vertically
+    // <ImageList cols={1} gap={10} sx={{display:"flex", flexDirection: "row", overflow: "scroll"}}>
+    //   {games.map((game) => (
+    //     <ImageListItem key={game.image} sx={{aspectRatio: "4 / 3", maxHeight: "10vh"}}> 
+    //       <img
+    //         srcSet={`${game.image}`}
+    //         src={`${game.image}`}
+    //         alt={game.name}
+    //         loading="lazy"
+    //         onClick={() => displayInfo(game)}
+    //       />
+    //     </ImageListItem>
+    //   ))}
+    // </ImageList>
+
+  // ) : (
     <Box className="home-game-list" component="ul" sx={{ display: "flex", gap: GAME_CARD_GAP, overflowX: "auto", overflowY: "hidden", p: 1 }}>
       {games.map((game) => (
         <li key={game.id}>
-          <GameCard game={game}/>
+          <GameCardDesktop game={game} imageOnly={imageOnly} />
         </li>
-      ))
-      }
+      ))}
     </Box>
+  // )
   );
 }
