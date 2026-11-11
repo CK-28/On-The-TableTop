@@ -87,7 +87,7 @@ export default function Home() {
         ) : collectionStatus === "error" ? (
           <p>Unable to load games</p>
         ) : games.length > 0 ? (
-          <GameListHome games={games} />
+          <GameListHome games={games} imageOnly={true}/> //TODO - set based on mobile view
         ) : (
           <p>No games found</p>
         )}
@@ -104,7 +104,7 @@ export default function Home() {
         ) : collectionStatus === "error" ? (
           <p>Unable to load wishlist</p>
         ) : wishlist.length > 0 ? (
-          <GameListHome games={wishlist} />
+          <GameListHome games={wishlist} imageOnly={true}/>
         ) : (
           <p>Your wishlist is empty!</p>
         )}
