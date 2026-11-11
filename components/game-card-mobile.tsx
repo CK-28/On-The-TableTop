@@ -1,6 +1,6 @@
 import PeopleAlt from "@mui/icons-material/PeopleAlt";
 import TimerIcon from '@mui/icons-material/Timer';
-import { Box, Card, CardActionArea, CardContent, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { useState } from "react";
 
 export const GAME_CARD_WIDTH = "21vh";
@@ -21,7 +21,7 @@ export default function GameCardMobile({
         <Box onClick={() => setShowInfo(!showInfo)}
             sx={{
                 width: "15vh",
-                height: "15vh",
+                height: "100%",
                 objectFit: "contain",
                 display: "flex",
                 flexDirection: "column",
@@ -33,6 +33,7 @@ export default function GameCardMobile({
                 borderRadius: "5%"
             }}>
             <div>
+                <Box component="span" sx={{ fontWeight: 700, display: "-webkit-box", overflow: "hidden", overflowWrap: "break-word", textAlign: "r", width: "100%", height: "2.4em", maxHeight: "2.4em", flexShrink: 0, lineHeight: "1.2em", mt: "0.65em", mb: "0.6em", WebkitBoxOrient: "vertical", WebkitLineClamp: 2 }}>{game.name}</Box>
                 <Stack direction="row" sx={{ fontSize: 11, width: "100%", minWidth: 0, alignItems: "center", gap: 0.5 }}>
                     <Box component="span" sx={{ minWidth: 0, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {game.publisher}
@@ -54,23 +55,20 @@ export default function GameCardMobile({
                     </Box>
                 </Stack>
             </div>
-
         </Box>
     ) : (
         <Box onClick={() => setShowInfo(!showInfo)}
             sx={{
                 width: "15vh",
-                height: "15vh",
+                height: "100%",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
                 justifyContent: "center",
                 color: "white",
-                padding: "5%",
                 borderRadius: "5%"
             }}>
             <img
-                src={game.image} alt={game.name} style={{ maxWidth: "15vh", maxHeight: "auto", objectFit: "contain", borderRadius: "5%" }}
+                src={game.image} alt={game.name} style={{ maxWidth: "14vh", maxHeight: "auto", objectFit: "contain", borderRadius: "5%" }}
             />
         </Box>
     ))

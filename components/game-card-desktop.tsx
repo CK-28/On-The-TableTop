@@ -14,9 +14,6 @@ export default function GameCardDesktop({
     game: Game;
     imageOnly: boolean;
 }) {
-    const [displayInfo, setDisplayInfo] = useState(false);
-
-
     function defaultToMinimum(min: number, max: number) {
         return min == max ? min : (min + '-' + max);
     }
